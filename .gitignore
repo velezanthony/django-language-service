@@ -1,0 +1,41 @@
+# Node / VSCode extension
+node_modules/
+out/
+dist/
+*.vsix
+.vscode-test/
+
+# Python (por si el LSP backend es Python)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Notas locales de trabajo (NO subir)
+CLAUDE.local.md
+.claude/local/
+NOTES.local.md
