@@ -1,0 +1,63 @@
+{
+  "_why": "Proves the harness cannot leave a typed-in file dirty. Recipes type into REAL files under src/test-django-project; a dirty buffer makes 'Close All Editors' pop a save prompt that stalls the run, and killing VS Code with one makes hot exit restore it into the next run. Each hook throws on failure, so this recipe is self-checking: exit 0 means the guarantee holds. Run it after touching engine.mjs discardEdits.",
+  "workspace": "../../src/test-django-project",
+  "extensionPath": "../..",
+  "outDir": "out/verify-discard",
+  "userDataDir": "/tmp/vscode-cdp-verify-discard",
+  "port": 9231,
+  "settleMs": 4000,
+  "continueOnError": false,
+  "settings": {
+    "workbench.startupEditor": "none",
+    "window.commandCenter": false,
+    "chat.commandCenter.enabled": false,
+    "telemetry.telemetryLevel": "off",
+    "workbench.tips.enabled": false,
+    "extensions.ignoreRecommendations": true,
+    "update.mode": "none",
+    "git.openRepositoryInParentFolders": "never",
+    "editor.minimap.enabled": false,
+    "files.hotExit": "onExitAndWindowClose"
+  },
+  "actions": [
+    {
+      "do": "command",
+      "title": "Notifications: Clear All Notifications",
+      "after": 400
+    },
+    { "do": "discardEdits", "as": "clean slate", "after": 800 },
+
+    {
+      "do": "openFile",
+      "query": "product_detail.html",
+      "as": "open a real project file",
+      "after": 2500
+    },
+    { "do": "key", "key": "Home", "mods": ["ctrl"], "after": 300 },
+    { "do": "type", "text": "<!-- SCRIBBLE -->\n", "after": 900 },
+
+    {
+      "do": "hook",
+      "as": "the edit really landed (else the rest proves nothing)",
+      "js": "(()=>{const n=document.querySelectorAll('.tab.dirty').length; if(!n) throw new Error('no dirty tab after typing — selector wrong or insertText did not land'); return n;})()"
+    },
+
+    { "do": "discardEdits", "as": "the thing under test", "after": 800 },
+
+    {
+      "do": "hook",
+      "as": "nothing is left dirty",
+      "js": "(()=>{const n=document.querySelectorAll('.tab.dirty').length; if(n) throw new Error(n+' dirty tab(s) survived discardEdits'); return 'clean';})()"
+    },
+    {
+      "do": "hook",
+      "as": "no save prompt is waiting",
+      "js": "(()=>{const d=document.querySelectorAll('.monaco-dialog-box, .dialog-shadow').length; if(d) throw new Error('a modal dialog is open — close-all prompted to save'); return 'no dialog';})()"
+    },
+    {
+      "do": "hook",
+      "as": "no editors left open at all",
+      "js": "(()=>{const t=document.querySelectorAll('.tabs-container .tab').length; if(t) throw new Error(t+' editor tab(s) still open'); return 'closed';})()"
+    }
+  ]
+}

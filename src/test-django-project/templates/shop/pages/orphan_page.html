@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+
+{# This template is intentionally NOT referenced by any view or include. #}
+{# It exists to test the "No view found for this template" warning. #}
+
+{% block title %}{% trans "Orphan Page" %}{% endblock %}
+
+{% block content %}
+    <div class="text-center py-16">
+        <h1 class="text-2xl font-bold text-gray-900">{% trans "This page has no view" %}</h1>
+        <p class="mt-4 text-gray-500">
+            {% trans "Django Language Service should show a warning in the sidebar." %}
+        </p>
+    </div>
+{% endblock %}

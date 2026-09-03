@@ -1,0 +1,455 @@
+{
+  "Django Form Import": {
+    "prefix": "dfoimport",
+    "body": ["from django import forms"],
+    "description": "Import Django forms module"
+  },
+  "Django Form Import Full": {
+    "prefix": "dfoimportfull",
+    "body": [
+      "from django import forms",
+      "from django.core.exceptions import ValidationError",
+      "from django.utils.translation import gettext_lazy as _"
+    ],
+    "description": "Common Django form imports"
+  },
+  "Django Form Class": {
+    "prefix": "dfoform",
+    "body": [
+      "class ${1:FormName}(forms.Form):",
+      "    \"\"\"${2:Form description.}\"\"\"",
+      "",
+      "    ${3:field_name} = forms.CharField(",
+      "        label=_(\"${4:Field label}\"),",
+      "        max_length=${5:255},",
+      "    )",
+      "$0"
+    ],
+    "description": "Django Form class"
+  },
+  "Django ModelForm Class": {
+    "prefix": "dfomodelform",
+    "body": [
+      "class ${1:ModelName}Form(forms.ModelForm):",
+      "    \"\"\"${2:ModelForm description.}\"\"\"",
+      "",
+      "    class Meta:",
+      "        model = ${3:ModelName}",
+      "        fields = [${4:\"__all__\"}]${5:",
+      "        widgets = {",
+      "            \"${6:field_name}\": forms.${7:TextInput}(attrs={\"class\": \"${8:form-control}\"}),",
+      "        \\}}",
+      "$0"
+    ],
+    "description": "Django ModelForm class with Meta"
+  },
+  "Django ModelForm Exclude": {
+    "prefix": "dfomodelformexclude",
+    "body": [
+      "class ${1:ModelName}Form(forms.ModelForm):",
+      "    \"\"\"${2:ModelForm description.}\"\"\"",
+      "",
+      "    class Meta:",
+      "        model = ${3:ModelName}",
+      "        exclude = [\"${4:field_to_exclude}\"]",
+      "$0"
+    ],
+    "description": "Django ModelForm class with exclude"
+  },
+  "Django Form CharField": {
+    "prefix": "dfochar",
+    "body": [
+      "${1:field_name} = forms.CharField(",
+      "    label=_(\"${2:$1}\"),",
+      "    max_length=${3:255},${4:",
+      "    required=${5:True},}${6:",
+      "    widget=forms.TextInput(attrs={\"class\": \"${7:form-control}\", \"placeholder\": \"${8:}\"}),}",
+      ")$0"
+    ],
+    "description": "Django form CharField"
+  },
+  "Django Form EmailField": {
+    "prefix": "dfoemail",
+    "body": [
+      "${1:email} = forms.EmailField(",
+      "    label=_(\"${2:Email}\"),${3:",
+      "    max_length=${4:254},}${5:",
+      "    widget=forms.EmailInput(attrs={\"class\": \"${6:form-control}\", \"placeholder\": \"${7:email@example.com}\"}),}",
+      ")$0"
+    ],
+    "description": "Django form EmailField"
+  },
+  "Django Form IntegerField": {
+    "prefix": "dfoint",
+    "body": [
+      "${1:field_name} = forms.IntegerField(",
+      "    label=_(\"${2:$1}\"),${3:",
+      "    min_value=${4:0},}${5:",
+      "    max_value=${6:100},}",
+      ")$0"
+    ],
+    "description": "Django form IntegerField"
+  },
+  "Django Form BooleanField": {
+    "prefix": "dfobool",
+    "body": [
+      "${1:field_name} = forms.BooleanField(",
+      "    label=_(\"${2:$1}\"),",
+      "    required=${3:False},",
+      ")$0"
+    ],
+    "description": "Django form BooleanField"
+  },
+  "Django Form ChoiceField": {
+    "prefix": "dfochoice",
+    "body": [
+      "${1:field_name} = forms.ChoiceField(",
+      "    label=_(\"${2:$1}\"),",
+      "    choices=[",
+      "        (\"${3:value1}\", _(\"${4:Label 1}\")),",
+      "        (\"${5:value2}\", _(\"${6:Label 2}\")),",
+      "    ],${7:",
+      "    widget=forms.Select(attrs={\"class\": \"${8:form-control}\"}),}",
+      ")$0"
+    ],
+    "description": "Django form ChoiceField"
+  },
+  "Django Form MultipleChoiceField": {
+    "prefix": "dfomultichoice",
+    "body": [
+      "${1:field_name} = forms.MultipleChoiceField(",
+      "    label=_(\"${2:$1}\"),",
+      "    choices=[",
+      "        (\"${3:value1}\", _(\"${4:Label 1}\")),",
+      "        (\"${5:value2}\", _(\"${6:Label 2}\")),",
+      "    ],${7:",
+      "    widget=forms.CheckboxSelectMultiple(),}",
+      ")$0"
+    ],
+    "description": "Django form MultipleChoiceField"
+  },
+  "Django Form DateField": {
+    "prefix": "dfodate",
+    "body": [
+      "${1:date} = forms.DateField(",
+      "    label=_(\"${2:Date}\"),${3:",
+      "    widget=forms.DateInput(attrs={\"type\": \"date\", \"class\": \"${4:form-control}\"}),}",
+      ")$0"
+    ],
+    "description": "Django form DateField"
+  },
+  "Django Form DateTimeField": {
+    "prefix": "dfodatetime",
+    "body": [
+      "${1:datetime} = forms.DateTimeField(",
+      "    label=_(\"${2:Date and time}\"),${3:",
+      "    widget=forms.DateTimeInput(attrs={\"type\": \"datetime-local\", \"class\": \"${4:form-control}\"}),}",
+      ")$0"
+    ],
+    "description": "Django form DateTimeField"
+  },
+  "Django Form FileField": {
+    "prefix": "dfofile",
+    "body": [
+      "${1:file} = forms.FileField(",
+      "    label=_(\"${2:File}\"),",
+      "    required=${3:False},${4:",
+      "    widget=forms.ClearableFileInput(attrs={\"class\": \"${5:form-control}\"}),}",
+      ")$0"
+    ],
+    "description": "Django form FileField"
+  },
+  "Django Form ImageField": {
+    "prefix": "dfoimage",
+    "body": [
+      "${1:image} = forms.ImageField(",
+      "    label=_(\"${2:Image}\"),",
+      "    required=${3:False},${4:",
+      "    widget=forms.ClearableFileInput(attrs={\"class\": \"${5:form-control}\"}),}",
+      ")$0"
+    ],
+    "description": "Django form ImageField"
+  },
+  "Django Form DecimalField": {
+    "prefix": "dfodecimal",
+    "body": [
+      "${1:field_name} = forms.DecimalField(",
+      "    label=_(\"${2:$1}\"),",
+      "    max_digits=${3:10},",
+      "    decimal_places=${4:2},${5:",
+      "    min_value=${6:0},}",
+      ")$0"
+    ],
+    "description": "Django form DecimalField"
+  },
+  "Django Form FloatField": {
+    "prefix": "dfofloat",
+    "body": [
+      "${1:field_name} = forms.FloatField(",
+      "    label=_(\"${2:$1}\"),${3:",
+      "    min_value=${4:0.0},}${5:",
+      "    max_value=${6:100.0},}",
+      ")$0"
+    ],
+    "description": "Django form FloatField"
+  },
+  "Django Form SlugField": {
+    "prefix": "dfoslug",
+    "body": [
+      "${1:slug} = forms.SlugField(",
+      "    label=_(\"${2:Slug}\"),",
+      "    max_length=${3:255},",
+      ")$0"
+    ],
+    "description": "Django form SlugField"
+  },
+  "Django Form URLField": {
+    "prefix": "dfourl",
+    "body": [
+      "${1:url} = forms.URLField(",
+      "    label=_(\"${2:URL}\"),${3:",
+      "    max_length=${4:200},}${5:",
+      "    widget=forms.URLInput(attrs={\"class\": \"${6:form-control}\", \"placeholder\": \"${7:https://}\"}),}",
+      ")$0"
+    ],
+    "description": "Django form URLField"
+  },
+  "Django Form TypedChoiceField": {
+    "prefix": "dfotypedchoice",
+    "body": [
+      "${1:field_name} = forms.TypedChoiceField(",
+      "    label=_(\"${2:$1}\"),",
+      "    choices=[",
+      "        (${3:1}, _(\"${4:Option 1}\")),",
+      "        (${5:2}, _(\"${6:Option 2}\")),",
+      "    ],",
+      "    coerce=${7:int},",
+      ")$0"
+    ],
+    "description": "Django form TypedChoiceField"
+  },
+  "Django Form CharField Textarea": {
+    "prefix": "dfotextarea",
+    "body": [
+      "${1:field_name} = forms.CharField(",
+      "    label=_(\"${2:$1}\"),",
+      "    widget=forms.Textarea(attrs={\"rows\": ${3:4}, \"class\": \"${4:form-control}\"}),",
+      ")$0"
+    ],
+    "description": "Django form CharField with Textarea widget"
+  },
+  "Django Form HiddenField": {
+    "prefix": "dfohidden",
+    "body": [
+      "${1:field_name} = forms.${2:CharField}(",
+      "    widget=forms.HiddenInput(),",
+      ")$0"
+    ],
+    "description": "Django form field with HiddenInput widget"
+  },
+  "Django Form PasswordField": {
+    "prefix": "dfopassword",
+    "body": [
+      "${1:password} = forms.CharField(",
+      "    label=_(\"${2:Password}\"),",
+      "    widget=forms.PasswordInput(attrs={\"class\": \"${3:form-control}\"}),",
+      "    min_length=${4:8},",
+      ")$0"
+    ],
+    "description": "Django form CharField with PasswordInput widget"
+  },
+  "Django Widget TextInput": {
+    "prefix": "dfowtext",
+    "body": [
+      "forms.TextInput(attrs={\"class\": \"${1:form-control}\", \"placeholder\": \"${2:}\"})$0"
+    ],
+    "description": "Django TextInput widget"
+  },
+  "Django Widget Textarea": {
+    "prefix": "dfowtextarea",
+    "body": [
+      "forms.Textarea(attrs={\"rows\": ${1:4}, \"class\": \"${2:form-control}\"})$0"
+    ],
+    "description": "Django Textarea widget"
+  },
+  "Django Widget Select": {
+    "prefix": "dfowselect",
+    "body": ["forms.Select(attrs={\"class\": \"${1:form-control}\"})$0"],
+    "description": "Django Select widget"
+  },
+  "Django Widget CheckboxInput": {
+    "prefix": "dfowcheckbox",
+    "body": [
+      "forms.CheckboxInput(attrs={\"class\": \"${1:form-check-input}\"})$0"
+    ],
+    "description": "Django CheckboxInput widget"
+  },
+  "Django Widget RadioSelect": {
+    "prefix": "dfowradio",
+    "body": [
+      "forms.RadioSelect(attrs={\"class\": \"${1:form-check-input}\"})$0"
+    ],
+    "description": "Django RadioSelect widget"
+  },
+  "Django Widget DateInput": {
+    "prefix": "dfowdate",
+    "body": [
+      "forms.DateInput(attrs={\"type\": \"date\", \"class\": \"${1:form-control}\"})$0"
+    ],
+    "description": "Django DateInput widget with HTML5 date type"
+  },
+  "Django Widget HiddenInput": {
+    "prefix": "dfowhidden",
+    "body": ["forms.HiddenInput()$0"],
+    "description": "Django HiddenInput widget"
+  },
+  "Django Widget NumberInput": {
+    "prefix": "dfownumber",
+    "body": [
+      "forms.NumberInput(attrs={\"class\": \"${1:form-control}\", \"min\": \"${2:0}\", \"step\": \"${3:1}\"})$0"
+    ],
+    "description": "Django NumberInput widget"
+  },
+  "Django Form clean Method": {
+    "prefix": "dfoclean",
+    "body": [
+      "def clean(self):",
+      "    cleaned_data = super().clean()",
+      "    ${1:field1} = cleaned_data.get(\"${1}\")",
+      "    ${2:field2} = cleaned_data.get(\"${2}\")",
+      "",
+      "    if ${3:$1 and $2}:",
+      "        raise forms.ValidationError(_(\"${4:Validation error message.}\"))",
+      "",
+      "    return cleaned_data",
+      "$0"
+    ],
+    "description": "Django form clean method for cross-field validation"
+  },
+  "Django Form clean_field Method": {
+    "prefix": "dfocleanfield",
+    "body": [
+      "def clean_${1:field_name}(self):",
+      "    ${1} = self.cleaned_data.get(\"${1}\")",
+      "    if ${2:not $1}:",
+      "        raise forms.ValidationError(_(\"${3:Invalid value.}\"))",
+      "    return ${1}",
+      "$0"
+    ],
+    "description": "Django form clean_<field> method"
+  },
+  "Django Form __init__ Method": {
+    "prefix": "dfoinit",
+    "body": [
+      "def __init__(self, *args, **kwargs):",
+      "    ${1:self.user} = kwargs.pop(\"${2:user}\", None)",
+      "    super().__init__(*args, **kwargs)",
+      "    ${3:self.fields[\"${4:field_name}\"].queryset = ${5:Model}.objects.filter(${6:user=self.user})}",
+      "$0"
+    ],
+    "description": "Django form __init__ method override"
+  },
+  "Django Form Meta Class": {
+    "prefix": "dfometa",
+    "body": [
+      "class Meta:",
+      "    model = ${1:ModelName}",
+      "    fields = [${2:\"__all__\"}]${3:",
+      "    labels = {",
+      "        \"${4:field_name}\": _(\"${5:Label}\"),",
+      "    \\}}${6:",
+      "    widgets = {",
+      "        \"${7:field_name}\": forms.${8:TextInput}(attrs={\"class\": \"${9:form-control}\"}),",
+      "    \\}}${10:",
+      "    help_texts = {",
+      "        \"${11:field_name}\": _(\"${12:Help text.}\"),",
+      "    \\}}",
+      "$0"
+    ],
+    "description": "Django ModelForm Meta class"
+  },
+  "Django Form Meta Fields List": {
+    "prefix": "dfometafields",
+    "body": ["fields = [\"${1:field1}\", \"${2:field2}\", \"${3:field3}\"]$0"],
+    "description": "Django ModelForm Meta fields list"
+  },
+  "Django Formset": {
+    "prefix": "dfoformset",
+    "body": [
+      "${1:FormSet} = forms.formset_factory(",
+      "    ${2:FormClass},",
+      "    extra=${3:1},${4:",
+      "    max_num=${5:10},}${6:",
+      "    can_delete=${7:True},}",
+      ")$0"
+    ],
+    "description": "Django formset_factory"
+  },
+  "Django ModelFormset": {
+    "prefix": "dfomodelformset",
+    "body": [
+      "${1:FormSet} = forms.modelformset_factory(",
+      "    ${2:ModelName},",
+      "    form=${3:ModelForm},",
+      "    extra=${4:1},${5:",
+      "    can_delete=${6:True},}",
+      ")$0"
+    ],
+    "description": "Django modelformset_factory"
+  },
+  "Django InlineFormset": {
+    "prefix": "dfoinlineformset",
+    "body": [
+      "${1:FormSet} = forms.inlineformset_factory(",
+      "    ${2:ParentModel},",
+      "    ${3:ChildModel},",
+      "    form=${4:ChildForm},",
+      "    extra=${5:1},${6:",
+      "    can_delete=${7:True},}",
+      ")$0"
+    ],
+    "description": "Django inlineformset_factory"
+  },
+  "Django Form Field Attrs Update": {
+    "prefix": "dfoattrs",
+    "body": [
+      "self.fields[\"${1:field_name}\"].widget.attrs.update({",
+      "    \"class\": \"${2:form-control}\",",
+      "    \"placeholder\": \"${3:}\",",
+      "})$0"
+    ],
+    "description": "Update Django form field widget attributes in __init__"
+  },
+  "Django Form All Fields Attrs": {
+    "prefix": "dfoattrsall",
+    "body": [
+      "for field_name, field in self.fields.items():",
+      "    field.widget.attrs.setdefault(\"class\", \"${1:form-control}\")",
+      "$0"
+    ],
+    "description": "Set default CSS class for all form fields"
+  },
+  "Django Form ModelChoiceField": {
+    "prefix": "dfomodelchoice",
+    "body": [
+      "${1:field_name} = forms.ModelChoiceField(",
+      "    label=_(\"${2:$1}\"),",
+      "    queryset=${3:Model}.objects.${4:all}(),${5:",
+      "    empty_label=_(\"${6:Select an option}\"),}${7:",
+      "    widget=forms.Select(attrs={\"class\": \"${8:form-control}\"}),}",
+      ")$0"
+    ],
+    "description": "Django form ModelChoiceField"
+  },
+  "Django Form ModelMultipleChoiceField": {
+    "prefix": "dfomodelmultichoice",
+    "body": [
+      "${1:field_name} = forms.ModelMultipleChoiceField(",
+      "    label=_(\"${2:$1}\"),",
+      "    queryset=${3:Model}.objects.${4:all}(),${5:",
+      "    widget=forms.CheckboxSelectMultiple(),}",
+      ")$0"
+    ],
+    "description": "Django form ModelMultipleChoiceField"
+  }
+}

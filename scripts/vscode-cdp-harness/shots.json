@@ -1,0 +1,47 @@
+{
+  "workspace": "../../src/test-django-project",
+  "extensionPath": "../..",
+  "outDir": "out/shots",
+  "port": 9222,
+  "settleMs": 3500,
+  "continueOnError": true,
+  "actions": [
+    { "do": "command", "title": "View: Close All Editors", "after": 800 },
+    {
+      "do": "command",
+      "title": "Notifications: Clear All Notifications",
+      "after": 400
+    },
+    {
+      "do": "command",
+      "title": "View: Close Secondary Side Bar",
+      "after": 800
+    },
+
+    {
+      "do": "command",
+      "title": "Focus on Views View",
+      "as": "open plugin sidebar (idempotent, no toggle)",
+      "after": 1800
+    },
+    { "do": "screenshot", "file": "sidebar.png", "after": 300 },
+
+    { "do": "openFile", "query": "product_list.html", "after": 2000 },
+    {
+      "do": "command",
+      "title": "Notifications: Clear All Notifications",
+      "after": 400
+    },
+    { "do": "key", "key": "Home", "mods": ["ctrl"], "after": 700 },
+    { "do": "screenshot", "file": "diagnostics.png", "after": 300 },
+
+    {
+      "do": "click",
+      "text": "extends",
+      "as": "place cursor on the {% extends %} tag",
+      "after": 500
+    },
+    { "do": "command", "title": "Show Hover", "after": 1400 },
+    { "do": "screenshot", "file": "hover.png", "after": 300 }
+  ]
+}

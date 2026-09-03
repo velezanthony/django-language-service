@@ -1,0 +1,15 @@
+{
+    "html.validate.scripts": false,
+    "html.validate.styles": false,
+
+    // Deterministic formatter for the integration harness. The built-in
+    // html-language-features extension survives --disable-extensions (it is
+    // built-in) and races our provider on cold starts: when both are attached
+    // and no default is set, editor.action.formatDocument applies NOTHING —
+    // the root cause of the historical "22 formatter tests fail on a cold
+    // run" flakiness. This pin is test-workspace-only; the shipped extension
+    // deliberately does not claim editor.defaultFormatter.
+    "[html]": { "editor.defaultFormatter": "velezanthony.django-language-service" },
+    "[django-html]": { "editor.defaultFormatter": "velezanthony.django-language-service" },
+    "[django-txt]": { "editor.defaultFormatter": "velezanthony.django-language-service" }
+}

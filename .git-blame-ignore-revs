@@ -1,0 +1,9 @@
+# Revisions git blame should skip: whole-tree reformats, nothing else.
+#
+# Enable it once per clone:
+#     git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# GitHub reads this file on its own.
+
+# style: prettier over the tree — 360 files, whitespace only.
+946127eb15903271cd026224ed3de55a77ad044f

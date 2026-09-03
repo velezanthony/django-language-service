@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+
+{% block title %}{{ post.title }} · {{ site_name }}{% endblock %}
+
+{% block breadcrumbs %}
+  <a href="#" class="text-indigo-600">{% trans "Blog" %}</a>
+  <span class="text-gray-400">/</span>
+  <span class="text-gray-600">{{ post.title }}</span>
+{% endblock %}
+
+{% block content %}
+  <article class="prose max-w-none">
+    <h1 class="text-4xl font-bold text-gray-900">{{ post.title }}</h1>
+    <p class="text-gray-500">
+      {% trans "by" %} {{ author.name }} · {{ comment_count }} {% trans "comments" %}
+    </p>
+    <div class="mt-6">{{ post.body|safe }}</div>
+  </article>
+
+  <section class="mt-10">
+    <h2 class="text-lg font-semibold">{% trans "Comments" %}</h2>
+    {% for comment in comments %}
+      <div class="mt-3 rounded-lg bg-gray-50 p-3">
+        <strong>{{ comment.author.name }}</strong>
+        <p>{{ comment.body }}</p>
+      </div>
+    {% endfor %}
+  </section>
+
+  <section class="mt-10 border-t border-gray-100 pt-6">
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500">{% trans "Related" %}</h2>
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+      {% for related in related_posts %}
+        {% include 'blog/partials/_post_card.html' with post=related %}
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

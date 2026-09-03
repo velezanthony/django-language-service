@@ -1,0 +1,50 @@
+# Pre-commit gate. Budget: a couple of seconds, always.
+#
+# What this is NOT: the full gate. `check-types` 6.0 s + `check-svelte` 5.9 s +
+# `lint` 7.5 s + `format:check` 11.0 s + `test` 24.1 s = 54.5 s measured
+# end-to-end, and they need the whole tree to mean anything. They live in
+# `npm run package` and in .github/workflows/ci.yml, which is where a
+# whole-tree answer belongs. This hook is measured at ~1.5 s for a one-file
+# commit and ~2.8 s for a twenty-file one.
+#
+# A hook the developer wants to skip is a hook that gets skipped, and
+# CONTRIBUTING.md forbids `--no-verify` — so this hook only ever touches the
+# files already in the index, via lint-staged.
+
+# 1. Never run in the middle of a merge, rebase, cherry-pick or revert.
+#
+# lint-staged stashes the working tree to isolate the index, and a stash taken
+# with MERGE_HEAD in play drops the merge state. Git already routes the
+# conflict-free merge commit to `pre-merge-commit` (which this repo does not
+# define); this covers the conflicted case, where resolution ends in a plain
+# `git commit`, plus `rebase --continue` and `commit --amend` under an
+# interactive rebase. Those commits replay content the author did not type, so
+# there is nothing here worth reformatting and a lot worth not corrupting.
+#
+# `git rev-parse --git-path` rather than a literal `.git/...`: in a linked
+# worktree `.git` is a file and these markers live under a different directory.
+for marker in MERGE_HEAD CHERRY_PICK_HEAD REVERT_HEAD; do
+  if [ -f "$(git rev-parse --git-path "$marker")" ]; then
+    echo "pre-commit: $marker present — skipping lint-staged for this commit."
+    exit 0
+  fi
+done
+for marker in rebase-merge rebase-apply; do
+  if [ -d "$(git rev-parse --git-path "$marker")" ]; then
+    echo "pre-commit: rebase in progress — skipping lint-staged for this commit."
+    exit 0
+  fi
+done
+
+# 2. Fail with an instruction, never with a "command not found". A fresh clone
+# has no node_modules, and `lint-staged: not found` is not something a newcomer
+# can act on; "run npm install" is.
+if [ ! -x node_modules/.bin/lint-staged ]; then
+  echo "pre-commit: node_modules/.bin/lint-staged is missing."
+  echo "            Run 'npm install' — that also reinstalls this hook."
+  exit 1
+fi
+
+# Called directly rather than through npx: npx re-resolves the bin on every
+# commit, and this hook's whole premise is that it costs no thought.
+exec node_modules/.bin/lint-staged

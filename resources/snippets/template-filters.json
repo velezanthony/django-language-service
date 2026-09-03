@@ -1,0 +1,302 @@
+{
+  "add": {
+    "prefix": "dfadd",
+    "body": "|add:${1:value}",
+    "description": "Adds the argument to the value. Works with integers, floats, strings, and lists."
+  },
+  "addslashes": {
+    "prefix": "dfaddslashes",
+    "body": "|addslashes",
+    "description": "Adds slashes before quotes. Useful for escaping strings in CSV."
+  },
+  "capfirst": {
+    "prefix": "dfcapfirst",
+    "body": "|capfirst",
+    "description": "Capitalizes the first character of the value."
+  },
+  "center": {
+    "prefix": "dfcenter",
+    "body": "|center:${1:width}",
+    "description": "Centers the value in a field of a given width."
+  },
+  "cut": {
+    "prefix": "dfcut",
+    "body": "|cut:\"${1: }\"",
+    "description": "Removes all occurrences of the argument from the string."
+  },
+  "date": {
+    "prefix": "dfdate",
+    "body": "|date:\"${1:Y-m-d}\"",
+    "description": "Formats a date. Common formats: Y-m-d, d/m/Y, D d M Y, N j Y, SHORT_DATE_FORMAT, DATE_FORMAT, d M Y H:i, jS F Y."
+  },
+  "default": {
+    "prefix": "dfdefault",
+    "body": "|default:\"${1:nothing}\"",
+    "description": "If value evaluates to False, uses the given default. Note: empty string is False."
+  },
+  "default_if_none": {
+    "prefix": "dfdefaultifnone",
+    "body": "|default_if_none:\"${1:nothing}\"",
+    "description": "If value is None, uses the given default. Unlike 'default', does not trigger on empty string."
+  },
+  "dictsort": {
+    "prefix": "dfdictsort",
+    "body": "|dictsort:\"${1:key}\"",
+    "description": "Sorts a list of dictionaries by the given key."
+  },
+  "dictsortreversed": {
+    "prefix": "dfdictsortreversed",
+    "body": "|dictsortreversed:\"${1:key}\"",
+    "description": "Sorts a list of dictionaries by the given key in reverse order."
+  },
+  "divisibleby": {
+    "prefix": "dfdivisibleby",
+    "body": "|divisibleby:${1:number}",
+    "description": "Returns True if the value is divisible by the argument."
+  },
+  "escape": {
+    "prefix": "dfescape",
+    "body": "|escape",
+    "description": "Escapes HTML entities: <, >, ', \", &. Applied by default to template output."
+  },
+  "escapejs": {
+    "prefix": "dfescapejs",
+    "body": "|escapejs",
+    "description": "Escapes characters for use in JavaScript strings."
+  },
+  "filesizeformat": {
+    "prefix": "dffilesizeformat",
+    "body": "|filesizeformat",
+    "description": "Formats a file size as a human-readable string (e.g., '13 KB', '4.1 MB')."
+  },
+  "first": {
+    "prefix": "dffirst",
+    "body": "|first",
+    "description": "Returns the first item in a list."
+  },
+  "floatformat": {
+    "prefix": "dffloatformat",
+    "body": "|floatformat:${1:-1}",
+    "description": "Rounds a float. Positive arg = always show decimals. Negative arg = only if needed. Default -1."
+  },
+  "force_escape": {
+    "prefix": "dfforceescape",
+    "body": "|force_escape",
+    "description": "Applies HTML escaping unconditionally. Use when chaining filters where autoescape would not apply."
+  },
+  "get_digit": {
+    "prefix": "dfgetdigit",
+    "body": "|get_digit:${1:1}",
+    "description": "Returns the requested digit from right (1=ones, 2=tens, etc.)."
+  },
+  "iriencode": {
+    "prefix": "dfiriencode",
+    "body": "|iriencode",
+    "description": "Converts an IRI to a string suitable for inclusion in a URL."
+  },
+  "join": {
+    "prefix": "dfjoin",
+    "body": "|join:\"${1:, }\"",
+    "description": "Joins a list with a string, like Python's str.join(list)."
+  },
+  "json_script": {
+    "prefix": "dfjsonscript",
+    "body": "|json_script:\"${1:element-id}\"",
+    "description": "Outputs Python object as JSON in a <script> tag, safe for use in templates. Escapes <, > and &."
+  },
+  "last": {
+    "prefix": "dflast",
+    "body": "|last",
+    "description": "Returns the last item in a list."
+  },
+  "length": {
+    "prefix": "dflength",
+    "body": "|length",
+    "description": "Returns the length of the value (string or list)."
+  },
+  "length_is": {
+    "prefix": "dflengthis",
+    "body": "|length_is:${1:number}",
+    "description": "Returns True if the value's length equals the argument."
+  },
+  "linebreaks": {
+    "prefix": "dflinebreaks",
+    "body": "|linebreaks",
+    "description": "Converts newlines to HTML <p> and <br> tags."
+  },
+  "linebreaksbr": {
+    "prefix": "dflinebreaksbr",
+    "body": "|linebreaksbr",
+    "description": "Converts newlines to HTML <br> tags."
+  },
+  "linenumbers": {
+    "prefix": "dflinenumbers",
+    "body": "|linenumbers",
+    "description": "Prepends line numbers to each line of text."
+  },
+  "ljust": {
+    "prefix": "dfljust",
+    "body": "|ljust:${1:width}",
+    "description": "Left-aligns the value in a field of a given width."
+  },
+  "lower": {
+    "prefix": "dflower",
+    "body": "|lower",
+    "description": "Converts the string to all lowercase."
+  },
+  "make_list": {
+    "prefix": "dfmakelist",
+    "body": "|make_list",
+    "description": "Converts a value to a list. For a string, list of characters. For an integer, list of digits."
+  },
+  "phone2numeric": {
+    "prefix": "dfphone2numeric",
+    "body": "|phone2numeric",
+    "description": "Converts a phone number with letters to its numeric equivalent."
+  },
+  "pluralize": {
+    "prefix": "dfpluralize",
+    "body": "|pluralize",
+    "description": "Returns 's' if the value is not 1. Use pluralize:\"es\" or pluralize:\"y,ies\" for custom suffixes."
+  },
+  "pluralize with suffix": {
+    "prefix": "dfpluralizes",
+    "body": "|pluralize:\"${1:s}\"",
+    "description": "Returns a plural suffix. Examples: pluralize:\"es\", pluralize:\"y,ies\"."
+  },
+  "pprint": {
+    "prefix": "dfpprint",
+    "body": "|pprint",
+    "description": "Pretty-prints a value. Useful for debugging."
+  },
+  "random": {
+    "prefix": "dfrandom",
+    "body": "|random",
+    "description": "Returns a random item from the given list."
+  },
+  "rjust": {
+    "prefix": "dfrjust",
+    "body": "|rjust:${1:width}",
+    "description": "Right-aligns the value in a field of a given width."
+  },
+  "safe": {
+    "prefix": "dfsafe",
+    "body": "|safe",
+    "description": "Marks a string as safe (not requiring HTML escaping). Use when you trust the content."
+  },
+  "safeseq": {
+    "prefix": "dfsafeseq",
+    "body": "|safeseq",
+    "description": "Marks each item in a sequence as safe. Use with join after: {{ list|safeseq|join:\", \" }}."
+  },
+  "slice": {
+    "prefix": "dfslice",
+    "body": "|slice:\"${1::2}\"",
+    "description": "Returns a slice of the list. Uses Python slice syntax: :N, N:, N:M, ::step."
+  },
+  "slugify": {
+    "prefix": "dfslugify",
+    "body": "|slugify",
+    "description": "Converts to ASCII lowercase, removes non-alphanumeric chars, converts spaces to hyphens."
+  },
+  "stringformat": {
+    "prefix": "dfstringformat",
+    "body": "|stringformat:\"${1:s}\"",
+    "description": "Formats the value according to Python string formatting spec (without leading %). E.g. 'd', '.2f', 's'."
+  },
+  "striptags": {
+    "prefix": "dfstriptags",
+    "body": "|striptags",
+    "description": "Strips all HTML tags. Not guaranteed safe for untrusted input; use bleach for sanitization."
+  },
+  "time": {
+    "prefix": "dftime",
+    "body": "|time:\"${1:H:i}\"",
+    "description": "Formats a time. Common formats: H:i, H:i:s, g:i A, P (12-hour with am/pm), TIME_FORMAT."
+  },
+  "timesince": {
+    "prefix": "dftimesince",
+    "body": "|timesince",
+    "description": "Formats a date as the time since that date (e.g., '4 days, 6 hours')."
+  },
+  "timesince with reference": {
+    "prefix": "dftimesinceref",
+    "body": "|timesince:${1:reference_date}",
+    "description": "Formats time since a date relative to a reference date instead of now."
+  },
+  "timeuntil": {
+    "prefix": "dftimeuntil",
+    "body": "|timeuntil",
+    "description": "Formats a date as the time until that date (e.g., '4 days, 6 hours')."
+  },
+  "timeuntil with reference": {
+    "prefix": "dftimeuntilref",
+    "body": "|timeuntil:${1:reference_date}",
+    "description": "Formats time until a date relative to a reference date instead of now."
+  },
+  "title": {
+    "prefix": "dftitle",
+    "body": "|title",
+    "description": "Converts a string to titlecase (first letter of each word capitalized)."
+  },
+  "truncatechars": {
+    "prefix": "dftruncatechars",
+    "body": "|truncatechars:${1:30}",
+    "description": "Truncates a string to the given number of characters, appending '...' if truncated."
+  },
+  "truncatechars_html": {
+    "prefix": "dftruncatecharshtml",
+    "body": "|truncatechars_html:${1:30}",
+    "description": "Like truncatechars but aware of HTML tags. Tags that were opened are properly closed."
+  },
+  "truncatewords": {
+    "prefix": "dftruncatewords",
+    "body": "|truncatewords:${1:15}",
+    "description": "Truncates a string after the given number of words, appending '...' if truncated."
+  },
+  "truncatewords_html": {
+    "prefix": "dftruncatewordshtml",
+    "body": "|truncatewords_html:${1:15}",
+    "description": "Like truncatewords but aware of HTML tags. Tags that were opened are properly closed."
+  },
+  "unordered_list": {
+    "prefix": "dfunorderedlist",
+    "body": "|unordered_list",
+    "description": "Recursively renders a nested list as HTML <li> items. Does NOT include the outer <ul> tag."
+  },
+  "upper": {
+    "prefix": "dfupper",
+    "body": "|upper",
+    "description": "Converts the string to all uppercase."
+  },
+  "urlencode": {
+    "prefix": "dfurlencode",
+    "body": "|urlencode",
+    "description": "Escapes a value for use in a URL. By default encodes '/' too; use urlencode:\"\" to leave '/' alone."
+  },
+  "urlize": {
+    "prefix": "dfurlize",
+    "body": "|urlize",
+    "description": "Converts URLs and email addresses in text into clickable links."
+  },
+  "urlizetrunc": {
+    "prefix": "dfurlizetrunc",
+    "body": "|urlizetrunc:${1:35}",
+    "description": "Like urlize but truncates the displayed link text to the given character limit."
+  },
+  "wordcount": {
+    "prefix": "dfwordcount",
+    "body": "|wordcount",
+    "description": "Returns the number of words in the value."
+  },
+  "wordwrap": {
+    "prefix": "dfwordwrap",
+    "body": "|wordwrap:${1:65}",
+    "description": "Wraps words at the specified line length."
+  },
+  "yesno": {
+    "prefix": "dfyesno",
+    "body": "|yesno:\"${1:yes,no,maybe}\"",
+    "description": "Maps True, False, and optionally None to custom strings. Default: 'yes,no,maybe'."
+  }
+}

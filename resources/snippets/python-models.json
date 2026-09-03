@@ -1,0 +1,590 @@
+{
+  "Django Model Import": {
+    "prefix": "dmimport",
+    "body": ["from django.db import models"],
+    "description": "Import Django models module"
+  },
+  "Django Model Import Full": {
+    "prefix": "dmimportfull",
+    "body": [
+      "from django.db import models",
+      "from django.urls import reverse",
+      "from django.utils.translation import gettext_lazy as _"
+    ],
+    "description": "Common Django model imports"
+  },
+  "Django Model Import UUID": {
+    "prefix": "dmimportuuid",
+    "body": ["import uuid", "from django.db import models"],
+    "description": "Import Django models with uuid module"
+  },
+  "Django Model Import Validators": {
+    "prefix": "dmimportvalidators",
+    "body": [
+      "from django.core.validators import ${1:MinValueValidator, MaxValueValidator}"
+    ],
+    "description": "Import Django validators"
+  },
+  "Django Model Class": {
+    "prefix": "dmmodel",
+    "body": [
+      "class ${1:ModelName}(models.Model):",
+      "    \"\"\"${2:Model description.}\"\"\"",
+      "",
+      "    ${3:name} = models.CharField(_(\"${4:name}\"), max_length=${5:255})",
+      "",
+      "    class Meta:",
+      "        verbose_name = _(\"${6:$1}\")",
+      "        verbose_name_plural = _(\"${7:${6}s}\")",
+      "        ordering = [\"${8:-pk}\"]",
+      "",
+      "    def __str__(self):",
+      "        return ${9:self.$3}",
+      "$0"
+    ],
+    "description": "Django model class with Meta and __str__"
+  },
+  "Django Abstract Model": {
+    "prefix": "dmabstract",
+    "body": [
+      "class ${1:ModelName}(models.Model):",
+      "    \"\"\"${2:Abstract model description.}\"\"\"",
+      "",
+      "    ${3:field_name} = models.${4:CharField}(${5:max_length=255})",
+      "",
+      "    class Meta:",
+      "        abstract = True",
+      "$0"
+    ],
+    "description": "Django abstract model class"
+  },
+  "Django TimeStamped Model": {
+    "prefix": "dmtimestamped",
+    "body": [
+      "class TimeStampedModel(models.Model):",
+      "    \"\"\"Abstract model with created and modified timestamps.\"\"\"",
+      "",
+      "    created_at = models.DateTimeField(_(\"created at\"), auto_now_add=True)",
+      "    updated_at = models.DateTimeField(_(\"updated at\"), auto_now=True)",
+      "",
+      "    class Meta:",
+      "        abstract = True",
+      "$0"
+    ],
+    "description": "Django abstract timestamped model with created_at and updated_at"
+  },
+  "Django Proxy Model": {
+    "prefix": "dmproxy",
+    "body": [
+      "class ${1:ProxyModelName}(${2:ParentModel}):",
+      "    \"\"\"${3:Proxy model description.}\"\"\"",
+      "",
+      "    class Meta:",
+      "        proxy = True",
+      "$0"
+    ],
+    "description": "Django proxy model class"
+  },
+  "Django CharField": {
+    "prefix": "dmchar",
+    "body": [
+      "${1:name} = models.CharField(_(\"${2:$1}\"), max_length=${3:255}${4:, blank=True})$0"
+    ],
+    "description": "Django CharField"
+  },
+  "Django IntegerField": {
+    "prefix": "dmint",
+    "body": [
+      "${1:name} = models.IntegerField(_(\"${2:$1}\")${3:, default=${4:0}})$0"
+    ],
+    "description": "Django IntegerField"
+  },
+  "Django FloatField": {
+    "prefix": "dmfloat",
+    "body": [
+      "${1:name} = models.FloatField(_(\"${2:$1}\")${3:, default=${4:0.0}})$0"
+    ],
+    "description": "Django FloatField"
+  },
+  "Django DecimalField": {
+    "prefix": "dmdecimal",
+    "body": [
+      "${1:name} = models.DecimalField(_(\"${2:$1}\"), max_digits=${3:10}, decimal_places=${4:2}${5:, default=${6:0}})$0"
+    ],
+    "description": "Django DecimalField"
+  },
+  "Django BooleanField": {
+    "prefix": "dmbool",
+    "body": [
+      "${1:name} = models.BooleanField(_(\"${2:$1}\"), default=${3:False})$0"
+    ],
+    "description": "Django BooleanField"
+  },
+  "Django DateField": {
+    "prefix": "dmdate",
+    "body": [
+      "${1:name} = models.DateField(_(\"${2:$1}\")${3:, auto_now=${4:False}}${5:, auto_now_add=${6:False}})$0"
+    ],
+    "description": "Django DateField"
+  },
+  "Django DateTimeField": {
+    "prefix": "dmdatetime",
+    "body": [
+      "${1:name} = models.DateTimeField(_(\"${2:$1}\")${3:, auto_now=${4:False}}${5:, auto_now_add=${6:False}})$0"
+    ],
+    "description": "Django DateTimeField"
+  },
+  "Django TimeField": {
+    "prefix": "dmtime",
+    "body": [
+      "${1:name} = models.TimeField(_(\"${2:$1}\")${3:, auto_now=${4:False}})$0"
+    ],
+    "description": "Django TimeField"
+  },
+  "Django EmailField": {
+    "prefix": "dmemail",
+    "body": [
+      "${1:email} = models.EmailField(_(\"${2:email}\")${3:, max_length=${4:254}}${5:, unique=${6:True}})$0"
+    ],
+    "description": "Django EmailField"
+  },
+  "Django URLField": {
+    "prefix": "dmurl",
+    "body": [
+      "${1:url} = models.URLField(_(\"${2:URL}\")${3:, max_length=${4:200}}${5:, blank=True})$0"
+    ],
+    "description": "Django URLField"
+  },
+  "Django SlugField": {
+    "prefix": "dmslug",
+    "body": [
+      "${1:slug} = models.SlugField(_(\"${2:slug}\"), max_length=${3:255}${4:, unique=${5:True}})$0"
+    ],
+    "description": "Django SlugField"
+  },
+  "Django UUIDField": {
+    "prefix": "dmuuid",
+    "body": [
+      "${1:id} = models.UUIDField(_(\"${2:ID}\"), default=uuid.uuid4, editable=False${3:, primary_key=${4:True}})$0"
+    ],
+    "description": "Django UUIDField with uuid4 default"
+  },
+  "Django FileField": {
+    "prefix": "dmfile",
+    "body": [
+      "${1:file} = models.FileField(_(\"${2:file}\"), upload_to=\"${3:uploads/%Y/%m/%d/}\"${4:, blank=True})$0"
+    ],
+    "description": "Django FileField"
+  },
+  "Django ImageField": {
+    "prefix": "dmimage",
+    "body": [
+      "${1:image} = models.ImageField(_(\"${2:image}\"), upload_to=\"${3:images/%Y/%m/%d/}\"${4:, blank=True})$0"
+    ],
+    "description": "Django ImageField"
+  },
+  "Django TextField": {
+    "prefix": "dmtext",
+    "body": ["${1:name} = models.TextField(_(\"${2:$1}\")${3:, blank=True})$0"],
+    "description": "Django TextField"
+  },
+  "Django ForeignKey": {
+    "prefix": "dmfk",
+    "body": [
+      "${1:name} = models.ForeignKey(",
+      "    \"${2:app.Model}\",",
+      "    verbose_name=_(\"${3:$1}\"),",
+      "    on_delete=models.${4|CASCADE,PROTECT,SET_NULL,SET_DEFAULT,DO_NOTHING,RESTRICT|},",
+      "    related_name=\"${5:%(class)s_set}\",${6:",
+      "    null=True,",
+      "    blank=True,}",
+      ")$0"
+    ],
+    "description": "Django ForeignKey field"
+  },
+  "Django OneToOneField": {
+    "prefix": "dmo2o",
+    "body": [
+      "${1:name} = models.OneToOneField(",
+      "    \"${2:app.Model}\",",
+      "    verbose_name=_(\"${3:$1}\"),",
+      "    on_delete=models.${4|CASCADE,PROTECT,SET_NULL,SET_DEFAULT,DO_NOTHING,RESTRICT|},",
+      "    related_name=\"${5:%(class)s}\",${6:",
+      "    null=True,",
+      "    blank=True,}",
+      ")$0"
+    ],
+    "description": "Django OneToOneField"
+  },
+  "Django ManyToManyField": {
+    "prefix": "dmm2m",
+    "body": [
+      "${1:name} = models.ManyToManyField(",
+      "    \"${2:app.Model}\",",
+      "    verbose_name=_(\"${3:$1}\"),",
+      "    related_name=\"${4:%(class)s_set}\",",
+      "    blank=True,",
+      ")$0"
+    ],
+    "description": "Django ManyToManyField"
+  },
+  "Django ManyToManyField Through": {
+    "prefix": "dmm2mthrough",
+    "body": [
+      "${1:name} = models.ManyToManyField(",
+      "    \"${2:app.Model}\",",
+      "    verbose_name=_(\"${3:$1}\"),",
+      "    through=\"${4:ThroughModel}\",",
+      "    related_name=\"${5:%(class)s_set}\",",
+      "    blank=True,",
+      ")$0"
+    ],
+    "description": "Django ManyToManyField with through model"
+  },
+  "Django JSONField": {
+    "prefix": "dmjson",
+    "body": [
+      "${1:data} = models.JSONField(_(\"${2:$1}\"), default=${3:dict}${4:, blank=True})$0"
+    ],
+    "description": "Django JSONField"
+  },
+  "Django BinaryField": {
+    "prefix": "dmbinary",
+    "body": [
+      "${1:data} = models.BinaryField(_(\"${2:$1}\")${3:, max_length=${4:None}})$0"
+    ],
+    "description": "Django BinaryField"
+  },
+  "Django GenericIPAddressField": {
+    "prefix": "dmip",
+    "body": [
+      "${1:ip_address} = models.GenericIPAddressField(_(\"${2:IP address}\")${3:, protocol=\"${4|both,IPv4,IPv6|}\"})$0"
+    ],
+    "description": "Django GenericIPAddressField"
+  },
+  "Django PositiveIntegerField": {
+    "prefix": "dmpositiveint",
+    "body": [
+      "${1:name} = models.PositiveIntegerField(_(\"${2:$1}\")${3:, default=${4:0}})$0"
+    ],
+    "description": "Django PositiveIntegerField"
+  },
+  "Django PositiveSmallIntegerField": {
+    "prefix": "dmpositivesmallint",
+    "body": [
+      "${1:name} = models.PositiveSmallIntegerField(_(\"${2:$1}\")${3:, default=${4:0}})$0"
+    ],
+    "description": "Django PositiveSmallIntegerField"
+  },
+  "Django SmallIntegerField": {
+    "prefix": "dmsmallint",
+    "body": [
+      "${1:name} = models.SmallIntegerField(_(\"${2:$1}\")${3:, default=${4:0}})$0"
+    ],
+    "description": "Django SmallIntegerField"
+  },
+  "Django BigIntegerField": {
+    "prefix": "dmbigint",
+    "body": [
+      "${1:name} = models.BigIntegerField(_(\"${2:$1}\")${3:, default=${4:0}})$0"
+    ],
+    "description": "Django BigIntegerField"
+  },
+  "Django DurationField": {
+    "prefix": "dmduration",
+    "body": [
+      "${1:duration} = models.DurationField(_(\"${2:$1}\")${3:, null=True, blank=True})$0"
+    ],
+    "description": "Django DurationField"
+  },
+  "Django FilePathField": {
+    "prefix": "dmfilepath",
+    "body": [
+      "${1:path} = models.FilePathField(_(\"${2:$1}\"), path=\"${3:/tmp}\"${4:, match=\"${5:.*\\\\.txt$}\"}${6:, recursive=${7:True}})$0"
+    ],
+    "description": "Django FilePathField"
+  },
+  "Django AutoField": {
+    "prefix": "dmauto",
+    "body": ["${1:id} = models.AutoField(primary_key=True)$0"],
+    "description": "Django AutoField primary key"
+  },
+  "Django BigAutoField": {
+    "prefix": "dmbigauto",
+    "body": ["${1:id} = models.BigAutoField(primary_key=True)$0"],
+    "description": "Django BigAutoField primary key"
+  },
+  "Django NullBooleanField": {
+    "prefix": "dmnullbool",
+    "body": [
+      "${1:name} = models.BooleanField(_(\"${2:$1}\"), null=True${3:, default=None})$0"
+    ],
+    "description": "Django nullable BooleanField (replaces deprecated NullBooleanField)"
+  },
+  "Django Meta Class": {
+    "prefix": "dmmeta",
+    "body": [
+      "class Meta:",
+      "    verbose_name = _(\"${1:model name}\")",
+      "    verbose_name_plural = _(\"${2:${1}s}\")",
+      "    ordering = [\"${3:-pk}\"]${4:",
+      "    db_table = \"${5:table_name}\"}${6:",
+      "    unique_together = [${7:(\"field1\", \"field2\")}]}${8:",
+      "    indexes = [",
+      "        models.Index(fields=[\"${9:field_name}\"]),",
+      "    ]}",
+      "$0"
+    ],
+    "description": "Django model Meta class"
+  },
+  "Django Meta Constraints": {
+    "prefix": "dmmetaconstraint",
+    "body": [
+      "class Meta:",
+      "    constraints = [",
+      "        models.${1|UniqueConstraint,CheckConstraint|}(",
+      "            ${2:fields=[\"${3:field1}\", \"${4:field2}\"],}",
+      "            name=\"${5:%(app_label)s_%(class)s_unique_$3_$4}\",",
+      "        ),",
+      "    ]",
+      "$0"
+    ],
+    "description": "Django model Meta class with constraints"
+  },
+  "Django __str__": {
+    "prefix": "dmstr",
+    "body": ["def __str__(self):", "    return ${1:self.name}", "$0"],
+    "description": "Django model __str__ method"
+  },
+  "Django __repr__": {
+    "prefix": "dmrepr",
+    "body": [
+      "def __repr__(self):",
+      "    return f\"<${1:ModelName}(pk={self.pk}, ${2:name}={self.$2!r})>\"",
+      "$0"
+    ],
+    "description": "Django model __repr__ method"
+  },
+  "Django save Method": {
+    "prefix": "dmsave",
+    "body": [
+      "def save(self, *args, **kwargs):",
+      "    ${1:# Custom save logic}",
+      "    super().save(*args, **kwargs)",
+      "$0"
+    ],
+    "description": "Django model save method override"
+  },
+  "Django delete Method": {
+    "prefix": "dmdelete",
+    "body": [
+      "def delete(self, *args, **kwargs):",
+      "    ${1:# Custom delete logic}",
+      "    super().delete(*args, **kwargs)",
+      "$0"
+    ],
+    "description": "Django model delete method override"
+  },
+  "Django get_absolute_url": {
+    "prefix": "dmabsurl",
+    "body": [
+      "def get_absolute_url(self):",
+      "    return reverse(\"${1:app_name}:${2:detail}\", kwargs={\"${3:pk}\": self.${3}})",
+      "$0"
+    ],
+    "description": "Django model get_absolute_url method"
+  },
+  "Django clean Method": {
+    "prefix": "dmclean",
+    "body": [
+      "def clean(self):",
+      "    super().clean()",
+      "    if ${1:condition}:",
+      "        raise ValidationError(_(\"${2:Validation error message.}\"))",
+      "$0"
+    ],
+    "description": "Django model clean method for validation"
+  },
+  "Django Custom Manager": {
+    "prefix": "dmmanager",
+    "body": [
+      "class ${1:CustomManager}(models.Manager):",
+      "    \"\"\"${2:Custom manager description.}\"\"\"",
+      "",
+      "    def get_queryset(self):",
+      "        return super().get_queryset()${3:.filter(${4:is_active=True})}",
+      "",
+      "    def ${5:custom_method}(self):",
+      "        return self.get_queryset().${6:filter()}",
+      "$0"
+    ],
+    "description": "Django custom model Manager"
+  },
+  "Django Custom QuerySet": {
+    "prefix": "dmqueryset",
+    "body": [
+      "class ${1:CustomQuerySet}(models.QuerySet):",
+      "    \"\"\"${2:Custom queryset description.}\"\"\"",
+      "",
+      "    def ${3:active}(self):",
+      "        return self.filter(${4:is_active=True})",
+      "",
+      "    def ${5:recent}(self):",
+      "        return self.order_by(\"${6:-created_at}\")",
+      "$0"
+    ],
+    "description": "Django custom QuerySet"
+  },
+  "Django Manager from QuerySet": {
+    "prefix": "dmmanagerfromqs",
+    "body": ["${1:CustomManager} = ${2:CustomQuerySet}.as_manager()$0"],
+    "description": "Create Django Manager from QuerySet using as_manager()"
+  },
+  "Django Property": {
+    "prefix": "dmproperty",
+    "body": [
+      "@property",
+      "def ${1:property_name}(self):",
+      "    \"\"\"${2:Property description.}\"\"\"",
+      "    return ${3:self.field_name}",
+      "$0"
+    ],
+    "description": "Django model property decorator"
+  },
+  "Django Cached Property": {
+    "prefix": "dmcachedprop",
+    "body": [
+      "from django.utils.functional import cached_property",
+      "",
+      "@cached_property",
+      "def ${1:property_name}(self):",
+      "    \"\"\"${2:Property description.}\"\"\"",
+      "    return ${3:self.related_set.count()}",
+      "$0"
+    ],
+    "description": "Django cached_property decorator"
+  },
+  "Django Validator": {
+    "prefix": "dmvalidator",
+    "body": [
+      "from django.core.exceptions import ValidationError",
+      "",
+      "",
+      "def ${1:validate_value}(value):",
+      "    \"\"\"${2:Validator description.}\"\"\"",
+      "    if ${3:not value}:",
+      "        raise ValidationError(",
+      "            _(\"${4:%(value)s is not valid}\"),",
+      "            code=\"${5:invalid}\",",
+      "            params={\"value\": value},",
+      "        )",
+      "$0"
+    ],
+    "description": "Django field validator function"
+  },
+  "Django Choices IntegerChoices": {
+    "prefix": "dmchoicesint",
+    "body": [
+      "class ${1:Status}(models.IntegerChoices):",
+      "    ${2:DRAFT} = ${3:0}, _(\"${4:Draft}\")",
+      "    ${5:PUBLISHED} = ${6:1}, _(\"${7:Published}\")",
+      "    ${8:ARCHIVED} = ${9:2}, _(\"${10:Archived}\")",
+      "$0"
+    ],
+    "description": "Django IntegerChoices enum (Django 3.0+)"
+  },
+  "Django Choices TextChoices": {
+    "prefix": "dmchoicestext",
+    "body": [
+      "class ${1:Status}(models.TextChoices):",
+      "    ${2:DRAFT} = \"${3:draft}\", _(\"${4:Draft}\")",
+      "    ${5:PUBLISHED} = \"${6:published}\", _(\"${7:Published}\")",
+      "    ${8:ARCHIVED} = \"${9:archived}\", _(\"${10:Archived}\")",
+      "$0"
+    ],
+    "description": "Django TextChoices enum (Django 3.0+)"
+  },
+  "Django Field with Choices": {
+    "prefix": "dmfieldchoices",
+    "body": [
+      "${1:status} = models.${2|CharField,IntegerField|}(",
+      "    _(\"${3:$1}\"),",
+      "    ${4:max_length=${5:20},}",
+      "    choices=${6:Status}.choices,",
+      "    default=${6}.${7:DRAFT},",
+      ")$0"
+    ],
+    "description": "Django field with choices enum"
+  },
+  "Django Signal Receiver": {
+    "prefix": "dmsignal",
+    "body": [
+      "from django.db.models.signals import ${1|pre_save,post_save,pre_delete,post_delete,m2m_changed|}",
+      "from django.dispatch import receiver",
+      "",
+      "",
+      "@receiver($1, sender=${2:ModelName})",
+      "def ${3:signal_handler}(sender, instance, **kwargs):",
+      "    \"\"\"${4:Signal handler description.}\"\"\"",
+      "    ${5:pass}",
+      "$0"
+    ],
+    "description": "Django signal receiver decorator"
+  },
+  "Django Model Index": {
+    "prefix": "dmindex",
+    "body": [
+      "models.Index(",
+      "    fields=[\"${1:field_name}\"],",
+      "    name=\"${2:idx_%(app_label)s_%(class)s_$1}\",",
+      ")$0"
+    ],
+    "description": "Django model Index for Meta.indexes"
+  },
+  "Django Unique Constraint": {
+    "prefix": "dmunique",
+    "body": [
+      "models.UniqueConstraint(",
+      "    fields=[\"${1:field1}\", \"${2:field2}\"],",
+      "    name=\"${3:unique_%(app_label)s_%(class)s_$1_$2}\",",
+      ")$0"
+    ],
+    "description": "Django UniqueConstraint for Meta.constraints"
+  },
+  "Django Check Constraint": {
+    "prefix": "dmcheck",
+    "body": [
+      "models.CheckConstraint(",
+      "    check=models.Q(${1:field__gte=0}),",
+      "    name=\"${2:check_%(app_label)s_%(class)s_$1}\",",
+      ")$0"
+    ],
+    "description": "Django CheckConstraint for Meta.constraints"
+  },
+  "Django Soft Delete Mixin": {
+    "prefix": "dmsoftdelete",
+    "body": [
+      "class SoftDeleteModel(models.Model):",
+      "    \"\"\"Abstract model for soft-delete pattern.\"\"\"",
+      "",
+      "    is_deleted = models.BooleanField(_(\"deleted\"), default=False)",
+      "    deleted_at = models.DateTimeField(_(\"deleted at\"), null=True, blank=True)",
+      "",
+      "    class Meta:",
+      "        abstract = True",
+      "",
+      "    def soft_delete(self):",
+      "        from django.utils import timezone",
+      "        self.is_deleted = True",
+      "        self.deleted_at = timezone.now()",
+      "        self.save(update_fields=[\"is_deleted\", \"deleted_at\"])",
+      "",
+      "    def restore(self):",
+      "        self.is_deleted = False",
+      "        self.deleted_at = None",
+      "        self.save(update_fields=[\"is_deleted\", \"deleted_at\"])",
+      "$0"
+    ],
+    "description": "Django soft delete abstract model mixin"
+  }
+}

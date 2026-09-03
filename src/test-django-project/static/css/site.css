@@ -1,0 +1,4 @@
+/* Fixture asset — exists so the {% static "" %} completion test can assert a
+   real path instead of only that the provider replied. */
+:root { --brand: #0C4B33; }
+body { font-family: system-ui, sans-serif; }

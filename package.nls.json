@@ -1,0 +1,4 @@
+{
+  "displayName": "Django Language Service",
+  "description": "Django Template Language support + interactive ER diagram for your models. Formatting, IntelliSense, hover docs, and a diagram that live-updates as you edit."
+}

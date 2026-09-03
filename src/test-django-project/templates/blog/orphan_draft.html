@@ -1,0 +1,11 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+
+{# Orphan: no view renders this template and no other template includes it.
+   It should show up under the "Orphans" sidebar section. #}
+
+{% block title %}{% trans "Draft (unused)" %}{% endblock %}
+
+{% block content %}
+  <p class="text-gray-500">{% trans "This draft template is not wired to any view." %}</p>
+{% endblock %}

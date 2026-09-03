@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+
+{% block title %}{{ author.name }} · {{ site_name }}{% endblock %}
+
+{% block content %}
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">{{ author.name }}</h1>
+    <p class="mt-1 text-gray-500">{{ post_total }} {% trans "posts" %}</p>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {% for post in author_posts %}
+      {% include 'blog/partials/_post_card.html' with post=post %}
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": [],
+    "rootDir": "src",
+    "outDir": "out-webview",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "baseUrl": ".",
+    "paths": {
+      "$lib/*": ["src/webview/lib/*"],
+      "$atoms": ["src/webview/lib/components/atoms"],
+      "$atoms/*": ["src/webview/lib/components/atoms/*"],
+      "$icons": ["src/webview/lib/components/atoms/icons"],
+      "$icons/*": ["src/webview/lib/components/atoms/icons/*"],
+      "$molecules": ["src/webview/lib/components/molecules"],
+      "$molecules/*": ["src/webview/lib/components/molecules/*"],
+      "$organisms": ["src/webview/lib/components/organisms"],
+      "$organisms/*": ["src/webview/lib/components/organisms/*"],
+      "$protocol": ["src/shared/protocol"],
+      "$protocol/*": ["src/shared/protocol/*"]
+    }
+  },
+  "include": [
+    "src/webview/**/*.ts",
+    "src/sidebar/**/*.ts",
+    "src/sidebar/**/*.svelte",
+    "src/shared/**/*.ts",
+    "src/domain/diagram/diagram-layout.ts"
+  ],
+  "exclude": ["node_modules", "dist", "out", "out-webview"]
+}

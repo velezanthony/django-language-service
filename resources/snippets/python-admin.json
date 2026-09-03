@@ -1,0 +1,166 @@
+{
+  "Django Admin Import": {
+    "prefix": "daimport",
+    "body": [
+      "from django.contrib import admin",
+      "",
+      "from ${1:.models} import ${2:ModelName}"
+    ],
+    "description": "Import Django admin and model"
+  },
+  "Django ModelAdmin": {
+    "prefix": "daadmin",
+    "body": [
+      "@admin.register(${1:ModelName})",
+      "class ${1}Admin(admin.ModelAdmin):",
+      "    \"\"\"${2:Admin configuration for $1.}\"\"\"",
+      "",
+      "    list_display = [\"${3:__str__}\", \"${4:created_at}\"]",
+      "    list_filter = [\"${5:status}\"]",
+      "    search_fields = [\"${6:name}\"]",
+      "    ordering = [\"${7:-pk}\"]",
+      "$0"
+    ],
+    "description": "Django ModelAdmin with @admin.register decorator"
+  },
+  "Django ModelAdmin Full": {
+    "prefix": "daadminfull",
+    "body": [
+      "@admin.register(${1:ModelName})",
+      "class ${1}Admin(admin.ModelAdmin):",
+      "    \"\"\"${2:Admin configuration for $1.}\"\"\"",
+      "",
+      "    list_display = [\"${3:__str__}\", \"${4:created_at}\"]",
+      "    list_display_links = [\"${3}\"]",
+      "    list_filter = [\"${5:status}\", \"${6:created_at}\"]",
+      "    search_fields = [\"${7:name}\"]",
+      "    ordering = [\"${8:-pk}\"]",
+      "    readonly_fields = [\"${9:created_at}\", \"${10:updated_at}\"]",
+      "    list_per_page = ${11:25}",
+      "    date_hierarchy = \"${12:created_at}\"",
+      "    prepopulated_fields = {\"${13:slug}\": (\"${14:name}\",)}",
+      "",
+      "    fieldsets = [",
+      "        (None, {",
+      "            \"fields\": [\"${15:name}\"],",
+      "        }),",
+      "        (\"${16:Metadata}\", {",
+      "            \"classes\": [\"collapse\"],",
+      "            \"fields\": [\"${9}\", \"${10}\"],",
+      "        }),",
+      "    ]",
+      "$0"
+    ],
+    "description": "Django ModelAdmin with full configuration"
+  },
+  "Django TabularInline": {
+    "prefix": "dainlinetab",
+    "body": [
+      "class ${1:ModelName}Inline(admin.TabularInline):",
+      "    \"\"\"${2:Tabular inline for $1.}\"\"\"",
+      "",
+      "    model = ${3:$1}",
+      "    extra = ${4:1}${5:",
+      "    min_num = ${6:0}}${7:",
+      "    max_num = ${8:10}}${9:",
+      "    readonly_fields = [\"${10:field_name}\"]}",
+      "$0"
+    ],
+    "description": "Django admin TabularInline"
+  },
+  "Django StackedInline": {
+    "prefix": "dainlinestack",
+    "body": [
+      "class ${1:ModelName}Inline(admin.StackedInline):",
+      "    \"\"\"${2:Stacked inline for $1.}\"\"\"",
+      "",
+      "    model = ${3:$1}",
+      "    extra = ${4:1}${5:",
+      "    min_num = ${6:0}}${7:",
+      "    max_num = ${8:10}}",
+      "$0"
+    ],
+    "description": "Django admin StackedInline"
+  },
+  "Django admin.site.register": {
+    "prefix": "daregister",
+    "body": ["admin.site.register(${1:ModelName}${2:, ${1}Admin})$0"],
+    "description": "Django admin.site.register"
+  },
+  "Django Admin list_display": {
+    "prefix": "dalist",
+    "body": [
+      "list_display = [\"${1:__str__}\", \"${2:field1}\", \"${3:field2}\"]$0"
+    ],
+    "description": "Django admin list_display"
+  },
+  "Django Admin list_filter": {
+    "prefix": "dafilter",
+    "body": ["list_filter = [\"${1:status}\", \"${2:created_at}\"]$0"],
+    "description": "Django admin list_filter"
+  },
+  "Django Admin search_fields": {
+    "prefix": "dasearch",
+    "body": ["search_fields = [\"${1:name}\", \"${2:email}\"]$0"],
+    "description": "Django admin search_fields"
+  },
+  "Django Admin fieldsets": {
+    "prefix": "dafields",
+    "body": [
+      "fieldsets = [",
+      "    (None, {",
+      "        \"fields\": [\"${1:field1}\", \"${2:field2}\"],",
+      "    }),",
+      "    (\"${3:Section title}\", {",
+      "        \"classes\": [\"collapse\"],",
+      "        \"fields\": [\"${4:field3}\", \"${5:field4}\"],",
+      "    }),",
+      "]$0"
+    ],
+    "description": "Django admin fieldsets"
+  },
+  "Django Admin inlines": {
+    "prefix": "dainlines",
+    "body": ["inlines = [${1:ModelName}Inline]$0"],
+    "description": "Django admin inlines"
+  },
+  "Django Admin Action": {
+    "prefix": "daaction",
+    "body": [
+      "@admin.action(description=\"${1:Action description}\")",
+      "def ${2:action_name}(self, request, queryset):",
+      "    ${3:updated = queryset.update(${4:status=\"${5:published}\"})}",
+      "    self.message_user(request, f\"${6:{updated\\} items updated.}\")",
+      "$0"
+    ],
+    "description": "Django admin custom action (Django 3.2+)"
+  },
+  "Django Admin get_queryset": {
+    "prefix": "daqueryset",
+    "body": [
+      "def get_queryset(self, request):",
+      "    qs = super().get_queryset(request)",
+      "    if ${1:not request.user.is_superuser}:",
+      "        return qs.filter(${2:user=request.user})",
+      "    return qs",
+      "$0"
+    ],
+    "description": "Django admin get_queryset override"
+  },
+  "Django Admin has_permission": {
+    "prefix": "daperm",
+    "body": [
+      "def has_${1|add,change,delete,view|}_permission(self, request, obj=None):",
+      "    ${2:if obj and obj.user != request.user:}",
+      "    ${3:    return False}",
+      "    return super().has_${1}_permission(request, obj)",
+      "$0"
+    ],
+    "description": "Django admin has_*_permission override"
+  },
+  "Django Admin readonly_fields": {
+    "prefix": "dareadonly",
+    "body": ["readonly_fields = [\"${1:created_at}\", \"${2:updated_at}\"]$0"],
+    "description": "Django admin readonly_fields"
+  }
+}

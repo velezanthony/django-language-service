@@ -1,0 +1,15 @@
+<div class="rounded-2xl bg-white shadow-sm ring-1 ring-gray-900/5 overflow-hidden">
+    {% if title %}
+        <header class="px-5 py-4 border-b border-gray-100">
+            <h3 class="text-base font-semibold text-gray-900">{{ title }}</h3>
+        </header>
+    {% endif %}
+    <div class="p-5 text-sm text-gray-700">
+        {{ content|safe }}
+    </div>
+    {% if footer %}
+        <footer class="px-5 py-3 border-t border-gray-100 bg-gray-50">
+            {{ footer|safe }}
+        </footer>
+    {% endif %}
+</div>

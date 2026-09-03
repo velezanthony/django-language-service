@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Diagram harness</title>
+    <link rel="stylesheet" href="/dist/tailwind.css" />
+    <style>
+      /* The webview inherits these from VS Code. Approximated here so the
+         bundle renders with the same tokens it gets in the real panel. */
+      :root {
+        --vscode-editor-background: #1f1f1f;
+        --vscode-editor-foreground: #cccccc;
+        --vscode-descriptionForeground: #9d9d9d;
+        --vscode-panel-border: #2b2b2b;
+        --vscode-focusBorder: #0078d4;
+        --vscode-font-family: system-ui, sans-serif;
+        /* Dark+ values. Every accent derives from textLink via color-mix, and
+           color-mix on a missing var yields transparent — leave these out and
+           the harness silently reports no fill at all. */
+        --vscode-textLink-foreground: #4daafc;
+        --vscode-editor-font-family: 'Droid Sans Mono', monospace;
+        --vscode-editor-font-size: 14px;
+        --vscode-editorWidget-background: #252526;
+        --vscode-editorWidget-border: #3a3a3a;
+        --vscode-errorForeground: #f85149;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: var(--vscode-editor-background);
+      }
+      #app {
+        height: 100vh;
+      }
+    </style>
+    <script>
+      // The webview API the bundle expects. State is in-memory so a reload
+      // starts from a clean layout instead of a persisted one.
+      let __state = undefined;
+      window.acquireVsCodeApi = () => ({
+        postMessage: msg => {
+          (window.__POSTED__ ||= []).push(msg);
+        },
+        getState: () => __state,
+        setState: s => {
+          __state = s;
+        },
+      });
+    </script>
+    <script src="/payload.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="/dist/diagram-app.js"></script>
+  </body>
+</html>

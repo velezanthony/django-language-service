@@ -1,0 +1,138 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load shop_tags %}
+
+{% block title %}{{ product.name }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+        <!-- Product image -->
+        <div class="aspect-square bg-gray-100 rounded-2xl overflow-hidden ring-1 ring-gray-900/5">
+            {% if product.featured_image %}
+                <img src="{{ product.featured_image.url }}" alt="{{ product.name }}"
+                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+            {% else %}
+                <div class="w-full h-full flex flex-col items-center justify-center text-gray-300">
+                    <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span class="mt-2 text-sm">{% trans "No image" %}</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Product info -->
+        <div class="flex flex-col">
+            <div>
+                <p class="text-sm font-medium text-indigo-600 uppercase tracking-wide">{{ product.category.name }}</p>
+                <h1 class="mt-2 text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">{{ product.name }}</h1>
+            </div>
+
+            <div class="mt-6 flex items-center gap-4">
+                <span class="text-3xl font-bold text-gray-900">{{ product.price|currency }}</span>
+                {% if product.is_available %}
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold bg-emerald-50 text-emerald-700 rounded-full ring-1 ring-emerald-600/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        {% trans "In Stock" %}
+                    </span>
+                {% else %}
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold bg-red-50 text-red-700 rounded-full ring-1 ring-red-600/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                        {% trans "Out of Stock" %}
+                    </span>
+                {% endif %}
+            </div>
+
+            <div class="mt-6 border-t border-gray-100 pt-6">
+                <p class="text-gray-600 leading-relaxed">{{ product.description }}</p>
+            </div>
+
+            <!-- Tags -->
+            {% if tags %}
+                <div class="mt-6 flex flex-wrap gap-2">
+                    {% for tag in tags %}
+                        <span class="px-3 py-1 text-sm font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors cursor-default">
+                            {{ tag.name }}
+                        </span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Add to cart -->
+            <div class="mt-8 pt-6 border-t border-gray-100" x-data="{ quantity: 1 }">
+                <label class="text-sm font-medium text-gray-700 mb-3 block">{% trans "Quantity" %}</label>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center rounded-xl border border-gray-200 bg-white overflow-hidden">
+                        <button @click="quantity = Math.max(1, quantity - 1)"
+                            class="px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors active:bg-gray-100 font-medium">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
+                        </button>
+                        <span class="px-5 py-3 text-center font-semibold text-gray-900 min-w-[3rem] tabular-nums" x-text="quantity"></span>
+                        <button @click="quantity++"
+                            class="px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors active:bg-gray-100 font-medium">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        </button>
+                    </div>
+                    <button class="flex-1 inline-flex items-center justify-center gap-2 bg-indigo-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-indigo-700 shadow-sm shadow-indigo-600/25 transition-all duration-200 hover:shadow-md active:scale-[0.98]">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+                        {% trans "Add to Cart" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews -->
+    <section class="mt-16 sm:mt-20">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
+                {% trans "Reviews" %}
+                <span class="ml-2 text-base font-normal text-gray-400">({{ reviews.count }})</span>
+            </h2>
+        </div>
+
+        <div class="space-y-0 divide-y divide-gray-100">
+            {% for review in reviews %}
+                <div class="py-6 first:pt-0">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                                <span class="text-sm font-semibold text-indigo-600">
+                                    {{ review.author.get_full_name|default:review.author.username|truncatechars:1 }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="font-semibold text-gray-900 text-sm">{{ review.author.get_full_name|default:review.author.username }}</span>
+                                <time class="block text-xs text-gray-400">{{ review.created|timesince }} {% trans "ago" %}</time>
+                            </div>
+                        </div>
+                        <span class="text-yellow-500 text-sm">{{ review.rating|star_rating }}</span>
+                    </div>
+                    <p class="mt-3 text-gray-600 text-sm leading-relaxed pl-[3.25rem]">{{ review.comment }}</p>
+                </div>
+            {% empty %}
+                <div class="text-center py-12">
+                    <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gray-100 mb-3">
+                        <svg class="w-7 h-7 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    </div>
+                    <p class="text-gray-500 font-medium">{% trans "No reviews yet." %}</p>
+                    <p class="text-gray-400 text-sm mt-1">{% trans "Be the first to share your thoughts." %}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Related products -->
+    {% if related_products %}
+        <section class="mt-16 sm:mt-20">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-8">{% trans "Related Products" %}</h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                {% for product in related_products %}
+                    {% include 'components/product_card.html' %}
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,447 @@
+{
+  "name": "django-language-service",
+  "displayName": "%displayName%",
+  "description": "%description%",
+  "version": "0.2.0",
+  "publisher": "velezanthony",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/velezanthony/django-language-service.git"
+  },
+  "bugs": {
+    "url": "https://github.com/velezanthony/django-language-service/issues"
+  },
+  "homepage": "https://github.com/velezanthony/django-language-service#readme",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Formatters",
+    "Snippets"
+  ],
+  "keywords": [
+    "django",
+    "django template",
+    "dtl",
+    "template language",
+    "html",
+    "python",
+    "er diagram",
+    "models",
+    "intellisense",
+    "autocomplete",
+    "formatter",
+    "diagnostics",
+    "snippets"
+  ],
+  "icon": "resources/icon.png",
+  "galleryBanner": {
+    "color": "#0C4B33",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "onLanguage:html",
+    "onLanguage:django-html",
+    "onLanguage:django-txt",
+    "onLanguage:python",
+    "workspaceContains:**/manage.py"
+  ],
+  "main": "./dist/extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true,
+      "description": "Workspace Python and templates are read and parsed, never executed, and no hover marks its markdown trusted — so nothing the workspace writes can become a command link. Settings that steer what gets indexed or written are listed in restrictedConfigurations, so a repository cannot widen the scan or ask us to edit its settings.json while it is untrusted. See src/adapters/hover/trusted-markdown.test.ts and src/adapters/_shared/markdown-escape.ts.",
+      "restrictedConfigurations": [
+        "djangoLanguageService.excludePaths",
+        "djangoLanguageService.suppressBuiltinHtmlValidation"
+      ]
+    },
+    "virtualWorkspaces": {
+      "supported": false,
+      "description": "The project index round-trips paths through Uri.fsPath, which is only meaningful for the file scheme, so it cannot index a virtual workspace."
+    }
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "django-html",
+        "aliases": [
+          "Django HTML",
+          "django"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "django-txt",
+        "aliases": [
+          "Django txt"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "scopeName": "source.django.injection",
+        "path": "./resources/syntaxes/django.tmLanguage.json",
+        "injectTo": [
+          "text.html.basic",
+          "text.html.derivative"
+        ]
+      },
+      {
+        "language": "django-html",
+        "scopeName": "text.html.django",
+        "path": "./resources/syntaxes/django-html.tmLanguage.json"
+      },
+      {
+        "language": "django-txt",
+        "scopeName": "text.django.txt",
+        "path": "./resources/syntaxes/django-txt.tmLanguage.json"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "django-language-service",
+          "title": "Django Language Service",
+          "icon": "resources/icons/django-sidebar.svg"
+        }
+      ]
+    },
+    "views": {
+      "django-language-service": [
+        {
+          "type": "webview",
+          "id": "djangoViews",
+          "name": "Views",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "type": "webview",
+          "id": "djangoLayouts",
+          "name": "Layouts & Partials",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "type": "webview",
+          "id": "djangoOrphans",
+          "name": "Orphans",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "type": "webview",
+          "id": "djangoModels",
+          "name": "Models",
+          "when": "workspaceFolderCount > 0"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "django-language-service.toggleComment",
+        "title": "Toggle Template Comment",
+        "category": "%displayName%"
+      },
+      {
+        "command": "django-language-service.prettyInclude",
+        "title": "Toggle HTML Props (Expand / Collapse)",
+        "category": "%displayName%"
+      },
+      {
+        "command": "django-language-service.collapseInclude",
+        "title": "Collapse to Inline",
+        "category": "%displayName%"
+      },
+      {
+        "command": "django-language-service.collapseAllIncludesInDocument",
+        "title": "Collapse All Includes",
+        "category": "%displayName%"
+      },
+      {
+        "command": "django-language-service.expandAllIncludesInDocument",
+        "title": "Expand All Includes",
+        "category": "%displayName%"
+      },
+      {
+        "command": "django-language-service.clearContextDiagnostics",
+        "title": "Clear Diagnostics",
+        "category": "%displayName%",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "django-language-service.pickView",
+        "title": "Pick View (Quick Pick)",
+        "category": "%displayName%",
+        "icon": "$(search)"
+      },
+      {
+        "command": "django-language-service.refreshViewContext",
+        "title": "Refresh View Context",
+        "category": "%displayName%",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "django-language-service.validateContext",
+        "title": "Validate Context Variables",
+        "category": "%displayName%",
+        "icon": "$(checklist)"
+      },
+      {
+        "command": "django-language-service.toggleLiveForView",
+        "title": "Enable Live Validation",
+        "category": "%displayName%",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "django-language-service.toggleLiveForViewOff",
+        "title": "Disable Live Validation",
+        "category": "%displayName%",
+        "icon": "$(eye-closed)"
+      },
+      {
+        "command": "django-language-service.showModelDiagram",
+        "title": "Show Model Diagram",
+        "category": "%displayName%",
+        "icon": "$(symbol-class)"
+      },
+      {
+        "command": "django-language-service.focusDebtSidebar",
+        "title": "Focus Orphans & Debt Sidebar",
+        "category": "%displayName%"
+      },
+      {
+        "command": "django-language-service.formatDocument",
+        "title": "Format Document",
+        "category": "%displayName%"
+      },
+      {
+        "command": "django-language-service.showLog",
+        "title": "Show Log",
+        "category": "%displayName%",
+        "icon": "$(output)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "django-language-service.pickView",
+          "when": "view == djangoViews",
+          "group": "navigation@1"
+        },
+        {
+          "command": "django-language-service.clearContextDiagnostics",
+          "when": "view == djangoViews",
+          "group": "navigation@2"
+        },
+        {
+          "command": "django-language-service.refreshViewContext",
+          "when": "view == djangoViews",
+          "group": "navigation@3"
+        },
+        {
+          "command": "django-language-service.showModelDiagram",
+          "when": "view == djangoModels",
+          "group": "navigation@1"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "django-language-service.collapseAllIncludesInDocument",
+          "when": "editorLangId == html || editorLangId == django-html || editorLangId == django-txt",
+          "group": "1_modification@11"
+        },
+        {
+          "command": "django-language-service.expandAllIncludesInDocument",
+          "when": "editorLangId == html || editorLangId == django-html || editorLangId == django-txt",
+          "group": "1_modification@12"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "django-language-service.toggleComment",
+        "key": "ctrl+shift+/",
+        "mac": "cmd+shift+/",
+        "when": "editorTextFocus && (editorLangId == html || editorLangId == django-html || editorLangId == django-txt)"
+      },
+      {
+        "command": "django-language-service.showModelDiagram",
+        "key": "ctrl+k ctrl+d",
+        "mac": "cmd+k cmd+d",
+        "when": "workspaceFolderCount > 0"
+      }
+    ],
+    "configurationDefaults": {
+      "emmet.includeLanguages": {
+        "django-html": "html",
+        "django-txt": "html"
+      },
+      "[django-html]": {
+        "editor.suggest.insertMode": "replace"
+      },
+      "[django-txt]": {
+        "editor.suggest.insertMode": "replace"
+      }
+    },
+    "configuration": {
+      "title": "Django Language Service",
+      "properties": {
+        "djangoLanguageService.excludePaths": {
+          "type": "array",
+          "default": [
+            ".*",
+            "venv",
+            "env",
+            "virtualenv",
+            "site-packages",
+            "node_modules",
+            "__pycache__",
+            "dist",
+            "build",
+            "coverage",
+            "htmlcov",
+            "*.egg-info",
+            "static",
+            "media"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Directory names skipped entirely when indexing the workspace. \".*\" matches any dot-directory (.venv, .git, .direnv, .ruff_cache, …). Entries may be a plain name (\"vendor\"), a nested path (\"templates/vendor\") or a pattern (\"*.egg-info\"). Tooling directories — dot-directories, node_modules, site-packages, caches and build output — are always skipped and cannot be re-enabled here. Reload the window after changing this."
+        },
+        "djangoLanguageService.format.tabWidth": {
+          "type": "number",
+          "default": 2,
+          "description": "Number of spaces per indentation level"
+        },
+        "djangoLanguageService.format.useTabs": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use tabs instead of spaces"
+        },
+        "djangoLanguageService.format.printWidth": {
+          "type": "number",
+          "default": 120,
+          "description": "Line width above which HTML attributes are split. Only has an effect when format.singleAttributePerLine is enabled."
+        },
+        "djangoLanguageService.format.singleAttributePerLine": {
+          "type": "boolean",
+          "default": false,
+          "description": "Split HTML attributes one per line, but only for tags that have 2 or more attributes AND whose indented line exceeds format.printWidth. Short tags are left inline."
+        },
+        "djangoLanguageService.suppressBuiltinHtmlValidation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Once a scan confirms the workspace is a Django project, write html.validate.scripts = false and html.validate.styles = false into Workspace settings, so this extension's DTL-aware checkers replace VS Code's built-in ones instead of duplicating them. Runs once per session, only writes keys that are not already false, and does nothing without a workspace. Turn this off to keep your own html.validate settings untouched."
+        },
+        "djangoLanguageService.snippets.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Offer the context-aware Python snippet completions in .py files (models.py, views.py, forms.py, admin.py, urls.py). The static snippet bundles contributed for templates and Python are always available and are not affected by this setting."
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "html",
+        "path": "./resources/snippets/template-tags.json"
+      },
+      {
+        "language": "html",
+        "path": "./resources/snippets/template-filters.json"
+      },
+      {
+        "language": "django-html",
+        "path": "./resources/snippets/template-tags.json"
+      },
+      {
+        "language": "django-html",
+        "path": "./resources/snippets/template-filters.json"
+      },
+      {
+        "language": "django-txt",
+        "path": "./resources/snippets/template-tags.json"
+      },
+      {
+        "language": "django-txt",
+        "path": "./resources/snippets/template-filters.json"
+      },
+      {
+        "language": "python",
+        "path": "./resources/snippets/python-models.json"
+      },
+      {
+        "language": "python",
+        "path": "./resources/snippets/python-forms.json"
+      },
+      {
+        "language": "python",
+        "path": "./resources/snippets/python-views.json"
+      },
+      {
+        "language": "python",
+        "path": "./resources/snippets/python-admin.json"
+      },
+      {
+        "language": "python",
+        "path": "./resources/snippets/python-urls.json"
+      }
+    ]
+  },
+  "scripts": {
+    "prepare": "husky",
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "check-types": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.webview.json",
+    "check-svelte": "svelte-check --tsconfig tsconfig.svelte.json --threshold error",
+    "build:css": "tailwindcss -i src/webview/styles/tailwind.css -o dist/tailwind.css",
+    "build:css:prod": "tailwindcss -i src/webview/styles/tailwind.css -o dist/tailwind.css --minify",
+    "package": "npm run clean:dist && npm run check-types && npm run check-svelte && npm run lint && npm run format:check && npm test && npm run build:css:prod && node esbuild.js --production",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "compile:integration": "tsc -p tsconfig.integration.json",
+    "test:integration": "npm run compile && npm run build:css && npm run compile:integration && node out/src/integration-tests/run.js",
+    "harness:diagram": "node scripts/diagram-harness/serve.mjs",
+    "vscode:prepublish": "npm run package",
+    "clean:dist": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@tailwindcss/cli": "^4.2.4",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/svelte": "^5.3.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.6.0",
+    "esbuild": "^0.24.0",
+    "esbuild-svelte": "^0.9.5",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-svelte": "^3.23.0",
+    "fast-glob": "^3.3.2",
+    "husky": "^9.1.7",
+    "jsdom": "^29.1.1",
+    "lint-staged": "^16.4.0",
+    "mocha": "^11.7.5",
+    "prettier": "^3.9.6",
+    "prettier-plugin-svelte": "^3.5.2",
+    "svelte": "^5.55.5",
+    "svelte-check": "^4.4.8",
+    "svelte-preprocess": "^6.0.3",
+    "tailwindcss": "^4.2.4",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.69.0",
+    "vitest": "^4.1.6"
+  }
+}

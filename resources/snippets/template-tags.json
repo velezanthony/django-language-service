@@ -1,0 +1,925 @@
+{
+  "if (inline)": {
+    "prefix": "dif",
+    "body": "{% if ${1:condition} %}$0{% endif %}",
+    "description": "Django if tag (inline)"
+  },
+  "if (block)": {
+    "prefix": "difblock",
+    "body": ["{% if ${1:condition} %}", "\t$0", "{% endif %}"],
+    "description": "Django if tag (block)"
+  },
+  "if/else (inline)": {
+    "prefix": "difelse",
+    "body": "{% if ${1:condition} %}$2{% else %}$0{% endif %}",
+    "description": "Django if/else tag (inline)"
+  },
+  "if/else (block)": {
+    "prefix": "difelseblock",
+    "body": [
+      "{% if ${1:condition} %}",
+      "\t$2",
+      "{% else %}",
+      "\t$0",
+      "{% endif %}"
+    ],
+    "description": "Django if/else tag (block)"
+  },
+  "if/elif (block)": {
+    "prefix": "difelifblock",
+    "body": [
+      "{% if ${1:condition} %}",
+      "\t$2",
+      "{% elif ${3:condition} %}",
+      "\t$0",
+      "{% endif %}"
+    ],
+    "description": "Django if/elif tag (block)"
+  },
+  "if/elif/else (block)": {
+    "prefix": "difelifelseblock",
+    "body": [
+      "{% if ${1:condition} %}",
+      "\t$2",
+      "{% elif ${3:condition} %}",
+      "\t$4",
+      "{% else %}",
+      "\t$0",
+      "{% endif %}"
+    ],
+    "description": "Django if/elif/else tag (block)"
+  },
+  "elif": {
+    "prefix": "delif",
+    "body": "{% elif ${1:condition} %}",
+    "description": "Django elif tag"
+  },
+  "else": {
+    "prefix": "delse",
+    "body": "{% else %}",
+    "description": "Django else tag"
+  },
+  "endif": {
+    "prefix": "dendif",
+    "body": "{% endif %}",
+    "description": "Django endif tag"
+  },
+  "if not (inline)": {
+    "prefix": "difnot",
+    "body": "{% if not ${1:condition} %}$0{% endif %}",
+    "description": "Django if not tag (inline)"
+  },
+  "if not (block)": {
+    "prefix": "difnotblock",
+    "body": ["{% if not ${1:condition} %}", "\t$0", "{% endif %}"],
+    "description": "Django if not tag (block)"
+  },
+  "if and (inline)": {
+    "prefix": "difand",
+    "body": "{% if ${1:condition} and ${2:condition} %}$0{% endif %}",
+    "description": "Django if with and operator (inline)"
+  },
+  "if or (inline)": {
+    "prefix": "difor",
+    "body": "{% if ${1:condition} or ${2:condition} %}$0{% endif %}",
+    "description": "Django if with or operator (inline)"
+  },
+  "if in (inline)": {
+    "prefix": "difin",
+    "body": "{% if ${1:value} in ${2:list} %}$0{% endif %}",
+    "description": "Django if with in operator (inline)"
+  },
+  "if not in (inline)": {
+    "prefix": "difnotin",
+    "body": "{% if ${1:value} not in ${2:list} %}$0{% endif %}",
+    "description": "Django if with not in operator (inline)"
+  },
+  "if is (inline)": {
+    "prefix": "difis",
+    "body": "{% if ${1:value} is ${2:test} %}$0{% endif %}",
+    "description": "Django if with is operator (inline)"
+  },
+  "if is not (inline)": {
+    "prefix": "difisnot",
+    "body": "{% if ${1:value} is not ${2:test} %}$0{% endif %}",
+    "description": "Django if with is not operator (inline)"
+  },
+  "if == (inline)": {
+    "prefix": "difeq",
+    "body": "{% if ${1:value} == ${2:value} %}$0{% endif %}",
+    "description": "Django if with equality check (inline)"
+  },
+  "if != (inline)": {
+    "prefix": "difneq",
+    "body": "{% if ${1:value} != ${2:value} %}$0{% endif %}",
+    "description": "Django if with inequality check (inline)"
+  },
+  "for (inline)": {
+    "prefix": "dfor",
+    "body": "{% for ${1:item} in ${2:list} %}$0{% endfor %}",
+    "description": "Django for loop (inline)"
+  },
+  "for (block)": {
+    "prefix": "dforblock",
+    "body": ["{% for ${1:item} in ${2:list} %}", "\t$0", "{% endfor %}"],
+    "description": "Django for loop (block)"
+  },
+  "for/empty (block)": {
+    "prefix": "dforempty",
+    "body": [
+      "{% for ${1:item} in ${2:list} %}",
+      "\t$3",
+      "{% empty %}",
+      "\t$0",
+      "{% endfor %}"
+    ],
+    "description": "Django for loop with empty (block)"
+  },
+  "for reversed (block)": {
+    "prefix": "dforrev",
+    "body": [
+      "{% for ${1:item} in ${2:list} reversed %}",
+      "\t$0",
+      "{% endfor %}"
+    ],
+    "description": "Django for loop reversed (block)"
+  },
+  "for key,value (block)": {
+    "prefix": "dforkv",
+    "body": [
+      "{% for ${1:key}, ${2:value} in ${3:dict}.items %}",
+      "\t$0",
+      "{% endfor %}"
+    ],
+    "description": "Django for loop over dictionary items (block)"
+  },
+  "empty": {
+    "prefix": "dempty",
+    "body": "{% empty %}",
+    "description": "Django empty tag (used inside for loops)"
+  },
+  "endfor": {
+    "prefix": "dendfor",
+    "body": "{% endfor %}",
+    "description": "Django endfor tag"
+  },
+  "forloop.counter": {
+    "prefix": "dforcount",
+    "body": "{{ forloop.counter }}",
+    "description": "Django forloop.counter variable"
+  },
+  "forloop.counter0": {
+    "prefix": "dforcount0",
+    "body": "{{ forloop.counter0 }}",
+    "description": "Django forloop.counter0 variable (0-indexed)"
+  },
+  "forloop.revcounter": {
+    "prefix": "dforrevcount",
+    "body": "{{ forloop.revcounter }}",
+    "description": "Django forloop.revcounter variable"
+  },
+  "forloop.first": {
+    "prefix": "dforfirst",
+    "body": "{{ forloop.first }}",
+    "description": "Django forloop.first variable"
+  },
+  "forloop.last": {
+    "prefix": "dforlast",
+    "body": "{{ forloop.last }}",
+    "description": "Django forloop.last variable"
+  },
+  "forloop.parentloop": {
+    "prefix": "dforparent",
+    "body": "{{ forloop.parentloop.${1:counter} }}",
+    "description": "Django forloop.parentloop variable"
+  },
+  "block (inline)": {
+    "prefix": "dblock",
+    "body": "{% block ${1:name} %}$0{% endblock ${1:name} %}",
+    "description": "Django block tag (inline)"
+  },
+  "block (block)": {
+    "prefix": "dblockblock",
+    "body": ["{% block ${1:name} %}", "\t$0", "{% endblock ${1:name} %}"],
+    "description": "Django block tag (block)"
+  },
+  "block with super": {
+    "prefix": "dblocksuper",
+    "body": [
+      "{% block ${1:name} %}",
+      "\t{{ block.super }}",
+      "\t$0",
+      "{% endblock ${1:name} %}"
+    ],
+    "description": "Django block tag with block.super"
+  },
+  "endblock": {
+    "prefix": "dendblock",
+    "body": "{% endblock %}",
+    "description": "Django endblock tag"
+  },
+  "block.super": {
+    "prefix": "dsuper",
+    "body": "{{ block.super }}",
+    "description": "Django block.super variable"
+  },
+  "extends": {
+    "prefix": "dextends",
+    "body": "{% extends \"${1:base.html}\" %}",
+    "description": "Django extends tag"
+  },
+  "extends variable": {
+    "prefix": "dextendsvar",
+    "body": "{% extends ${1:variable} %}",
+    "description": "Django extends tag with variable"
+  },
+  "include": {
+    "prefix": "dinclude",
+    "body": "{% include \"${1:template.html}\" %}",
+    "description": "Django include tag"
+  },
+  "include with": {
+    "prefix": "dincludewith",
+    "body": "{% include \"${1:template.html}\" with ${2:key}=${3:value} %}",
+    "description": "Django include tag with context variables"
+  },
+  "include with only": {
+    "prefix": "dincludeonly",
+    "body": "{% include \"${1:template.html}\" with ${2:key}=${3:value} only %}",
+    "description": "Django include tag with only keyword"
+  },
+  "include variable": {
+    "prefix": "dincludevar",
+    "body": "{% include ${1:variable} %}",
+    "description": "Django include tag with variable"
+  },
+  "load": {
+    "prefix": "dload",
+    "body": "{% load ${1:tag_library} %}",
+    "description": "Django load tag"
+  },
+  "load static": {
+    "prefix": "dloadstatic",
+    "body": "{% load static %}",
+    "description": "Django load static tag"
+  },
+  "load i18n": {
+    "prefix": "dloadi18n",
+    "body": "{% load i18n %}",
+    "description": "Django load i18n tag"
+  },
+  "load humanize": {
+    "prefix": "dloadhumanize",
+    "body": "{% load humanize %}",
+    "description": "Django load humanize tag"
+  },
+  "load tz": {
+    "prefix": "dloadtz",
+    "body": "{% load tz %}",
+    "description": "Django load tz (timezone) tag"
+  },
+  "load cache": {
+    "prefix": "dloadcache",
+    "body": "{% load cache %}",
+    "description": "Django load cache tag"
+  },
+  "load multiple": {
+    "prefix": "dloadmulti",
+    "body": "{% load ${1:static} ${2:i18n} %}",
+    "description": "Django load multiple tag libraries"
+  },
+  "url": {
+    "prefix": "durl",
+    "body": "{% url '${1:name}' %}",
+    "description": "Django url tag"
+  },
+  "url with args": {
+    "prefix": "durlargs",
+    "body": "{% url '${1:name}' ${2:arg1} %}",
+    "description": "Django url tag with positional arguments"
+  },
+  "url with kwargs": {
+    "prefix": "durlkwargs",
+    "body": "{% url '${1:name}' ${2:key}=${3:value} %}",
+    "description": "Django url tag with keyword arguments"
+  },
+  "url as variable": {
+    "prefix": "durlas",
+    "body": "{% url '${1:name}' as ${2:variable} %}",
+    "description": "Django url tag stored as variable"
+  },
+  "url with pk": {
+    "prefix": "durlpk",
+    "body": "{% url '${1:name}' pk=${2:object.pk} %}",
+    "description": "Django url tag with pk keyword argument"
+  },
+  "url with slug": {
+    "prefix": "durlslug",
+    "body": "{% url '${1:name}' slug=${2:object.slug} %}",
+    "description": "Django url tag with slug keyword argument"
+  },
+  "static": {
+    "prefix": "dstatic",
+    "body": "{% static '${1:path/to/file}' %}",
+    "description": "Django static tag"
+  },
+  "static as variable": {
+    "prefix": "dstaticas",
+    "body": "{% static '${1:path/to/file}' as ${2:variable} %}",
+    "description": "Django static tag stored as variable"
+  },
+  "with (inline)": {
+    "prefix": "dwith",
+    "body": "{% with ${1:variable}=${2:value} %}$0{% endwith %}",
+    "description": "Django with tag (inline)"
+  },
+  "with (block)": {
+    "prefix": "dwithblock",
+    "body": ["{% with ${1:variable}=${2:value} %}", "\t$0", "{% endwith %}"],
+    "description": "Django with tag (block)"
+  },
+  "with multiple": {
+    "prefix": "dwithmulti",
+    "body": [
+      "{% with ${1:var1}=${2:value1} ${3:var2}=${4:value2} %}",
+      "\t$0",
+      "{% endwith %}"
+    ],
+    "description": "Django with tag with multiple variables"
+  },
+  "endwith": {
+    "prefix": "dendwith",
+    "body": "{% endwith %}",
+    "description": "Django endwith tag"
+  },
+  "csrf_token": {
+    "prefix": "dcsrf",
+    "body": "{% csrf_token %}",
+    "description": "Django csrf_token tag"
+  },
+  "comment (inline)": {
+    "prefix": "dcomment",
+    "body": "{% comment %}$0{% endcomment %}",
+    "description": "Django comment tag (inline)"
+  },
+  "comment (block)": {
+    "prefix": "dcommentblock",
+    "body": [
+      "{% comment \"${1:Optional note}\" %}",
+      "\t$0",
+      "{% endcomment %}"
+    ],
+    "description": "Django comment tag (block)"
+  },
+  "endcomment": {
+    "prefix": "dendcomment",
+    "body": "{% endcomment %}",
+    "description": "Django endcomment tag"
+  },
+  "autoescape on (block)": {
+    "prefix": "dautoescape",
+    "body": ["{% autoescape on %}", "\t$0", "{% endautoescape %}"],
+    "description": "Django autoescape on tag (block)"
+  },
+  "autoescape off (block)": {
+    "prefix": "dautoescapeoff",
+    "body": ["{% autoescape off %}", "\t$0", "{% endautoescape %}"],
+    "description": "Django autoescape off tag (block)"
+  },
+  "endautoescape": {
+    "prefix": "dendautoescape",
+    "body": "{% endautoescape %}",
+    "description": "Django endautoescape tag"
+  },
+  "filter (inline)": {
+    "prefix": "dfilter",
+    "body": "{% filter ${1:filter_name} %}$0{% endfilter %}",
+    "description": "Django filter tag (inline)"
+  },
+  "filter (block)": {
+    "prefix": "dfilterblock",
+    "body": ["{% filter ${1:filter_name} %}", "\t$0", "{% endfilter %}"],
+    "description": "Django filter tag (block)"
+  },
+  "endfilter": {
+    "prefix": "dendfilter",
+    "body": "{% endfilter %}",
+    "description": "Django endfilter tag"
+  },
+  "spaceless (block)": {
+    "prefix": "dspaceless",
+    "body": ["{% spaceless %}", "\t$0", "{% endspaceless %}"],
+    "description": "Django spaceless tag (block)"
+  },
+  "endspaceless": {
+    "prefix": "dendspaceless",
+    "body": "{% endspaceless %}",
+    "description": "Django endspaceless tag"
+  },
+  "verbatim (block)": {
+    "prefix": "dverbatim",
+    "body": ["{% verbatim %}", "\t$0", "{% endverbatim %}"],
+    "description": "Django verbatim tag (block)"
+  },
+  "endverbatim": {
+    "prefix": "dendverbatim",
+    "body": "{% endverbatim %}",
+    "description": "Django endverbatim tag"
+  },
+  "widthratio": {
+    "prefix": "dwidthratio",
+    "body": "{% widthratio ${1:this_value} ${2:max_value} ${3:max_width} %}",
+    "description": "Django widthratio tag"
+  },
+  "widthratio as variable": {
+    "prefix": "dwidthratioas",
+    "body": "{% widthratio ${1:this_value} ${2:max_value} ${3:max_width} as ${4:variable} %}",
+    "description": "Django widthratio tag stored as variable"
+  },
+  "cycle": {
+    "prefix": "dcycle",
+    "body": "{% cycle '${1:odd}' '${2:even}' %}",
+    "description": "Django cycle tag"
+  },
+  "cycle as variable": {
+    "prefix": "dcycleas",
+    "body": "{% cycle '${1:odd}' '${2:even}' as ${3:variable} %}",
+    "description": "Django cycle tag stored as variable"
+  },
+  "cycle silent": {
+    "prefix": "dcyclesilent",
+    "body": "{% cycle '${1:odd}' '${2:even}' as ${3:variable} silent %}",
+    "description": "Django cycle tag stored as silent variable"
+  },
+  "cycle three": {
+    "prefix": "dcycle3",
+    "body": "{% cycle '${1:row1}' '${2:row2}' '${3:row3}' %}",
+    "description": "Django cycle tag with three values"
+  },
+  "firstof": {
+    "prefix": "dfirstof",
+    "body": "{% firstof ${1:var1} ${2:var2} ${3:var3} %}",
+    "description": "Django firstof tag"
+  },
+  "firstof with fallback": {
+    "prefix": "dfirstoffallback",
+    "body": "{% firstof ${1:var1} ${2:var2} \"${3:fallback}\" %}",
+    "description": "Django firstof tag with fallback string"
+  },
+  "firstof as variable": {
+    "prefix": "dfirstofas",
+    "body": "{% firstof ${1:var1} ${2:var2} as ${3:variable} %}",
+    "description": "Django firstof tag stored as variable"
+  },
+  "now": {
+    "prefix": "dnow",
+    "body": "{% now \"${1:Y-m-d}\" %}",
+    "description": "Django now tag (date formatting)"
+  },
+  "now as variable": {
+    "prefix": "dnowas",
+    "body": "{% now \"${1:Y-m-d}\" as ${2:variable} %}",
+    "description": "Django now tag stored as variable"
+  },
+  "now datetime": {
+    "prefix": "dnowdatetime",
+    "body": "{% now \"${1:Y-m-d H:i:s}\" %}",
+    "description": "Django now tag with date and time"
+  },
+  "now short date": {
+    "prefix": "dnowshort",
+    "body": "{% now \"${1:N j, Y}\" %}",
+    "description": "Django now tag with short date format"
+  },
+  "regroup": {
+    "prefix": "dregroup",
+    "body": "{% regroup ${1:list} by ${2:attribute} as ${3:grouped} %}",
+    "description": "Django regroup tag"
+  },
+  "regroup usage": {
+    "prefix": "dregroupfull",
+    "body": [
+      "{% regroup ${1:list} by ${2:attribute} as ${3:grouped} %}",
+      "{% for group in ${3:grouped} %}",
+      "\t<h2>{{ group.grouper }}</h2>",
+      "\t{% for item in group.list %}",
+      "\t\t$0",
+      "\t{% endfor %}",
+      "{% endfor %}"
+    ],
+    "description": "Django regroup tag with full loop structure"
+  },
+  "templatetag openblock": {
+    "prefix": "dttagopen",
+    "body": "{% templatetag openblock %}",
+    "description": "Django templatetag openblock ({%)"
+  },
+  "templatetag closeblock": {
+    "prefix": "dttagclose",
+    "body": "{% templatetag closeblock %}",
+    "description": "Django templatetag closeblock (%})"
+  },
+  "templatetag openvariable": {
+    "prefix": "dttagopenvar",
+    "body": "{% templatetag openvariable %}",
+    "description": "Django templatetag openvariable ({{)"
+  },
+  "templatetag closevariable": {
+    "prefix": "dttagclosevar",
+    "body": "{% templatetag closevariable %}",
+    "description": "Django templatetag closevariable (}})"
+  },
+  "templatetag openbrace": {
+    "prefix": "dttagopenbrace",
+    "body": "{% templatetag openbrace %}",
+    "description": "Django templatetag openbrace ({)"
+  },
+  "templatetag closebrace": {
+    "prefix": "dttagclosebrace",
+    "body": "{% templatetag closebrace %}",
+    "description": "Django templatetag closebrace (})"
+  },
+  "templatetag opencomment": {
+    "prefix": "dttagopencomment",
+    "body": "{% templatetag opencomment %}",
+    "description": "Django templatetag opencomment ({#)"
+  },
+  "templatetag closecomment": {
+    "prefix": "dttagclosecomment",
+    "body": "{% templatetag closecomment %}",
+    "description": "Django templatetag closecomment (#})"
+  },
+  "lorem": {
+    "prefix": "dlorem",
+    "body": "{% lorem %}",
+    "description": "Django lorem tag (one paragraph)"
+  },
+  "lorem count": {
+    "prefix": "dloremcount",
+    "body": "{% lorem ${1:3} ${2|p,w,b|} %}",
+    "description": "Django lorem tag with count and method (p=paragraphs, w=words, b=HTML paragraphs)"
+  },
+  "lorem random": {
+    "prefix": "dloremrand",
+    "body": "{% lorem ${1:3} ${2|p,w,b|} random %}",
+    "description": "Django lorem tag with random text"
+  },
+  "debug": {
+    "prefix": "ddebug",
+    "body": "{% debug %}",
+    "description": "Django debug tag"
+  },
+  "ifchanged (block)": {
+    "prefix": "difchanged",
+    "body": ["{% ifchanged %}", "\t$0", "{% endifchanged %}"],
+    "description": "Django ifchanged tag (block)"
+  },
+  "ifchanged variable": {
+    "prefix": "difchangedvar",
+    "body": ["{% ifchanged ${1:variable} %}", "\t$0", "{% endifchanged %}"],
+    "description": "Django ifchanged tag with variable"
+  },
+  "ifchanged/else": {
+    "prefix": "difchangedelse",
+    "body": [
+      "{% ifchanged ${1:variable} %}",
+      "\t$2",
+      "{% else %}",
+      "\t$0",
+      "{% endifchanged %}"
+    ],
+    "description": "Django ifchanged/else tag"
+  },
+  "endifchanged": {
+    "prefix": "dendifchanged",
+    "body": "{% endifchanged %}",
+    "description": "Django endifchanged tag"
+  },
+  "cache (block)": {
+    "prefix": "dcache",
+    "body": [
+      "{% cache ${1:timeout} ${2:fragment_name} %}",
+      "\t$0",
+      "{% endcache %}"
+    ],
+    "description": "Django cache tag (block)"
+  },
+  "cache with variable": {
+    "prefix": "dcachevar",
+    "body": [
+      "{% cache ${1:timeout} ${2:fragment_name} ${3:vary_on} %}",
+      "\t$0",
+      "{% endcache %}"
+    ],
+    "description": "Django cache tag with vary on variable"
+  },
+  "endcache": {
+    "prefix": "dendcache",
+    "body": "{% endcache %}",
+    "description": "Django endcache tag"
+  },
+  "trans": {
+    "prefix": "dtrans",
+    "body": "{% trans \"${1:text}\" %}",
+    "description": "Django trans tag (i18n)"
+  },
+  "trans as variable": {
+    "prefix": "dtransas",
+    "body": "{% trans \"${1:text}\" as ${2:variable} %}",
+    "description": "Django trans tag stored as variable"
+  },
+  "trans with context": {
+    "prefix": "dtransctx",
+    "body": "{% trans \"${1:text}\" context \"${2:context}\" %}",
+    "description": "Django trans tag with context"
+  },
+  "translate": {
+    "prefix": "dtranslate",
+    "body": "{% translate \"${1:text}\" %}",
+    "description": "Django translate tag (i18n, modern syntax)"
+  },
+  "translate as variable": {
+    "prefix": "dtranslateas",
+    "body": "{% translate \"${1:text}\" as ${2:variable} %}",
+    "description": "Django translate tag stored as variable"
+  },
+  "translate with context": {
+    "prefix": "dtranslatectx",
+    "body": "{% translate \"${1:text}\" context \"${2:context}\" %}",
+    "description": "Django translate tag with context"
+  },
+  "blocktrans (block)": {
+    "prefix": "dblocktrans",
+    "body": ["{% blocktrans %}", "\t$0", "{% endblocktrans %}"],
+    "description": "Django blocktrans tag (block)"
+  },
+  "blocktrans with variable": {
+    "prefix": "dblocktranswith",
+    "body": [
+      "{% blocktrans with ${1:variable}=${2:value} %}",
+      "\t$0",
+      "{% endblocktrans %}"
+    ],
+    "description": "Django blocktrans tag with variable"
+  },
+  "blocktrans with count": {
+    "prefix": "dblocktranscount",
+    "body": [
+      "{% blocktrans count ${1:counter}=${2:value} %}",
+      "\t${3:singular text}",
+      "{% plural %}",
+      "\t$0",
+      "{% endblocktrans %}"
+    ],
+    "description": "Django blocktrans tag with count and plural"
+  },
+  "blocktrans trimmed": {
+    "prefix": "dblocktranstrimmed",
+    "body": ["{% blocktrans trimmed %}", "\t$0", "{% endblocktrans %}"],
+    "description": "Django blocktrans tag with trimmed whitespace"
+  },
+  "blocktranslate (block)": {
+    "prefix": "dblocktranslate",
+    "body": ["{% blocktranslate %}", "\t$0", "{% endblocktranslate %}"],
+    "description": "Django blocktranslate tag (modern syntax)"
+  },
+  "blocktranslate with variable": {
+    "prefix": "dblocktranslatewith",
+    "body": [
+      "{% blocktranslate with ${1:variable}=${2:value} %}",
+      "\t$0",
+      "{% endblocktranslate %}"
+    ],
+    "description": "Django blocktranslate tag with variable"
+  },
+  "blocktranslate with count": {
+    "prefix": "dblocktranslatecount",
+    "body": [
+      "{% blocktranslate count ${1:counter}=${2:value} %}",
+      "\t${3:singular text}",
+      "{% plural %}",
+      "\t$0",
+      "{% endblocktranslate %}"
+    ],
+    "description": "Django blocktranslate tag with count and plural"
+  },
+  "blocktranslate trimmed": {
+    "prefix": "dblocktranslatetrimmed",
+    "body": ["{% blocktranslate trimmed %}", "\t$0", "{% endblocktranslate %}"],
+    "description": "Django blocktranslate tag with trimmed whitespace"
+  },
+  "blocktranslate as variable": {
+    "prefix": "dblocktranslateas",
+    "body": [
+      "{% blocktranslate asvar ${1:variable} %}",
+      "\t$0",
+      "{% endblocktranslate %}"
+    ],
+    "description": "Django blocktranslate tag stored as variable"
+  },
+  "plural": {
+    "prefix": "dplural",
+    "body": "{% plural %}",
+    "description": "Django plural tag (inside blocktrans/blocktranslate)"
+  },
+  "language (block)": {
+    "prefix": "dlanguage",
+    "body": ["{% language \"${1:en}\" %}", "\t$0", "{% endlanguage %}"],
+    "description": "Django language tag (block)"
+  },
+  "endlanguage": {
+    "prefix": "dendlanguage",
+    "body": "{% endlanguage %}",
+    "description": "Django endlanguage tag"
+  },
+  "get_current_language": {
+    "prefix": "dgetlang",
+    "body": "{% get_current_language as ${1:LANGUAGE_CODE} %}",
+    "description": "Django get_current_language tag"
+  },
+  "get_available_languages": {
+    "prefix": "dgetlangs",
+    "body": "{% get_available_languages as ${1:languages} %}",
+    "description": "Django get_available_languages tag"
+  },
+  "get_language_info": {
+    "prefix": "dgetlanginfo",
+    "body": "{% get_language_info for \"${1:en}\" as ${2:lang} %}",
+    "description": "Django get_language_info tag"
+  },
+  "get_language_info_list": {
+    "prefix": "dgetlanginfolist",
+    "body": "{% get_language_info_list for ${1:languages} as ${2:langs} %}",
+    "description": "Django get_language_info_list tag"
+  },
+  "variable": {
+    "prefix": "dvar",
+    "body": "{{ ${1:variable} }}",
+    "description": "Django variable output"
+  },
+  "variable with filter": {
+    "prefix": "dvarfilter",
+    "body": "{{ ${1:variable}|${2:filter} }}",
+    "description": "Django variable with filter"
+  },
+  "variable with default": {
+    "prefix": "dvardefault",
+    "body": "{{ ${1:variable}|default:\"${2:default_value}\" }}",
+    "description": "Django variable with default filter"
+  },
+  "variable with date": {
+    "prefix": "dvardate",
+    "body": "{{ ${1:variable}|date:\"${2:Y-m-d}\" }}",
+    "description": "Django variable with date filter"
+  },
+  "variable safe": {
+    "prefix": "dvarsafe",
+    "body": "{{ ${1:variable}|safe }}",
+    "description": "Django variable with safe filter"
+  },
+  "variable escape": {
+    "prefix": "dvarescape",
+    "body": "{{ ${1:variable}|escape }}",
+    "description": "Django variable with escape filter"
+  },
+  "variable length": {
+    "prefix": "dvarlen",
+    "body": "{{ ${1:variable}|length }}",
+    "description": "Django variable with length filter"
+  },
+  "variable truncate": {
+    "prefix": "dvartrunc",
+    "body": "{{ ${1:variable}|truncatewords:${2:30} }}",
+    "description": "Django variable with truncatewords filter"
+  },
+  "variable truncate chars": {
+    "prefix": "dvartruncchars",
+    "body": "{{ ${1:variable}|truncatechars:${2:100} }}",
+    "description": "Django variable with truncatechars filter"
+  },
+  "variable join": {
+    "prefix": "dvarjoin",
+    "body": "{{ ${1:list}|join:\", \" }}",
+    "description": "Django variable with join filter"
+  },
+  "variable lower": {
+    "prefix": "dvarlower",
+    "body": "{{ ${1:variable}|lower }}",
+    "description": "Django variable with lower filter"
+  },
+  "variable upper": {
+    "prefix": "dvarupper",
+    "body": "{{ ${1:variable}|upper }}",
+    "description": "Django variable with upper filter"
+  },
+  "variable title": {
+    "prefix": "dvartitle",
+    "body": "{{ ${1:variable}|title }}",
+    "description": "Django variable with title filter"
+  },
+  "variable capfirst": {
+    "prefix": "dvarcap",
+    "body": "{{ ${1:variable}|capfirst }}",
+    "description": "Django variable with capfirst filter"
+  },
+  "variable slugify": {
+    "prefix": "dvarslug",
+    "body": "{{ ${1:variable}|slugify }}",
+    "description": "Django variable with slugify filter"
+  },
+  "variable linebreaks": {
+    "prefix": "dvarlinebreaks",
+    "body": "{{ ${1:variable}|linebreaks }}",
+    "description": "Django variable with linebreaks filter"
+  },
+  "variable linebreaksbr": {
+    "prefix": "dvarlinebreaksbr",
+    "body": "{{ ${1:variable}|linebreaksbr }}",
+    "description": "Django variable with linebreaksbr filter"
+  },
+  "variable striptags": {
+    "prefix": "dvarstrip",
+    "body": "{{ ${1:variable}|striptags }}",
+    "description": "Django variable with striptags filter"
+  },
+  "variable pluralize": {
+    "prefix": "dvarplural",
+    "body": "{{ ${1:count}|pluralize }}",
+    "description": "Django variable with pluralize filter"
+  },
+  "variable pluralize custom": {
+    "prefix": "dvarpluralcustom",
+    "body": "{{ ${1:count}|pluralize:\"${2:es}\" }}",
+    "description": "Django variable with custom pluralize filter"
+  },
+  "variable floatformat": {
+    "prefix": "dvarfloat",
+    "body": "{{ ${1:variable}|floatformat:${2:2} }}",
+    "description": "Django variable with floatformat filter"
+  },
+  "variable filesizeformat": {
+    "prefix": "dvarfilesize",
+    "body": "{{ ${1:variable}|filesizeformat }}",
+    "description": "Django variable with filesizeformat filter"
+  },
+  "variable add": {
+    "prefix": "dvaradd",
+    "body": "{{ ${1:variable}|add:${2:value} }}",
+    "description": "Django variable with add filter"
+  },
+  "variable yesno": {
+    "prefix": "dvaryesno",
+    "body": "{{ ${1:variable}|yesno:\"${2:yes,no,maybe}\" }}",
+    "description": "Django variable with yesno filter"
+  },
+  "variable timesince": {
+    "prefix": "dvartimesince",
+    "body": "{{ ${1:variable}|timesince }}",
+    "description": "Django variable with timesince filter"
+  },
+  "variable timeuntil": {
+    "prefix": "dvartimeuntil",
+    "body": "{{ ${1:variable}|timeuntil }}",
+    "description": "Django variable with timeuntil filter"
+  },
+  "variable urlencode": {
+    "prefix": "dvarurlencode",
+    "body": "{{ ${1:variable}|urlencode }}",
+    "description": "Django variable with urlencode filter"
+  },
+  "variable dictsort": {
+    "prefix": "dvardictsort",
+    "body": "{{ ${1:list}|dictsort:\"${2:key}\" }}",
+    "description": "Django variable with dictsort filter"
+  },
+  "variable first": {
+    "prefix": "dvarfirst",
+    "body": "{{ ${1:list}|first }}",
+    "description": "Django variable with first filter"
+  },
+  "variable last": {
+    "prefix": "dvarlast",
+    "body": "{{ ${1:list}|last }}",
+    "description": "Django variable with last filter"
+  },
+  "variable json_script": {
+    "prefix": "dvarjson",
+    "body": "{{ ${1:variable}|json_script:\"${2:id}\" }}",
+    "description": "Django variable with json_script filter"
+  },
+  "Django template comment": {
+    "prefix": "dhtmlcomment",
+    "body": "{# ${1:comment} #}",
+    "description": "Django single-line template comment"
+  },
+  "resetcycle": {
+    "prefix": "dresetcycle",
+    "body": "{% resetcycle %}",
+    "description": "Django resetcycle tag"
+  },
+  "resetcycle named": {
+    "prefix": "dresetcyclenamed",
+    "body": "{% resetcycle ${1:name} %}",
+    "description": "Django resetcycle tag with name"
+  }
+}

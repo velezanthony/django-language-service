@@ -1,0 +1,10 @@
+{# Fixture: template with {% url %} references. #}
+{% extends "base.html" %}
+
+{% block content %}
+  <nav>
+    <a href="{% url 'shop:index' %}">Home</a>
+    <a href="{% url 'shop:product-detail' product.slug %}">{{ product.name }}</a>
+    <a href="{% url 'cart:add' product.pk %}">Add to cart</a>
+  </nav>
+{% endblock %}

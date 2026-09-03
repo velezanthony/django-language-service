@@ -1,0 +1,388 @@
+{
+  "_": [
+    "Docs media for the template-side features: completion, hover, lint, quick",
+    "fix, formatting. Runs against the bundled test Django project in a real",
+    "Extension Development Host, so the theme tokens and the widget chrome are",
+    "VS Code's own rather than an approximation.",
+    "",
+    "Everything is typed into the buffer and never saved \u2014 the fixture templates",
+    "on disk are untouched.",
+    "",
+    "  node scripts/vscode-cdp-harness/engine.mjs scripts/vscode-cdp-harness/docs-shots.json"
+  ],
+  "workspace": "../../src/test-django-project",
+  "extensionPath": "../..",
+  "outDir": "out/docs",
+  "port": 9261,
+  "settleMs": 6000,
+  "continueOnError": true,
+  "settings": {
+    "workbench.colorTheme": "Default Dark Modern",
+    "workbench.startupEditor": "none",
+    "workbench.tips.enabled": false,
+    "editor.minimap.enabled": false,
+    "editor.fontSize": 14,
+    "window.zoomLevel": 0,
+    "chat.commandCenter.enabled": false,
+    "workbench.activityBar.location": "default",
+    "editor.renderWhitespace": "none",
+    "explorer.confirmDelete": false,
+    "files.autoSave": "off",
+    "chat.disableAIFeatures": true,
+    "workbench.welcomePage.walkthroughs.openOnInstall": false,
+    "update.showReleaseNotes": false,
+    "telemetry.telemetryLevel": "off"
+  },
+  "actions": [
+    {
+      "do": "wait",
+      "ms": 1200
+    },
+    {
+      "do": "command",
+      "title": "View: Close Panel",
+      "after": 500
+    },
+    {
+      "do": "discardEdits",
+      "after": 700
+    },
+    {
+      "do": "openFile",
+      "query": "product_detail.html",
+      "after": 2200
+    },
+    {
+      "do": "command",
+      "title": "Notifications: Clear All Notifications",
+      "after": 300
+    },
+    {
+      "do": "click",
+      "selector": ".monaco-editor .view-lines",
+      "after": 400
+    },
+    {
+      "do": "key",
+      "key": "Home",
+      "after": 400,
+      "mods": ["ctrl"]
+    },
+    {
+      "do": "key",
+      "key": "Enter",
+      "after": 200
+    },
+    {
+      "do": "key",
+      "key": "ArrowUp",
+      "after": 250
+    },
+    {
+      "do": "type",
+      "text": "{{ product.price|",
+      "after": 1900
+    },
+    {
+      "do": "screenshot",
+      "file": "completion-filter.png",
+      "after": 350
+    },
+    {
+      "do": "key",
+      "key": "Escape",
+      "after": 300
+    },
+    {
+      "do": "discardEdits",
+      "after": 700
+    },
+    {
+      "do": "openFile",
+      "query": "product_detail.html",
+      "after": 2200
+    },
+    {
+      "do": "command",
+      "title": "Notifications: Clear All Notifications",
+      "after": 300
+    },
+    {
+      "do": "click",
+      "selector": ".monaco-editor .view-lines",
+      "after": 400
+    },
+    {
+      "do": "key",
+      "key": "Home",
+      "after": 400,
+      "mods": ["ctrl"]
+    },
+    {
+      "do": "key",
+      "key": "Enter",
+      "after": 200
+    },
+    {
+      "do": "key",
+      "key": "ArrowUp",
+      "after": 250
+    },
+    {
+      "do": "type",
+      "text": "{% url '",
+      "after": 1900
+    },
+    {
+      "do": "screenshot",
+      "file": "completion-url.png",
+      "after": 350
+    },
+    {
+      "do": "key",
+      "key": "Escape",
+      "after": 300
+    },
+    {
+      "do": "discardEdits",
+      "after": 700
+    },
+    {
+      "do": "openFile",
+      "query": "product_detail.html",
+      "after": 2200
+    },
+    {
+      "do": "command",
+      "title": "Notifications: Clear All Notifications",
+      "after": 300
+    },
+    {
+      "do": "click",
+      "selector": ".monaco-editor .view-lines",
+      "after": 400
+    },
+    {
+      "do": "key",
+      "key": "Home",
+      "after": 400,
+      "mods": ["ctrl"]
+    },
+    {
+      "do": "key",
+      "key": "Enter",
+      "after": 200
+    },
+    {
+      "do": "key",
+      "key": "ArrowUp",
+      "after": 250
+    },
+    {
+      "do": "type",
+      "text": "{% include \"",
+      "after": 1900
+    },
+    {
+      "do": "screenshot",
+      "file": "completion-include.png",
+      "after": 350
+    },
+    {
+      "do": "key",
+      "key": "Escape",
+      "after": 300
+    },
+    {
+      "do": "discardEdits",
+      "after": 700
+    },
+    {
+      "do": "openFile",
+      "query": "home.html",
+      "after": 2200
+    },
+    {
+      "do": "command",
+      "title": "Notifications: Clear All Notifications",
+      "after": 300
+    },
+    {
+      "do": "click",
+      "selector": ".monaco-editor .view-lines",
+      "after": 400
+    },
+    {
+      "do": "key",
+      "key": "Home",
+      "after": 400,
+      "mods": ["ctrl"]
+    },
+    {
+      "do": "key",
+      "key": "ArrowDown",
+      "after": 120
+    },
+    {
+      "do": "key",
+      "key": "ArrowDown",
+      "after": 120
+    },
+    {
+      "do": "key",
+      "key": "ArrowDown",
+      "after": 200
+    },
+    {
+      "do": "key",
+      "key": "k",
+      "mods": ["ctrl", "shift"],
+      "as": "drop the load line",
+      "after": 2800
+    },
+    {
+      "do": "screenshot",
+      "file": "lint-missing-load.png",
+      "after": 350
+    },
+    {
+      "do": "key",
+      "key": "f",
+      "mods": ["ctrl"],
+      "after": 500
+    },
+    {
+      "do": "type",
+      "text": "|currency",
+      "after": 700
+    },
+    {
+      "do": "key",
+      "key": "Enter",
+      "after": 500
+    },
+    {
+      "do": "key",
+      "key": "Escape",
+      "after": 500
+    },
+    {
+      "do": "command",
+      "title": "Quick Fix...",
+      "after": 1700
+    },
+    {
+      "do": "screenshot",
+      "file": "lint-quickfix.png",
+      "after": 400
+    },
+    {
+      "do": "key",
+      "key": "Escape",
+      "after": 400
+    },
+    {
+      "do": "command",
+      "title": "View: Focus Problems (Errors, Warnings, Infos)",
+      "after": 1400
+    },
+    {
+      "do": "screenshot",
+      "file": "lint-problems.png",
+      "after": 350
+    },
+    {
+      "do": "command",
+      "title": "View: Close Panel",
+      "after": 500
+    },
+    {
+      "do": "discardEdits",
+      "after": 700
+    },
+    {
+      "do": "openFile",
+      "query": "include_demo.html",
+      "after": 2200
+    },
+    {
+      "do": "command",
+      "title": "Notifications: Clear All Notifications",
+      "after": 300
+    },
+    {
+      "do": "click",
+      "selector": ".monaco-editor .view-lines",
+      "after": 400
+    },
+    {
+      "do": "key",
+      "key": "Home",
+      "after": 400,
+      "mods": ["ctrl"]
+    },
+    {
+      "do": "screenshot",
+      "file": "include-codelens.png",
+      "after": 350
+    },
+    {
+      "do": "discardEdits",
+      "after": 700
+    },
+    {
+      "do": "openFile",
+      "query": "product_list.html",
+      "after": 2200
+    },
+    {
+      "do": "command",
+      "title": "Notifications: Clear All Notifications",
+      "after": 300
+    },
+    {
+      "do": "click",
+      "selector": ".monaco-editor .view-lines",
+      "after": 400
+    },
+    {
+      "do": "key",
+      "key": "Home",
+      "after": 400,
+      "mods": ["ctrl"]
+    },
+    {
+      "do": "burst",
+      "dir": "format",
+      "frames": 6,
+      "every": 120
+    },
+    {
+      "do": "command",
+      "title": "Format Document",
+      "after": 200
+    },
+    {
+      "do": "burst",
+      "dir": "format",
+      "frames": 16,
+      "every": 120
+    },
+    {
+      "do": "screenshot",
+      "file": "format-after.png",
+      "after": 350
+    },
+    {
+      "do": "command",
+      "title": "Focus on Views View",
+      "after": 2000
+    },
+    {
+      "do": "screenshot",
+      "file": "sidebar.png",
+      "after": 400
+    }
+  ],
+  "disableExtensions": true
+}

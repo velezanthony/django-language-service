@@ -1,0 +1,371 @@
+{
+  "Django View Import": {
+    "prefix": "dvimport",
+    "body": [
+      "from django.shortcuts import render, get_object_or_404, redirect",
+      "from django.http import HttpResponse, JsonResponse"
+    ],
+    "description": "Common Django view imports"
+  },
+  "Django View Import CBV": {
+    "prefix": "dvimportcbv",
+    "body": [
+      "from django.views.generic import (",
+      "    ListView,",
+      "    DetailView,",
+      "    CreateView,",
+      "    UpdateView,",
+      "    DeleteView,",
+      "    TemplateView,",
+      ")",
+      "from django.urls import reverse_lazy"
+    ],
+    "description": "Import Django class-based views"
+  },
+  "Django View Import DRF": {
+    "prefix": "dvimportdrf",
+    "body": [
+      "from rest_framework.views import APIView",
+      "from rest_framework.response import Response",
+      "from rest_framework import status"
+    ],
+    "description": "Import Django REST Framework view essentials"
+  },
+  "Django Function View": {
+    "prefix": "dvfunc",
+    "body": [
+      "def ${1:view_name}(request${2:, pk}):",
+      "    \"\"\"${3:View description.}\"\"\"",
+      "    ${4:context = {\\}}",
+      "    return render(request, \"${5:app_name/template.html}\", ${4})",
+      "$0"
+    ],
+    "description": "Django function-based view"
+  },
+  "Django Function View POST": {
+    "prefix": "dvfuncpost",
+    "body": [
+      "def ${1:view_name}(request):",
+      "    \"\"\"${2:View description.}\"\"\"",
+      "    if request.method == \"POST\":",
+      "        form = ${3:FormClass}(request.POST)",
+      "        if form.is_valid():",
+      "            ${4:form.save()}",
+      "            return redirect(\"${5:app_name:list}\")",
+      "    else:",
+      "        form = ${3}()",
+      "    return render(request, \"${6:app_name/template.html}\", {\"form\": form})",
+      "$0"
+    ],
+    "description": "Django function view with POST form handling"
+  },
+  "Django TemplateView": {
+    "prefix": "dvtemplate",
+    "body": [
+      "class ${1:PageName}View(TemplateView):",
+      "    \"\"\"${2:View description.}\"\"\"",
+      "",
+      "    template_name = \"${3:app_name/template.html}\"",
+      "",
+      "    def get_context_data(self, **kwargs):",
+      "        context = super().get_context_data(**kwargs)",
+      "        ${4:context[\"key\"] = \"value\"}",
+      "        return context",
+      "$0"
+    ],
+    "description": "Django TemplateView class"
+  },
+  "Django ListView": {
+    "prefix": "dvlist",
+    "body": [
+      "class ${1:ModelName}ListView(ListView):",
+      "    \"\"\"${2:View description.}\"\"\"",
+      "",
+      "    model = ${3:$1}",
+      "    template_name = \"${4:app_name/${1/(.*)/${1:/downcase}/}_list.html}\"",
+      "    context_object_name = \"${5:${1/(.*)/${1:/downcase}/}_list}\"",
+      "    paginate_by = ${6:25}",
+      "",
+      "    def get_queryset(self):",
+      "        return super().get_queryset()${7:.filter(${8:is_active=True})}",
+      "$0"
+    ],
+    "description": "Django ListView class"
+  },
+  "Django DetailView": {
+    "prefix": "dvdetail",
+    "body": [
+      "class ${1:ModelName}DetailView(DetailView):",
+      "    \"\"\"${2:View description.}\"\"\"",
+      "",
+      "    model = ${3:$1}",
+      "    template_name = \"${4:app_name/${1/(.*)/${1:/downcase}/}_detail.html}\"",
+      "    context_object_name = \"${5:${1/(.*)/${1:/downcase}/}}\"",
+      "$0"
+    ],
+    "description": "Django DetailView class"
+  },
+  "Django CreateView": {
+    "prefix": "dvcreate",
+    "body": [
+      "class ${1:ModelName}CreateView(CreateView):",
+      "    \"\"\"${2:View description.}\"\"\"",
+      "",
+      "    model = ${3:$1}",
+      "    template_name = \"${4:app_name/${1/(.*)/${1:/downcase}/}_form.html}\"",
+      "    fields = [\"${5:field1}\", \"${6:field2}\"]",
+      "    success_url = reverse_lazy(\"${7:app_name:list}\")",
+      "",
+      "    def form_valid(self, form):",
+      "        ${8:form.instance.created_by = self.request.user}",
+      "        return super().form_valid(form)",
+      "$0"
+    ],
+    "description": "Django CreateView class"
+  },
+  "Django UpdateView": {
+    "prefix": "dvupdate",
+    "body": [
+      "class ${1:ModelName}UpdateView(UpdateView):",
+      "    \"\"\"${2:View description.}\"\"\"",
+      "",
+      "    model = ${3:$1}",
+      "    template_name = \"${4:app_name/${1/(.*)/${1:/downcase}/}_form.html}\"",
+      "    fields = [\"${5:field1}\", \"${6:field2}\"]",
+      "    success_url = reverse_lazy(\"${7:app_name:list}\")",
+      "$0"
+    ],
+    "description": "Django UpdateView class"
+  },
+  "Django DeleteView": {
+    "prefix": "dvdelete",
+    "body": [
+      "class ${1:ModelName}DeleteView(DeleteView):",
+      "    \"\"\"${2:View description.}\"\"\"",
+      "",
+      "    model = ${3:$1}",
+      "    template_name = \"${4:app_name/${1/(.*)/${1:/downcase}/}_confirm_delete.html}\"",
+      "    success_url = reverse_lazy(\"${5:app_name:list}\")",
+      "$0"
+    ],
+    "description": "Django DeleteView class"
+  },
+  "Django FormView": {
+    "prefix": "dvformview",
+    "body": [
+      "class ${1:FormName}View(FormView):",
+      "    \"\"\"${2:View description.}\"\"\"",
+      "",
+      "    template_name = \"${3:app_name/template.html}\"",
+      "    form_class = ${4:FormClass}",
+      "    success_url = reverse_lazy(\"${5:app_name:success}\")",
+      "",
+      "    def form_valid(self, form):",
+      "        ${6:form.save()}",
+      "        return super().form_valid(form)",
+      "$0"
+    ],
+    "description": "Django FormView class"
+  },
+  "Django RedirectView": {
+    "prefix": "dvredirect",
+    "body": [
+      "class ${1:ViewName}RedirectView(RedirectView):",
+      "    \"\"\"${2:View description.}\"\"\"",
+      "",
+      "    pattern_name = \"${3:app_name:target}\"",
+      "    permanent = ${4:False}",
+      "$0"
+    ],
+    "description": "Django RedirectView class"
+  },
+  "Django View Base": {
+    "prefix": "dvview",
+    "body": [
+      "class ${1:ViewName}View(View):",
+      "    \"\"\"${2:View description.}\"\"\"",
+      "",
+      "    def get(self, request, *args, **kwargs):",
+      "        ${3:context = {\\}}",
+      "        return render(request, \"${4:app_name/template.html}\", $3)",
+      "",
+      "    def post(self, request, *args, **kwargs):",
+      "        ${5:pass}",
+      "$0"
+    ],
+    "description": "Django base View class with get and post"
+  },
+  "Django APIView (DRF)": {
+    "prefix": "dvapi",
+    "body": [
+      "class ${1:ViewName}APIView(APIView):",
+      "    \"\"\"${2:API view description.}\"\"\"",
+      "",
+      "    def get(self, request, *args, **kwargs):",
+      "        ${3:data = {\\}}",
+      "        return Response($3, status=status.HTTP_200_OK)",
+      "",
+      "    def post(self, request, *args, **kwargs):",
+      "        serializer = ${4:SerializerClass}(data=request.data)",
+      "        serializer.is_valid(raise_exception=True)",
+      "        serializer.save()",
+      "        return Response(serializer.data, status=status.HTTP_201_CREATED)",
+      "$0"
+    ],
+    "description": "Django REST Framework APIView class"
+  },
+  "Django View get Method": {
+    "prefix": "dvget",
+    "body": [
+      "def get(self, request, *args, **kwargs):",
+      "    ${1:context = {\\}}",
+      "    return ${2:render(request, \"${3:template.html}\", $1)}",
+      "$0"
+    ],
+    "description": "Django view get method"
+  },
+  "Django View post Method": {
+    "prefix": "dvpost",
+    "body": [
+      "def post(self, request, *args, **kwargs):",
+      "    ${1:form = ${2:FormClass}(request.POST)}",
+      "    ${3:if $1.is_valid():}",
+      "    ${4:    $1.save()}",
+      "    return ${5:redirect(\"${6:app_name:list}\")}",
+      "$0"
+    ],
+    "description": "Django view post method"
+  },
+  "Django get_context_data": {
+    "prefix": "dvcontext",
+    "body": [
+      "def get_context_data(self, **kwargs):",
+      "    context = super().get_context_data(**kwargs)",
+      "    context[\"${1:key}\"] = ${2:value}",
+      "    return context",
+      "$0"
+    ],
+    "description": "Django view get_context_data override"
+  },
+  "Django get_queryset": {
+    "prefix": "dvqueryset",
+    "body": [
+      "def get_queryset(self):",
+      "    queryset = super().get_queryset()",
+      "    return queryset.filter(${1:user=self.request.user})",
+      "$0"
+    ],
+    "description": "Django view get_queryset override"
+  },
+  "Django get_object": {
+    "prefix": "dvobject",
+    "body": [
+      "def get_object(self, queryset=None):",
+      "    obj = super().get_object(queryset)",
+      "    ${1:if obj.user != self.request.user:}",
+      "    ${2:    raise PermissionDenied}",
+      "    return obj",
+      "$0"
+    ],
+    "description": "Django view get_object override"
+  },
+  "Django form_valid": {
+    "prefix": "dvformvalid",
+    "body": [
+      "def form_valid(self, form):",
+      "    ${1:form.instance.user = self.request.user}",
+      "    return super().form_valid(form)",
+      "$0"
+    ],
+    "description": "Django view form_valid override"
+  },
+  "Django form_invalid": {
+    "prefix": "dvforminvalid",
+    "body": [
+      "def form_invalid(self, form):",
+      "    ${1:messages.error(self.request, _(\"Please correct the errors below.\"))}",
+      "    return super().form_invalid(form)",
+      "$0"
+    ],
+    "description": "Django view form_invalid override"
+  },
+  "Django dispatch": {
+    "prefix": "dvdispatch",
+    "body": [
+      "def dispatch(self, request, *args, **kwargs):",
+      "    ${1:if not request.user.is_authenticated:}",
+      "    ${2:    return redirect(\"${3:login}\")}",
+      "    return super().dispatch(request, *args, **kwargs)",
+      "$0"
+    ],
+    "description": "Django view dispatch override"
+  },
+  "Django login_required Decorator": {
+    "prefix": "dvloginreq",
+    "body": [
+      "@login_required(login_url=\"${1:login}\")",
+      "def ${2:view_name}(request):",
+      "    ${3:pass}",
+      "$0"
+    ],
+    "description": "Django login_required decorator on function view"
+  },
+  "Django permission_required Decorator": {
+    "prefix": "dvpermreq",
+    "body": [
+      "@permission_required(\"${1:app_name.permission_codename}\", raise_exception=True)",
+      "def ${2:view_name}(request):",
+      "    ${3:pass}",
+      "$0"
+    ],
+    "description": "Django permission_required decorator on function view"
+  },
+  "Django LoginRequiredMixin": {
+    "prefix": "dvloginmixin",
+    "body": [
+      "from django.contrib.auth.mixins import LoginRequiredMixin",
+      "",
+      "",
+      "class ${1:ViewName}(LoginRequiredMixin, ${2:ListView}):",
+      "    login_url = \"${3:login}\"",
+      "    ${4:model = ${5:ModelName}}",
+      "$0"
+    ],
+    "description": "Django LoginRequiredMixin for CBV"
+  },
+  "Django PermissionRequiredMixin": {
+    "prefix": "dvpermmixin",
+    "body": [
+      "from django.contrib.auth.mixins import PermissionRequiredMixin",
+      "",
+      "",
+      "class ${1:ViewName}(PermissionRequiredMixin, ${2:ListView}):",
+      "    permission_required = \"${3:app_name.view_modelname}\"",
+      "    ${4:model = ${5:ModelName}}",
+      "$0"
+    ],
+    "description": "Django PermissionRequiredMixin for CBV"
+  },
+  "Django JsonResponse View": {
+    "prefix": "dvjson",
+    "body": [
+      "def ${1:api_view}(request):",
+      "    \"\"\"${2:Return JSON response.}\"\"\"",
+      "    data = {",
+      "        \"${3:key}\": ${4:\"value\"},",
+      "    }",
+      "    return JsonResponse(data${5:, safe=False})",
+      "$0"
+    ],
+    "description": "Django function view returning JsonResponse"
+  },
+  "Django get_success_url": {
+    "prefix": "dvsuccessurl",
+    "body": [
+      "def get_success_url(self):",
+      "    return reverse_lazy(\"${1:app_name:detail}\", kwargs={\"${2:pk}\": self.object.${2}})",
+      "$0"
+    ],
+    "description": "Django view get_success_url override"
+  }
+}

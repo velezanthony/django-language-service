@@ -1,0 +1,129 @@
+# The documentation site: https://velezanthony.github.io/django-language-service/
+#
+# What this is FOR decides everything below. The extension's users read the
+# Marketplace listing, which renders README.md from the repository root and
+# nothing else. This site serves the other reader — someone looking at how the
+# thing is built — so the engineering documents are the site, and README.md is
+# only its front door.
+#
+# That split is why README.md, CHANGELOG.md and CONTRIBUTING.md stay at the
+# root: GitHub renders README there, offers CONTRIBUTING when a pull request is
+# opened, and the Marketplace reads README from the root of the package. Moving
+# them under docs/ to suit MkDocs would break all three.
+
+site_name: Django Language Service
+site_description: >-
+  Django Template Language support for VS Code that reads your project — the
+  architecture, the reference and the contributor guide.
+site_author: velezanthony
+
+# MANDATORY, and the classic thing to get wrong. MkDocs writes sitemap.xml with
+# ABSOLUTE urls derived from this value; without it the sitemap is emitted and
+# is useless, which looks identical to working.
+site_url: https://velezanthony.github.io/django-language-service/
+
+repo_url: https://github.com/velezanthony/django-language-service
+repo_name: velezanthony/django-language-service
+edit_uri: blob/main/
+
+# The documents live where GitHub needs them, so the site is built from the
+# repository root rather than from a docs/ subtree. MkDocs core refuses that on
+# its own — it will not accept a docs_dir holding its own config file — which is
+# the entire reason the same-dir plugin exists.
+docs_dir: .
+
+plugins:
+  - same-dir
+  - search
+
+# Everything the site is not. Without this, docs_dir: . hands MkDocs every
+# markdown file in node_modules.
+exclude_docs: |
+  .github/
+  .husky/
+  dist/
+  node_modules/
+  out/
+  # scripts/diagram-harness ships a real index.html — the exact page MkDocs
+  # would have to write for its README. The two harness guides stay on GitHub.
+  scripts/
+  site/
+  src/
+  # Working notes are gitignored and absent from CI's checkout — but
+  # docs_dir:. reads the WORKING TREE, so a local `mkdocs gh-deploy` would
+  # publish whatever is sitting there.
+  *.local.md
+
+nav:
+  - Home: README.md
+  - For users:
+      - Reference: docs/REFERENCE.md
+      - Changelog: CHANGELOG.md
+  - Security: SECURITY.md
+  - For contributors:
+      - Architecture: docs/ARCHITECTURE.md
+      - Contributing: CONTRIBUTING.md
+      - Open findings: docs/OPEN-FINDINGS.md
+
+theme:
+  name: material
+  language: en
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - content.code.copy
+    - content.action.edit
+  palette:
+    # The site follows the reader's own setting, and offers a toggle either way
+    # — the same rule the extension's own webviews follow.
+    - media: '(prefers-color-scheme)'
+      toggle:
+        icon: material/brightness-auto
+        name: Follow the system theme
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: green
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: green
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light
+
+markdown_extensions:
+  # The documents are full of fenced code and tables written for GitHub; these
+  # are what make them render the same way here.
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  # GitHub's slug algorithm, not Python-Markdown's. These documents are written
+  # to render on GitHub as well as here, and their own cross-links use GitHub's
+  # anchors: `## \`{% include %}\` refactoring` is `#-include--refactoring`
+  # there and `#include-refactoring` under the default slugifier, so every
+  # in-page link written for one target breaks on the other.
+  - toc:
+      permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify { kwds: { case: lower } }
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/velezanthony
+      name: velezanthony on GitHub

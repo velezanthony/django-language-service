@@ -1,0 +1,11 @@
+# Fixture: basic urls.py — no app_name, simple path() entries.
+# Based on patterns from Django docs (https://docs.djangoproject.com/en/4.2/topics/http/urls/)
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('products/', views.product_list, name='product-list'),
+    path('products/<int:pk>/', views.product_detail, name='product-detail'),
+    path('about/', views.about, name='about'),
+]

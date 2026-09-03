@@ -1,0 +1,8 @@
+{# Fixture: template that includes partials with and without kwargs. #}
+{% extends "base.html" %}
+
+{% block content %}
+  {% include "partials/breadcrumb.html" %}
+  {% include "partials/product_card.html" with product=featured_product show_price=True %}
+  {% include "partials/footer.html" with year=2024 site_name="MyShop" %}
+{% endblock %}

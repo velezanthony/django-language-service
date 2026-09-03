@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig.webview.json",
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    // Inherited from tsconfig.webview.json and turned back OFF here, on
+    // purpose. Svelte's generated `Props` types make an optional prop
+    // `foo?: string`, and the ordinary way to forward one is
+    // `foo={maybeUndefined}` — which under this flag is an error in 43 places
+    // across the component tree. The flag earns its keep on plain .ts modules
+    // (it caught a real defect in composables/persistence.ts), so it stays on
+    // there; making the component idiom conform is its own change.
+    "exactOptionalPropertyTypes": false,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "src/webview/main.ts",
+    "src/webview/App.svelte",
+    "src/webview/svelte-shims.d.ts",
+    "src/webview/lib/**/*",
+    "src/sidebar/**/*",
+    "src/shared/**/*"
+  ],
+  "exclude": ["node_modules", "dist", "out", "out-webview"]
+}

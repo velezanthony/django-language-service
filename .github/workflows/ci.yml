@@ -1,0 +1,85 @@
+# `main` is meant to be green at every commit. Until this file existed nothing
+# checked that, and `vscode:prepublish` ran type-checks and a bundle without
+# executing a single test — so a release could ship red.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Read-only is all any step here needs. Without this the job inherits whatever
+# the repository default happens to be.
+permissions:
+  contents: read
+
+# A second push supersedes the first. Each run downloads a VS Code build for the
+# integration host, so two runs of a branch nobody is waiting on are not free.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # src/integration-tests/run.ts pins VS Code to an exact version and says
+      # why: the runner downloads 334 MB, and a reset connection reads as a test
+      # failure rather than as a download failure. Caching that download is what
+      # stops CI from re-rolling those dice on every push.
+      - name: Cache the VS Code test host
+        uses: actions/cache@v4
+        with:
+          path: .vscode-test
+          key: vscode-test-${{ runner.os }}-${{ hashFiles('src/integration-tests/run.ts') }}
+
+      - name: Types (extension + webview)
+        run: npm run check-types
+
+      - name: Svelte
+        run: npm run check-svelte
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format
+        run: npm run format:check
+
+      - name: Unit tests
+        run: npm test
+
+      # The VS Code test host needs a display. xvfb-run gives it one; without
+      # this the suite fails to launch rather than failing a test.
+      - name: Integration tests
+        run: xvfb-run -a npm run test:integration
+
+      # Builds the actual .vsix — the artefact that gets published.
+      #
+      # This step used to run `npm run package`, whose comment claimed it
+      # "proves the VSIX still builds". It does not: `package` produces `dist/`,
+      # and `vsce package` only ever ran from `make vsix` on somebody's laptop.
+      # So nothing validated the manifest, `.vscodeignore`, the package size, or
+      # that LICENSE and the icon are where the marketplace expects them — the
+      # published artefact had never been seen by any automated step.
+      #
+      # `vsce package` triggers `vscode:prepublish`, which is `npm run package`,
+      # which re-runs the whole gate. That is why the three steps above are not
+      # duplicated here.
+      - name: Build the VSIX
+        run: npx --yes @vscode/vsce package --out django-language-service.vsix
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vsix
+          path: django-language-service.vsix
+          if-no-files-found: error

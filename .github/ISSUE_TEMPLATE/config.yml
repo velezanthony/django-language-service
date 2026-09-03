@@ -1,0 +1,24 @@
+# Shown ABOVE the "new issue" choices, so everyone opening an issue passes
+# these first. The security link is the one that earns its place: SECURITY.md
+# says the same thing, but somebody has to go and look for that file.
+#
+# Blank issues stay enabled — there are no issue FORMS in this repository, and
+# disabling them without forms leaves no way to file anything at all.
+blank_issues_enabled: true
+
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/velezanthony/django-language-service/security/advisories/new
+    about: Private disclosure. Please do not open a public issue for an exploitable bug.
+
+  - name: Known limitations and open findings
+    url: https://github.com/velezanthony/django-language-service/blob/main/docs/OPEN-FINDINGS.md
+    about: What is known to be wrong or missing, and why. Check here before filing.
+
+  - name: Reference — commands, settings, what gets indexed
+    url: https://github.com/velezanthony/django-language-service/blob/main/docs/REFERENCE.md
+    about: Every command and setting, and the exact file globs the scanner reads.
+
+  - name: Contributing and architecture
+    url: https://github.com/velezanthony/django-language-service/blob/main/CONTRIBUTING.md
+    about: Setup, the gates a change has to pass, and the gotchas worth reading first.

@@ -1,0 +1,119 @@
+{
+  "workspace": "../../src/test-django-project",
+  "extensionPath": "../..",
+  "outDir": "out/validate",
+  "userDataDir": "/tmp/vscode-cdp-validate",
+  "port": 9222,
+  "settleMs": 4000,
+  "continueOnError": true,
+  "settings": {
+    "workbench.startupEditor": "none",
+    "window.commandCenter": false,
+    "chat.commandCenter.enabled": false,
+    "telemetry.telemetryLevel": "off",
+    "workbench.tips.enabled": false,
+    "extensions.ignoreRecommendations": true,
+    "update.mode": "none",
+    "git.openRepositoryInParentFolders": "never",
+    "editor.minimap.enabled": false
+  },
+  "actions": [
+    {
+      "do": "command",
+      "title": "View: Close Secondary Side Bar",
+      "after": 600
+    },
+    {
+      "do": "command",
+      "title": "Notifications: Clear All Notifications",
+      "after": 400
+    },
+
+    {
+      "do": "command",
+      "title": "Focus on Views View",
+      "as": "1 plugin sidebar",
+      "after": 1500
+    },
+    { "do": "screenshot", "file": "01-sidebar.png", "after": 300 },
+
+    {
+      "do": "command",
+      "title": "Show Model Diagram",
+      "as": "2 ER diagram webview",
+      "after": 5500
+    },
+    { "do": "screenshot", "file": "02-diagram.png", "after": 300 },
+    { "do": "discardEdits", "after": 1200 },
+
+    {
+      "do": "openFile",
+      "query": "product_list.html",
+      "as": "3 diagnostics",
+      "after": 2200
+    },
+    {
+      "do": "command",
+      "title": "Notifications: Clear All Notifications",
+      "after": 400
+    },
+    { "do": "key", "key": "Home", "mods": ["ctrl"], "after": 700 },
+    { "do": "screenshot", "file": "03-diagnostics.png", "after": 300 },
+
+    {
+      "do": "click",
+      "text": "extends",
+      "as": "4 hover tag docs",
+      "after": 500
+    },
+    { "do": "command", "title": "Show Hover", "after": 1400 },
+    { "do": "screenshot", "file": "04-hover-tag.png", "after": 300 },
+    { "do": "key", "key": "Escape", "after": 300 },
+
+    {
+      "do": "key",
+      "key": "f",
+      "mods": ["ctrl"],
+      "as": "5 tag-pair highlight",
+      "after": 400
+    },
+    { "do": "type", "text": "{% for product" },
+    { "do": "key", "key": "Enter", "after": 400 },
+    { "do": "key", "key": "Escape", "after": 300 },
+    { "do": "key", "key": "ArrowLeft", "after": 500 },
+    { "do": "screenshot", "file": "05-tagpair.png", "after": 300 },
+
+    {
+      "do": "key",
+      "key": "f",
+      "mods": ["ctrl"],
+      "as": "6 go-to-definition include",
+      "after": 400
+    },
+    { "do": "type", "text": "product_card.html" },
+    { "do": "key", "key": "Enter", "after": 400 },
+    { "do": "key", "key": "Escape", "after": 400 },
+    { "do": "command", "title": "Go to Definition", "after": 1800 },
+    { "do": "screenshot", "file": "06-gotodef.png", "after": 300 },
+    { "do": "key", "key": "Escape", "after": 400 },
+    { "do": "discardEdits", "after": 1000 },
+
+    {
+      "do": "openFile",
+      "query": "product_detail.html",
+      "as": "7 filter completion",
+      "after": 2000
+    },
+    { "do": "key", "key": "f", "mods": ["ctrl"], "after": 400 },
+    { "do": "type", "text": "{{ product.name" },
+    { "do": "key", "key": "Enter", "after": 400 },
+    { "do": "key", "key": "Escape", "after": 300 },
+    { "do": "key", "key": "ArrowRight", "after": 300 },
+    { "do": "type", "text": "|" },
+    { "do": "wait", "ms": 500 },
+    { "do": "command", "title": "Trigger Suggest", "after": 1400 },
+    { "do": "screenshot", "file": "07-completion-filter.png", "after": 300 },
+    { "do": "key", "key": "Escape", "after": 300 },
+    { "do": "command", "title": "Revert File", "after": 600 }
+  ]
+}

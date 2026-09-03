@@ -1,0 +1,14 @@
+{# Fixture: base template that defines multiple blocks. #}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Default Title{% endblock %}</title>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <header>{% block header %}{% endblock %}</header>
+  <main>{% block content %}{% endblock %}</main>
+  <aside>{% block sidebar %}{% endblock %}</aside>
+  <footer>{% block footer %}{% endblock %}</footer>
+</body>
+</html>

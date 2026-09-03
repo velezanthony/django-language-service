@@ -1,0 +1,10 @@
+{# Fixture: template that extends a base with two blocks. #}
+{% extends "base/layout.html" %}
+{% load static %}
+
+{% block title %}Product Detail{% endblock %}
+
+{% block content %}
+  <h1>{{ product.name }}</h1>
+  <p>{{ product.description }}</p>
+{% endblock %}

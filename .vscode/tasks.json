@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "watch",
+      "type": "shell",
+      // ~/.bashrc bails out early for non-interactive shells (the `case $- in
+      // *i*` guard), so neither a plain nor a login shell ends up loading nvm.
+      // Source nvm.sh explicitly (when present) so npm is on PATH no matter how
+      // VS Code was launched; falls through to a bare `npm` otherwise.
+      "command": "[ -s \"$HOME/.nvm/nvm.sh\" ] && . \"$HOME/.nvm/nvm.sh\"; npm run watch",
+      "options": {
+        "shell": { "executable": "/usr/bin/bash", "args": ["-c"] }
+      },
+      "isBackground": true,
+      "group": { "kind": "build", "isDefault": true },
+      // Provided by the connor4312.esbuild-problem-matchers extension (already
+      // installed, recommended in .vscode/extensions.json). It reads the
+      // "[watch] build started/finished" markers esbuild.js emits — same setup
+      // the original repo uses and which launches the Extension Host cleanly.
+      "problemMatcher": "$esbuild-watch"
+    }
+  ]
+}

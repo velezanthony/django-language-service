@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+
+{# =========================================================
+   DEMO: CodeLens de Include — expand / collapse HTML props
+   =========================================================
+   Al abrir este archivo en VS Code deberías ver, ENCIMA de
+   cada `{% include %}` con props HTML, una acción clickeable:
+
+     - Single-line + prop HTML  →  "$(fold-up) Expand HTML props"
+     - Multi-line               →  "$(fold-down) Collapse to inline"
+
+   Si no ves las lenses:
+     1. Asegurate de tener `editor.codeLens: true` en settings.
+     2. Recargá la ventana (Cmd/Ctrl+Shift+P → "Reload Window").
+     3. Recompilá la extensión (`npm run compile`).
+   ========================================================= #}
+
+{% block title %}{% trans "Include CodeLens Demo" %}{% endblock %}
+
+{% block content %}
+    <h1 class="text-2xl font-bold">Include CodeLens — casos de prueba</h1>
+
+    {# ─── CASO 1: include simple sin props → NO aparece ninguna lens ─── #}
+    <section class="mt-8">
+        <h2 class="text-lg font-semibold">1. Include simple (sin lens)</h2>
+        {% include 'components/product_card.html' %}
+    </section>
+
+    {# ─── CASO 2: include con props scalar → NO aparece la lens de expand ─── #}
+    <section class="mt-8">
+        <h2 class="text-lg font-semibold">2. Include con props escalares (sin lens)</h2>
+        {% include 'components/_card.html' with title="Hola" content="texto plano" %}
+    </section>
+
+    {# ─── CASO 3: SINGLE-LINE con prop HTML → aparece "Expand HTML props" ─── #}
+    <section class="mt-8">
+        <h2 class="text-lg font-semibold">3. Single-line + prop HTML → dispara "Expand"</h2>
+        {% include 'components/_card.html' with title="Producto destacado" content="<p class='text-indigo-600'>Este <strong>card</strong> tiene HTML dentro.</p>" footer="<button class='btn'>Comprar</button>" %}
+    </section>
+
+    {# ─── CASO 4: MULTI-LINE → aparece "Collapse to inline" ─── #}
+    <section class="mt-8">
+        <h2 class="text-lg font-semibold">4. Multi-line → dispara "Collapse"</h2>
+        {% include 'components/_card.html'
+            with
+            title="Oferta del día"
+            content="<div class='flex flex-col gap-2'>
+                        <p>Descuento del <strong>30%</strong> en toda la tienda.</p>
+                        <span class='text-xs text-gray-500'>Hasta agotar stock.</span>
+                     </div>"
+            footer="<a href='/productos' class='text-indigo-600'>Ver más</a>"
+        %}
+    </section>
+
+    {# ─── CASO 5: otro multi-line, más simple ─── #}
+    <section class="mt-8">
+        <h2 class="text-lg font-semibold">5. Multi-line mínimo</h2>
+        {% include 'components/_card.html'
+            with
+            title="Aviso"
+            content="<em>Probá hacer click en la lens de arriba.</em>"
+        %}
+    </section>
+{% endblock %}

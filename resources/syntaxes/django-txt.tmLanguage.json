@@ -1,0 +1,63 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Django txt",
+  "scopeName": "text.django.txt",
+  "patterns": [
+    { "include": "#django-inline-comment" },
+    { "include": "#django-block-comment" },
+    { "include": "#django-tag" },
+    { "include": "#django-variable" }
+  ],
+  "repository": {
+    "django-inline-comment": {
+      "name": "comment.line.django",
+      "begin": "\\{#",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.comment.begin.django" }
+      },
+      "end": "#\\}",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.comment.end.django" }
+      }
+    },
+    "django-block-comment": {
+      "name": "comment.block.django",
+      "begin": "(\\{%[-+]?)\\s*(comment)\\s*([-+]?%\\})",
+      "end": "(\\{%[-+]?)\\s*(endcomment)\\s*([-+]?%\\})",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.comment.begin.django" },
+        "2": { "name": "keyword.control.django" },
+        "3": { "name": "punctuation.definition.comment.begin.django" }
+      },
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.comment.end.django" },
+        "2": { "name": "keyword.control.django" },
+        "3": { "name": "punctuation.definition.comment.end.django" }
+      }
+    },
+    "django-tag": {
+      "name": "meta.template.tag.django",
+      "begin": "\\{%[-+]?",
+      "end": "[-+]?%\\}",
+      "beginCaptures": { "0": { "name": "support.type.tag.begin.django" } },
+      "endCaptures": { "0": { "name": "support.type.tag.end.django" } },
+      "patterns": [
+        { "include": "source.django.injection#tag-load" },
+        { "include": "source.django.injection#tag-name" },
+        { "include": "source.django.injection#tag-keyword-control" },
+        { "include": "source.django.injection#tag-keyword" },
+        { "include": "source.django.injection#expressions" }
+      ]
+    },
+    "django-variable": {
+      "name": "meta.template.variable.django",
+      "begin": "\\{\\{",
+      "end": "\\}\\}",
+      "beginCaptures": {
+        "0": { "name": "support.type.variable.begin.django" }
+      },
+      "endCaptures": { "0": { "name": "support.type.variable.end.django" } },
+      "patterns": [{ "include": "source.django.injection#expressions" }]
+    }
+  }
+}

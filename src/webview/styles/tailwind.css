@@ -1,0 +1,319 @@
+/* Tailwind v4 base for the ER diagram webview.
+ *
+ * Phase 11 finished the inline-utility migration — every component owns its
+ * own styling via Tailwind class strings in its .svelte / .ts file. What lives
+ * here is just the design system:
+ *   - @theme tokens (map to VS Code's --vscode-* vars at runtime)
+ *   - @layer base reset
+ *   - one @layer components rule for the file input override
+ *
+ * @source globs are mandatory: HTML lives in TS template strings, so the
+ * default scan would miss class strings in *.ts files.
+ */
+
+@import "tailwindcss";
+
+@source "../*.ts";
+@source "../**/*.svelte";
+@source "../../sidebar/**/*.svelte";
+@source "../../sidebar/**/*.ts";
+
+/* Proof-of-life sentinel — read back by $lib/composables/stylesheet-guard.
+ *
+ * The panel links the built dist/tailwind.css and, until this existed, trusted
+ * it: when the file was absent the diagram rendered with every utility class
+ * inert and nothing anywhere said so. A `<link>` that 404s still reports a
+ * non-null `.sheet`, and webview resources are cross-origin so `cssRules`
+ * throws — neither can be asked. A custom property CAN be, through
+ * getComputedStyle, which is origin-agnostic.
+ *
+ * Do not scope this to `body` or to a class: the guard reads documentElement.
+ * stylesheet-guard.test.ts fails if this declaration is moved or removed. */
+:root {
+    --dls-stylesheet: loaded;
+}
+
+/* Stronger universal reset than Preflight — the legacy diagram HTML relies on
+ * padding: 0 on lists / fieldsets / etc. Kept in @layer base so utilities
+ * still win cascade conflicts. */
+@layer base {
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body, #app { height: 100%; }
+    body { overflow: hidden; }
+}
+
+/* Entry animations for popovers / dropdowns / selects. `fade-scale-in` runs
+ * once on mount (used with {#if open} conditional rendering — close is abrupt
+ * but the open feels smooth). For always-rendered surfaces with class-swapping
+ * open/close, prefer the transition-[opacity,transform] approach instead. */
+/* Do NOT add `forwards` when applying this to a surface that hosts a
+ * `position: fixed` child. A filling animation keeps a resolved matrix as the
+ * computed transform — even `to { transform: none }` resolves to the identity
+ * matrix — and any transform makes the element a containing block for fixed
+ * descendants. See #tooltip in App.svelte. */
+@keyframes fade-scale-in {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* Skeleton shimmer — a soft highlight wave that traverses each placeholder
+ * bar left-to-right. Companion to LoadingSkeleton.svelte. The 200% bg-size
+ * keeps the gradient off-screen at the endpoints so the shimmer enters and
+ * exits cleanly instead of teleporting. */
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+}
+
+/* Both webview CSPs allow `style-src ${cspSource} 'unsafe-inline'`, so inline
+ * styles do work — App.svelte and LoadingSkeleton.svelte rely on them. These
+ * recipes are still real CSS classes because they are reused across components
+ * and are easier to keep consistent in one place than repeated inline. */
+@layer components {
+    .canvas-dot-grid {
+        /* Derived from the FOREGROUND, not from editorWidget.border. That border
+         * is set to the background colour by plenty of themes, and then the grid
+         * vanished entirely — reproduced with editorWidget.border = #1f1f1f. The
+         * foreground is the one colour a theme guarantees will contrast with its
+         * background, because text has to be readable. */
+        background-image: radial-gradient(
+            circle,
+            color-mix(in srgb, var(--color-vsc-editor-fg) 14%, transparent) 1px,
+            transparent 1px
+        );
+        background-size: 24px 24px;
+        background-position: 0 0;
+    }
+    .canvas-vignette {
+        background: radial-gradient(
+            ellipse at center,
+            transparent 55%,
+            rgba(0, 0, 0, 0.35) 100%
+        );
+    }
+    .legend-line-m2m {
+        background-image: repeating-linear-gradient(
+            90deg,
+            var(--color-m2m) 0 8px,
+            transparent 8px 12px
+        );
+    }
+    .app-stripe-sample {
+        background: linear-gradient(180deg, var(--app-stripe-from) 0%, var(--app-stripe-to) 100%);
+    }
+    .svg-text-halo {
+        paint-order: stroke;
+        stroke: var(--color-vsc-bg);
+        stroke-width: 4px;
+        stroke-linejoin: round;
+    }
+    /* Dual-ring spinner: outer spins clockwise at 0.9s, inner spins
+     * counter-clockwise at 1.4s and dims to 55%. currentColor pulls the
+     * accent from the wrapping span's text color (Spinner.svelte sets
+     * text-vsc-link by default), so the same two classes work for any
+     * tone the caller picks. */
+    .spinner-ring-outer {
+        border-top-color: currentColor;
+        animation-duration: 0.9s;
+    }
+    .spinner-ring-inner {
+        border-bottom-color: currentColor;
+        animation-duration: 1.4s;
+        animation-direction: reverse;
+        opacity: 0.55;
+    }
+}
+
+@layer components {
+    #layout-file-input {
+        display: none !important;
+        visibility: hidden !important;
+        position: absolute !important;
+        left: -10000px !important;
+        top: -10000px !important;
+        width: 1px !important;
+        height: 1px !important;
+        overflow: hidden !important;
+    }
+}
+
+@theme static {
+    /* Color tokens — map to VS Code theme vars at runtime. Fallback hex values match
+     * the originals from diagram-styles.ts for parity with non-themed contexts. */
+    --color-vsc-fg: var(--vscode-foreground);
+    --color-vsc-editor-fg: var(--vscode-editor-foreground, #d4d4d4);
+    --color-vsc-bg: var(--vscode-editor-background);
+    --color-vsc-border: var(--vscode-panel-border);
+    --color-vsc-card-bg: var(--vscode-editorWidget-background, #252526);
+    --color-vsc-card-border: var(--vscode-editorWidget-border, #3a3a3a);
+    /* Fallback like its neighbours above: every accent derives from this via
+     * color-mix, and color-mix on an undefined var collapses to transparent. */
+    --color-vsc-link: var(--vscode-textLink-foreground, #4daafc);
+    --color-vsc-hover: var(--vscode-list-hoverBackground);
+    --color-vsc-desc: var(--vscode-descriptionForeground);
+    --color-vsc-code-bg: var(--vscode-textCodeBlock-background);
+
+    /* Diagram-specific semantic colors — independent of VS Code's palette so the
+     * diff lines / type badges read consistently across themes. */
+    --color-fk: #7ddb73;
+    --color-m2m: #c084fc;
+    --color-o2o: #fbbf24;
+    --color-danger: #f87171;
+
+    /* Notification + validation tokens — used by the copy-toast component. */
+    --color-vsc-notif-bg: var(--vscode-notifications-background, #2b2b2b);
+    --color-vsc-notif-fg: var(--vscode-notifications-foreground, #f0f0f0);
+    --color-vsc-notif-border: var(--vscode-notifications-border, #3a3a3a);
+    --color-vsc-error-bg: var(--vscode-inputValidation-errorBackground, #5a1d1d);
+    --color-vsc-error-fg: var(--vscode-inputValidation-errorForeground, #f0f0f0);
+    --color-vsc-error-border: var(--vscode-inputValidation-errorBorder, #be1100);
+
+    --font-vsc: var(--vscode-font-family);
+    --font-vsc-editor: var(--vscode-editor-font-family, ui-monospace, monospace);
+
+    /* ── Typography scale ───────────────────────────────────────────────────
+     * Semantic sizes — avoid `text-[Npx]` arbitrary values across components.
+     * 4 stops cover every UI usage in the webview.
+     *   - meta    (10px): tiny labels, footnotes, uppercase tracking labels
+     *   - label   (11px): secondary text, hints, op chips, tooltip rows
+     *   - body    (13px): inputs, primary body text
+     *   - heading (14px): model names, titles, prominent labels
+     */
+    --text-meta: 10px;
+    --text-label: 11px;
+    --text-body: 13px;
+    --text-heading: 14px;
+    /* Source snippets follow the editor's own size — the user already picked
+     * one they can read. Floor at 13px for hosts that report something tiny. */
+    --text-code: max(13px, var(--vscode-editor-font-size, 13px));
+
+    /* Syntax colours for the property snippet. VS Code does NOT expose editor
+     * token colours to webviews, so these lean on the debug-view token colours,
+     * which ARE theme colours and move with the theme. Each has a Dark+ fallback
+     * for hosts that leave them unset. */
+    --color-code-comment:   var(--vscode-editorLineNumber-foreground, #6a9955);
+    --color-code-string:    var(--vscode-debugTokenExpression-string, #ce9178);
+    --color-code-number:    var(--vscode-debugTokenExpression-number, #b5cea8);
+    --color-code-literal:   var(--vscode-debugTokenExpression-boolean, #569cd6);
+    --color-code-keyword:   var(--vscode-symbolIcon-keywordForeground, #c586c0);
+    --color-code-function:  var(--vscode-symbolIcon-functionForeground, #dcdcaa);
+    --color-code-decorator: var(--vscode-symbolIcon-propertyForeground, #dcdcaa);
+
+    /* ── Accent opacity scale ───────────────────────────────────────────────
+     * Semantic tints for the accent colors. Use these instead of raw
+     * `bg-vsc-link/[0.NN]` so the palette stays mathematically consistent.
+     *   - subtle (8%):  hover hint, ambient highlight
+     *   - soft   (14%): pills, chips, idle states
+     *   - base   (22%): active states, primary CTAs
+     *   - strong (35%): inset rings, focused highlights
+     *
+     * Per-relation tones (fk/m2m/o2o/danger) follow the same scale.
+     */
+    --color-accent-subtle: color-mix(in srgb, var(--color-vsc-link) 8%, transparent);
+    --color-accent-soft:   color-mix(in srgb, var(--color-vsc-link) 14%, transparent);
+    --color-accent-base:   color-mix(in srgb, var(--color-vsc-link) 22%, transparent);
+    --color-accent-strong: color-mix(in srgb, var(--color-vsc-link) 35%, transparent);
+
+    --color-fk-subtle: color-mix(in srgb, var(--color-fk) 8%, transparent);
+    --color-fk-soft:   color-mix(in srgb, var(--color-fk) 14%, transparent);
+    --color-fk-base:   color-mix(in srgb, var(--color-fk) 22%, transparent);
+    --color-fk-strong: color-mix(in srgb, var(--color-fk) 35%, transparent);
+
+    --color-m2m-subtle: color-mix(in srgb, var(--color-m2m) 8%, transparent);
+    --color-m2m-soft:   color-mix(in srgb, var(--color-m2m) 14%, transparent);
+    --color-m2m-base:   color-mix(in srgb, var(--color-m2m) 22%, transparent);
+    --color-m2m-strong: color-mix(in srgb, var(--color-m2m) 35%, transparent);
+
+    --color-o2o-subtle: color-mix(in srgb, var(--color-o2o) 8%, transparent);
+    --color-o2o-soft:   color-mix(in srgb, var(--color-o2o) 14%, transparent);
+    --color-o2o-base:   color-mix(in srgb, var(--color-o2o) 22%, transparent);
+    --color-o2o-strong: color-mix(in srgb, var(--color-o2o) 35%, transparent);
+
+    --color-danger-subtle: color-mix(in srgb, var(--color-danger) 8%, transparent);
+    --color-danger-soft:   color-mix(in srgb, var(--color-danger) 14%, transparent);
+    --color-danger-base:   color-mix(in srgb, var(--color-danger) 22%, transparent);
+    --color-danger-strong: color-mix(in srgb, var(--color-danger) 35%, transparent);
+
+    /* ── Border radius scale ────────────────────────────────────────────────
+     * 5 stops. Use `rounded-sm/md/lg/xl/full`. Never `rounded-[Npx]` arbitrary.
+     * - sm  (3px): chips, badges, tag-like micros
+     * - md  (6px): default — buttons, inputs, small panels
+     * - lg  (8px): tooltips, dropdowns, popovers
+     * - xl  (12px): canvas app-zone groupings, oversized cards
+     */
+    --radius-sm: 3px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+    --radius-xl: 12px;
+
+    /* ── Motion ─────────────────────────────────────────────────────────────
+     * Two durations cover everything. `fast` for color/bg/border shifts on
+     * hover; `slow` reserved for entrance/exit fades (pan hint, toast).
+     */
+    --duration-fast: 150ms;
+    --duration-slow: 400ms;
+
+    /* Out-expo style easing — matches Linear/Vercel "settled" motion. */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Spring overshoot — small bounce on entry. Used by dropdowns/select panels
+     * so mount feels alive instead of "fade in". Overshoot is subtle (~1.06×)
+     * so it never reads as gimmicky. */
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* ── Surface depth ──────────────────────────────────────────────────────
+     * Material-style elevation scale: every shadow is a "key + ambient" pair
+     * (sharper closer light + diffuse fill) so cards never feel like flat
+     * stamps. Use:
+     *   - elevation-1: cards at rest, inline groupings (barely-there lift)
+     *   - elevation-2: popovers, dropdowns, model boxes on hover (the "this
+     *     is floating" default — what shadow-panel used to be)
+     *   - elevation-3: pinned tooltips, toasts, modals (top of the stack)
+     *
+     * card-hover layers an accent-tinted halo on the TOP of the box on top
+     * of the elevation-2 drop shadow — gives the model card a subtle "lit
+     * from the focus accent" feel when you hover over it.
+     *
+     * shadow-panel is kept as an alias of elevation-2 so existing call sites
+     * keep working unchanged.
+     */
+    --shadow-elevation-1: 0 1px 2px rgba(0, 0, 0, 0.18), 0 1px 1px rgba(0, 0, 0, 0.08);
+    --shadow-elevation-2: 0 4px 12px rgba(0, 0, 0, 0.32), 0 1px 2px rgba(0, 0, 0, 0.18);
+    --shadow-elevation-3: 0 12px 32px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.22);
+    --shadow-card-hover: 0 -2px 12px color-mix(in srgb, var(--color-vsc-link) 18%, transparent), 0 8px 24px rgba(0, 0, 0, 0.4);
+    --shadow-panel: var(--shadow-elevation-2);
+
+    /* ── Focus ring ─────────────────────────────────────────────────────────
+     * Applied via `focus-visible:` so mouse clicks don't trigger it. Used
+     * globally on interactive elements for keyboard navigation feedback.
+     */
+    --ring-focus: var(--color-vsc-link);
+
+    /* ── Z-index scale ─────────────────────────────────────────────────────
+     * Single source of truth for stacking. Add a new layer here, reference it
+     * via `z-z-<name>` utilities (e.g. `z-z-tooltip`). NEVER use raw z-[N]
+     * arbitrary values in components — the only place numbers live is here.
+     *
+     * Ordering rationale (low → high):
+     *   - canvas layers (1-10) — relations + boxes; not interactive overlays
+     *   - chrome (100) — toolbar, legend; sticky page bars
+     *   - hint (150) — pan-hint pulse
+     *   - overlays (200-300) — tooltip + dropdown + popups
+     *   - menus (500) — context menu (right-click)
+     *   - help (1000) — search help popover (must beat menus)
+     *   - toast (10000) — non-blocking notifications, always on top
+     */
+    --z-index-canvas-zone: 1;
+    --z-index-canvas-relations: 5;
+    --z-index-canvas-box: 10;
+    /* Dragged box lifts above its sibling boxes but stays below all overlays. */
+    --z-index-canvas-box-dragging: 50;
+    --z-index-chrome: 100;
+    --z-index-hint: 150;
+    --z-index-tooltip: 200;
+    --z-index-tooltip-pinned: 250;
+    --z-index-popover: 300;
+    --z-index-menu: 500;
+    --z-index-help: 1000;
+    --z-index-toast: 10000;
+}

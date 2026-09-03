@@ -1,0 +1,168 @@
+{
+  "Django URL Import": {
+    "prefix": "duimport",
+    "body": ["from django.urls import path, include"],
+    "description": "Import Django URL functions"
+  },
+  "Django URL Import Full": {
+    "prefix": "duimportfull",
+    "body": [
+      "from django.urls import path, include, re_path",
+      "",
+      "from ${1:.} import views"
+    ],
+    "description": "Full Django URL imports with views"
+  },
+  "Django URL Import DRF Router": {
+    "prefix": "duimportrouter",
+    "body": [
+      "from django.urls import path, include",
+      "from rest_framework.routers import DefaultRouter",
+      "",
+      "from ${1:.} import views"
+    ],
+    "description": "Import Django URL functions with DRF router"
+  },
+  "Django urlpatterns": {
+    "prefix": "dupatterns",
+    "body": [
+      "app_name = \"${1:app_name}\"",
+      "",
+      "urlpatterns = [",
+      "    path(\"${2:}\", views.${3:IndexView}.as_view(), name=\"${4:index}\"),",
+      "    $0",
+      "]"
+    ],
+    "description": "Django urlpatterns with app_name"
+  },
+  "Django path": {
+    "prefix": "dupath",
+    "body": [
+      "path(\"${1:route/}\", views.${2:ViewName}.as_view(), name=\"${3:name}\"),$0"
+    ],
+    "description": "Django URL path"
+  },
+  "Django path Function View": {
+    "prefix": "dupathfunc",
+    "body": [
+      "path(\"${1:route/}\", views.${2:view_name}, name=\"${3:name}\"),$0"
+    ],
+    "description": "Django URL path for function-based view"
+  },
+  "Django path int": {
+    "prefix": "dupathint",
+    "body": [
+      "path(\"${1:route/}<int:${2:pk}>/\", views.${3:ViewName}.as_view(), name=\"${4:detail}\"),$0"
+    ],
+    "description": "Django URL path with int converter"
+  },
+  "Django path str": {
+    "prefix": "dupathstr",
+    "body": [
+      "path(\"${1:route/}<str:${2:name}>/\", views.${3:ViewName}.as_view(), name=\"${4:detail}\"),$0"
+    ],
+    "description": "Django URL path with str converter"
+  },
+  "Django path slug": {
+    "prefix": "dupathslug",
+    "body": [
+      "path(\"${1:route/}<slug:${2:slug}>/\", views.${3:ViewName}.as_view(), name=\"${4:detail}\"),$0"
+    ],
+    "description": "Django URL path with slug converter"
+  },
+  "Django path uuid": {
+    "prefix": "dupathuuid",
+    "body": [
+      "path(\"${1:route/}<uuid:${2:uuid}>/\", views.${3:ViewName}.as_view(), name=\"${4:detail}\"),$0"
+    ],
+    "description": "Django URL path with uuid converter"
+  },
+  "Django path path converter": {
+    "prefix": "dupathpath",
+    "body": [
+      "path(\"${1:route/}<path:${2:file_path}>/\", views.${3:ViewName}.as_view(), name=\"${4:detail}\"),$0"
+    ],
+    "description": "Django URL path with path converter"
+  },
+  "Django CRUD Paths": {
+    "prefix": "dupathcrud",
+    "body": [
+      "path(\"${1:items}/\", views.${2:Item}ListView.as_view(), name=\"${3:$1}-list\"),",
+      "path(\"${1}/<int:pk>/\", views.${2}DetailView.as_view(), name=\"${3}-detail\"),",
+      "path(\"${1}/create/\", views.${2}CreateView.as_view(), name=\"${3}-create\"),",
+      "path(\"${1}/<int:pk>/update/\", views.${2}UpdateView.as_view(), name=\"${3}-update\"),",
+      "path(\"${1}/<int:pk>/delete/\", views.${2}DeleteView.as_view(), name=\"${3}-delete\"),$0"
+    ],
+    "description": "Django CRUD URL paths (list, detail, create, update, delete)"
+  },
+  "Django include": {
+    "prefix": "duinclude",
+    "body": ["path(\"${1:prefix/}\", include(\"${2:app_name}.urls\")),$0"],
+    "description": "Django URL include"
+  },
+  "Django include with namespace": {
+    "prefix": "duincludens",
+    "body": [
+      "path(\"${1:prefix/}\", include((\"${2:app_name}.urls\", \"${3:$2}\"), namespace=\"${4:$3}\")),$0"
+    ],
+    "description": "Django URL include with namespace"
+  },
+  "Django re_path": {
+    "prefix": "durepath",
+    "body": [
+      "re_path(r\"^${1:route/}$$\", views.${2:ViewName}.as_view(), name=\"${3:name}\"),$0"
+    ],
+    "description": "Django URL re_path with regex"
+  },
+  "Django DRF Router": {
+    "prefix": "durouter",
+    "body": [
+      "router = DefaultRouter()",
+      "router.register(r\"${1:prefix}\", views.${2:ViewSet}ViewSet, basename=\"${3:$1}\")",
+      "$0"
+    ],
+    "description": "Django REST Framework router register"
+  },
+  "Django DRF Router urlpatterns": {
+    "prefix": "durouterpatterns",
+    "body": [
+      "router = DefaultRouter()",
+      "router.register(r\"${1:prefix}\", views.${2:ViewSet}ViewSet, basename=\"${3:$1}\")",
+      "",
+      "app_name = \"${4:app_name}\"",
+      "",
+      "urlpatterns = [",
+      "    path(\"\", include(router.urls)),",
+      "    $0",
+      "]"
+    ],
+    "description": "Django REST Framework router with urlpatterns"
+  },
+  "Django Root URL Config": {
+    "prefix": "duroot",
+    "body": [
+      "from django.contrib import admin",
+      "from django.urls import path, include",
+      "",
+      "urlpatterns = [",
+      "    path(\"admin/\", admin.site.urls),",
+      "    path(\"${1:api/}\", include(\"${2:app_name}.urls\")),",
+      "    $0",
+      "]"
+    ],
+    "description": "Django root URL configuration"
+  },
+  "Django Static/Media URLs (Dev)": {
+    "prefix": "dustatic",
+    "body": [
+      "from django.conf import settings",
+      "from django.conf.urls.static import static",
+      "",
+      "if settings.DEBUG:",
+      "    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)",
+      "    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)",
+      "$0"
+    ],
+    "description": "Django static and media URL patterns for development"
+  }
+}

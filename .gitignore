@@ -1,41 +1,26 @@
-# Node / VSCode extension
 node_modules/
-out/
 dist/
+out/
+out-webview/
 *.vsix
+.DS_Store
+
+# VS Code integration test runner artifacts (downloaded VS Code binaries)
 .vscode-test/
 
-# Python (por si el LSP backend es Python)
+# Private working notes — never commit
+*.local.md
+
+# Every dot-directory except the three this project owns.
+.*/
+!.github/
+!.husky/
+!.vscode/
+
+# Python bytecode and the database, left behind by running the Django fixture.
 __pycache__/
 *.py[cod]
-.venv/
-venv/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
+*.sqlite3
 
-# IDE
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.idea/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-npm-debug.log*
-
-# Env
-.env
-.env.*
-!.env.example
-
-# Notas locales de trabajo (NO subir)
-CLAUDE.local.md
-.claude/local/
-NOTES.local.md
+# mkdocs build output
+site/

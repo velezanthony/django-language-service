@@ -1,0 +1,12 @@
+{# Fixture: template with {% static %} references. #}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <script src="{% static 'js/app.js' %}"></script>
+</head>
+<body>
+  <img src="{% static 'images/logo.png' %}" alt="Logo">
+</body>
+</html>

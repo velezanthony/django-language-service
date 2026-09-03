@@ -1,0 +1,73 @@
+# ──────────────────────────────────────────────────────────────────────────
+# .vscodeignore — files EXCLUDED from the published .vsix.
+# Everything NOT listed here ships. What ships on purpose:
+#   dist/**            → the bundled extension + webview assets (maps excluded)
+#   resources/**       → icons, snippets, TextMate grammars (all referenced)
+#   language-configuration.json, package.nls.json, package.json
+#   README.md, CHANGELOG.md (the marketplace page and its Changelog tab)
+#   LICENSE, resources/icon.png (marketplace identity)
+# ──────────────────────────────────────────────────────────────────────────
+
+# Editor & test harness
+.vscode/**
+.vscode-test/**
+
+# Sources & compiled test output (dist/ is the shipped bundle — keep it)
+src/**
+out/**
+
+# Dev tooling
+#
+# Every dot-directory. One of them once held a second checkout of this
+# repository, and 14621 of its files were counted as shipping.
+.*/**
+#
+# This file is a DENY-list: anything not named here ships, so every config file
+# added to the repo root has to be added here too.
+eslint.config.mjs
+.prettierrc.json
+.prettierignore
+.husky/**
+lint-staged.config.mjs
+.editorconfig
+.git-blame-ignore-revs
+scripts/**
+node_modules/**
+Makefile
+esbuild.js
+svelte.config.js
+
+# TypeScript, build & test configs
+tsconfig*.json
+vitest.config.ts
+vitest.setup.ts
+**/*.ts
+**/*.map
+
+# Repo meta & lockfile
+.editorconfig
+.gitignore
+.vscodeignore
+package-lock.json
+
+# Contributor docs — useful in the repo, dead weight in the .vsix
+CONTRIBUTING.md
+SECURITY.md
+
+# Local working notes — never publish
+**/*.local.md
+
+# README/marketplace demo assets — served via absolute GitHub URLs, NOT bundled.
+# Put demo screenshots/gifs under one of these dirs and reference them as
+# https://raw.githubusercontent.com/velezanthony/django-language-service/...
+docs/**
+images/**
+screenshots/**
+media/**
+assets/**
+.github/**
+
+# The documentation site. Built by .github/workflows/docs.yml, published to
+# GitHub Pages, and no part of the extension a user installs.
+mkdocs.yml
+site/**

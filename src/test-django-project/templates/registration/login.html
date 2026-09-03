@@ -1,0 +1,70 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Sign In" %} — {{ site_name }}{% endblock %}
+
+{% block content %}
+    <div class="min-h-[60vh] flex items-center justify-center px-4">
+        <div class="w-full max-w-md">
+            <!-- Logo / Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-600 shadow-lg shadow-indigo-600/30 mb-4">
+                    <svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900">{% trans "Welcome back" %}</h1>
+                <p class="mt-2 text-sm text-gray-500">{% trans "Sign in to your account to continue" %}</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-8">
+                {% if form.errors %}
+                    <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm flex items-center gap-3">
+                        <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span class="font-medium">{% trans "Invalid username or password." %}</span>
+                    </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'login' %}" class="space-y-5">
+                    {% csrf_token %}
+
+                    <div>
+                        <label for="id_username" class="block text-sm font-semibold text-gray-900 mb-2">
+                            {% trans "Username" %}
+                        </label>
+                        <input type="text" name="username" id="id_username" required autocomplete="username"
+                            class="block w-full px-4 py-3 border border-gray-200 rounded-xl text-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none"
+                            placeholder="{% trans 'Enter your username' %}"
+                            value="{{ form.username.value|default:'' }}">
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label for="id_password" class="block text-sm font-semibold text-gray-900">
+                                {% trans "Password" %}
+                            </label>
+                            <a href="#" class="text-xs font-medium text-indigo-600 hover:text-indigo-700 transition-colors">
+                                {% trans "Forgot password?" %}
+                            </a>
+                        </div>
+                        <input type="password" name="password" id="id_password" required autocomplete="current-password"
+                            class="block w-full px-4 py-3 border border-gray-200 rounded-xl text-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none"
+                            placeholder="{% trans 'Enter your password' %}">
+                    </div>
+
+                    {% if next %}
+                        <input type="hidden" name="next" value="{{ next }}">
+                    {% endif %}
+
+                    <button type="submit"
+                        class="w-full bg-indigo-600 text-white py-3 px-4 rounded-xl font-semibold text-sm hover:bg-indigo-700 shadow-sm shadow-indigo-600/25 transition-all duration-200 hover:shadow-md active:scale-[0.98]">
+                        {% trans "Sign In" %}
+                    </button>
+                </form>
+            </div>
+
+            <p class="mt-6 text-center text-sm text-gray-500">
+                {% trans "Don't have an account?" %}
+                <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">{% trans "Sign up" %}</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}

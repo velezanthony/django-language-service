@@ -1,0 +1,240 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Django Template Injection",
+  "scopeName": "source.django.injection",
+  "injectionSelector": "L:text.html - (meta.template.variable.django, meta.template.tag.django, comment.block.django, comment.line.django, string.quoted.single.django, string.quoted.double.django)",
+  "patterns": [
+    { "include": "#django-block-comment" },
+    { "include": "#django-inline-comment" },
+    { "include": "#django-tag" },
+    { "include": "#django-variable" }
+  ],
+  "repository": {
+    "django-inline-comment": {
+      "name": "comment.line.django",
+      "begin": "\\{#",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.comment.begin.django" }
+      },
+      "end": "#\\}",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.comment.end.django" }
+      }
+    },
+
+    "django-block-comment": {
+      "name": "comment.block.django",
+      "begin": "(\\{%[-+]?)\\s*(comment)\\s*(?:\"[^\"]*\"|'[^']*')?\\s*([-+]?%\\})",
+      "end": "(\\{%[-+]?)\\s*(endcomment)\\s*([-+]?%\\})",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.comment.begin.django" },
+        "2": { "name": "keyword.control.django" },
+        "3": { "name": "punctuation.definition.comment.begin.django" }
+      },
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.comment.end.django" },
+        "2": { "name": "keyword.control.django" },
+        "3": { "name": "punctuation.definition.comment.end.django" }
+      }
+    },
+
+    "django-tag": {
+      "name": "meta.template.tag.django",
+      "begin": "\\{%[-+]?",
+      "end": "[-+]?%\\}",
+      "beginCaptures": {
+        "0": { "name": "support.type.tag.begin.django" }
+      },
+      "endCaptures": {
+        "0": { "name": "support.type.tag.end.django" }
+      },
+      "patterns": [
+        { "include": "#tag-load" },
+        { "include": "#tag-name" },
+        { "include": "#tag-keyword-control" },
+        { "include": "#tag-keyword" },
+        { "include": "#expressions" }
+      ]
+    },
+
+    "tag-name": {
+      "comment": "ALL Django tag names — same keyword color",
+      "match": "\\b(if|elif|else|endif|for|empty|endfor|ifchanged|endifchanged|while|endwhile|block|endblock|extends|include|with|endwith|filter|endfilter|spaceless|endspaceless|autoescape|endautoescape|verbatim|endverbatim|cache|endcache|comment|endcomment|load|static|url|csrf_token|now|cycle|firstof|regroup|endregroup|resetcycle|widthratio|lorem|templatetag|debug|querystring|partial|partialdef|endpartialdef|trans|blocktrans|endblocktrans|blocktranslate|endblocktranslate|translate|language|endlanguage|get_available_languages|get_current_language|get_language_info|get_language_info_list|slot|endslot|element|endelement|plural)\\b",
+      "name": "keyword.control.django"
+    },
+
+    "tag-load": {
+      "comment": "{% load lib1 lib2 %} — load=keyword, libraries=module color",
+      "match": "\\b(load)\\s+([a-zA-Z_]\\w*(?:\\s+[a-zA-Z_]\\w*)*)",
+      "captures": {
+        "1": { "name": "keyword.control.django" },
+        "2": { "name": "entity.name.function.django" }
+      }
+    },
+
+    "tag-keyword-control": {
+      "comment": "'in' and 'as' are control flow keywords — same color as for/if",
+      "match": "(?<!\\.|\\|)\\b(in|as)\\b",
+      "name": "keyword.control.django"
+    },
+
+    "tag-keyword": {
+      "match": "(?<!\\.|\\|)\\b(and|or|not|is|by|with|only|from|import|parsed|trimmed|count|context|noop|on|off|silent)\\b",
+      "name": "keyword.operator.django"
+    },
+
+    "django-variable": {
+      "name": "meta.template.variable.django",
+      "begin": "\\{\\{",
+      "end": "\\}\\}",
+      "beginCaptures": {
+        "0": { "name": "support.type.variable.begin.django" }
+      },
+      "endCaptures": {
+        "0": { "name": "support.type.variable.end.django" }
+      },
+      "patterns": [{ "include": "#expressions" }]
+    },
+
+    "expressions": {
+      "patterns": [
+        { "include": "#string-double" },
+        { "include": "#string-single" },
+        { "include": "#number" },
+        { "include": "#constant" },
+        { "include": "#operator-comparison" },
+        { "include": "#operator-arithmetic" },
+        { "include": "#operator-assignment" },
+        { "include": "#filter-pipe" },
+        { "include": "#filter-argument" },
+        { "include": "#accessor" },
+        { "include": "#separator" },
+        { "include": "#parens" },
+        { "include": "#brackets" },
+        { "include": "#braces" },
+        { "include": "#identifier" }
+      ]
+    },
+
+    "string-double": {
+      "name": "string.quoted.double.django",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.string.begin.django" }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.django" }
+      },
+      "patterns": [
+        { "match": "\\\\.", "name": "constant.character.escape.django" }
+      ]
+    },
+
+    "string-single": {
+      "name": "string.quoted.single.django",
+      "begin": "'",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.string.begin.django" }
+      },
+      "end": "'",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.django" }
+      },
+      "patterns": [
+        { "match": "\\\\.", "name": "constant.character.escape.django" }
+      ]
+    },
+
+    "number": {
+      "match": "\\b\\d+(\\.\\d+)?\\b",
+      "name": "constant.numeric.django"
+    },
+
+    "constant": {
+      "match": "\\b(True|False|None)\\b",
+      "name": "constant.language.django"
+    },
+
+    "operator-comparison": {
+      "match": "==|!=|<=|>=|<|>",
+      "name": "keyword.operator.comparison.django"
+    },
+
+    "operator-arithmetic": {
+      "match": "\\+|-|\\*\\*|\\*|//|/|%(?!\\})",
+      "name": "keyword.operator.arithmetic.django"
+    },
+
+    "operator-assignment": {
+      "match": "=",
+      "name": "keyword.operator.assignment.django"
+    },
+
+    "accessor": {
+      "match": "\\.",
+      "name": "punctuation.accessor.django"
+    },
+
+    "filter-pipe": {
+      "match": "(\\|)\\s*(\\w+)",
+      "captures": {
+        "1": { "name": "keyword.operator.filter.django" },
+        "2": { "name": "support.function.filter.django" }
+      }
+    },
+
+    "filter-argument": {
+      "match": "(?<=\\|\\s{0,4}\\w+):",
+      "name": "punctuation.separator.filter-argument.django"
+    },
+
+    "separator": {
+      "patterns": [
+        { "match": ":", "name": "punctuation.separator.django" },
+        { "match": ",", "name": "punctuation.separator.comma.django" }
+      ]
+    },
+
+    "parens": {
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.parens.begin.django" }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.parens.end.django" }
+      },
+      "patterns": [{ "include": "#expressions" }]
+    },
+
+    "brackets": {
+      "begin": "\\[",
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.brackets.begin.django" }
+      },
+      "end": "\\]",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.brackets.end.django" }
+      },
+      "patterns": [{ "include": "#expressions" }]
+    },
+
+    "braces": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.braces.begin.django" }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.braces.end.django" }
+      },
+      "patterns": [{ "include": "#expressions" }]
+    },
+
+    "identifier": {
+      "match": "\\b([a-zA-Z_]\\w*)\\b",
+      "name": "variable.other.django"
+    }
+  }
+}
