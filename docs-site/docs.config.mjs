@@ -36,13 +36,70 @@ export default defineDocsConfig({
   i18n: { locales: ['en'] },
   content: {
     external: [
-      { slug: 'index', file: '../README.md' },
-      { slug: 'docs/REFERENCE', file: '../docs/REFERENCE.md' },
-      { slug: 'CHANGELOG', file: '../CHANGELOG.md' },
-      { slug: 'SECURITY', file: '../SECURITY.md' },
-      { slug: 'docs/ARCHITECTURE', file: '../docs/ARCHITECTURE.md' },
-      { slug: 'CONTRIBUTING', file: '../CONTRIBUTING.md' },
-      { slug: 'docs/OPEN-FINDINGS', file: '../docs/OPEN-FINDINGS.md' },
+      {
+        slug: 'index',
+        file: '../README.md',
+        seo: {
+          title: 'Django Language Service: Django template support for VS Code',
+          titleSuffix: false,
+          description:
+            'VS Code extension for Django templates that reads your models, views, forms and urls: real completions, hover, go-to-definition, diagnostics and an ER diagram.',
+        },
+      },
+      {
+        slug: 'docs/REFERENCE',
+        file: '../docs/REFERENCE.md',
+        seo: {
+          title: 'Commands, settings and keybindings',
+          description:
+            'Every command, keybinding and setting of the Django Language Service VS Code extension, plus which Django files the indexer reads and what it needs.',
+        },
+      },
+      {
+        slug: 'CHANGELOG',
+        file: '../CHANGELOG.md',
+        seo: {
+          title: 'Changelog and release notes',
+          description:
+            'Release notes for the Django Language Service VS Code extension: what each version adds, changes and fixes in Django template support and the ER diagram.',
+        },
+      },
+      {
+        slug: 'SECURITY',
+        file: '../SECURITY.md',
+        seo: {
+          title: 'Security policy',
+          description:
+            'How to report a vulnerability in Django Language Service privately, which versions get fixes, and exactly what the extension reads from your workspace.',
+        },
+      },
+      {
+        slug: 'docs/ARCHITECTURE',
+        file: '../docs/ARCHITECTURE.md',
+        seo: {
+          title: 'Architecture of the extension',
+          description:
+            'How the Django Language Service extension is built: hexagonal layers, the scan pipeline that indexes a Django project, the runtime flow and the webview UI.',
+        },
+      },
+      {
+        slug: 'CONTRIBUTING',
+        file: '../CONTRIBUTING.md',
+        seo: {
+          title: 'Contributing: build and test',
+          description:
+            'Set up Django Language Service locally: prerequisites, build commands, unit and VS Code integration tests, the pre-commit hook and the commit conventions.',
+        },
+      },
+      {
+        slug: 'docs/OPEN-FINDINGS',
+        file: '../docs/OPEN-FINDINGS.md',
+        seo: {
+          title: 'Open findings and limitations',
+          description:
+            'Known gaps and limitations of Django Language Service: what is not fixed yet, what was left out on purpose and behaviour changes worth knowing about.',
+        },
+      },
     ],
     nav: [
       { label: 'Home', slug: 'index' },
