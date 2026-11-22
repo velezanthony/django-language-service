@@ -11,24 +11,51 @@ import { defineDocsConfig, NavIcon } from '@velezanthony/design/integration';
  * keep the URLs the MkDocs site published (`/CHANGELOG/`, `/docs/REFERENCE/`…). A new page under
  * docs/ needs an entry here; src/docs-workflow.test.ts fails until it has one. */
 const REPO = 'https://github.com/velezanthony/django-language-service';
+const CASE_STUDY = 'https://velezanthony.github.io/en/projects/django-language-service/';
+const AUTHOR = { name: 'Anthony Velez Tapia', href: 'https://velezanthony.github.io/' };
 
 export default defineDocsConfig({
   site: {
     name: 'Django Language Service',
+    // The extension's icon (resources/icon.png), redrawn as SVG.
+    favicon: '/logo.svg',
     social: { github: REPO },
+    // The decisions and the story behind the project live in the portfolio case study; this site
+    // is the technical documentation, so it links there once instead of repeating it.
+    footer: {
+      license: { label: 'MIT', href: `${REPO}/blob/main/LICENSE` },
+      author: AUTHOR,
+      links: [{ label: 'Case study', href: CASE_STUDY }],
+    },
     seo: {
+      titleSuffix: 'Django Language Service',
       description:
-        'Django Template Language support for VS Code that reads your project — the architecture, the reference and the contributor guide.',
+        'Documentation for Django Language Service, the VS Code extension for Django templates: commands, settings, architecture and how to contribute.',
+      image: {
+        src: '/og.png',
+        alt: 'Django Language Service logo, white braces on a dark green tile, beside its name and tagline',
+      },
+      ogLocales: { en: 'en_GB' },
       schema: [
         {
-          '@type': 'SoftwareSourceCode',
+          '@type': 'SoftwareApplication',
           name: 'Django Language Service',
           description:
-            'Django Template Language support for VS Code that reads your project: completions, hover, navigation, diagnostics and an ER diagram of your models.',
-          codeRepository: REPO,
-          programmingLanguage: ['TypeScript', 'Svelte'],
+            'VS Code extension for the Django Template Language that indexes your project: completions, hover, go-to-definition, diagnostics and an ER diagram of your models.',
+          applicationCategory: 'DeveloperApplication',
+          operatingSystem: 'Windows, macOS, Linux',
           runtimePlatform: 'Visual Studio Code',
           url: 'https://velezanthony.github.io/django-language-service/',
+          codeRepository: REPO,
+          sameAs: [REPO],
+          license: 'https://opensource.org/licenses/MIT',
+          programmingLanguage: ['TypeScript', 'Svelte'],
+          author: {
+            '@type': 'Person',
+            '@id': 'https://velezanthony.github.io/#anthony',
+            name: AUTHOR.name,
+            url: AUTHOR.href,
+          },
         },
       ],
     },
