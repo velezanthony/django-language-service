@@ -79,7 +79,7 @@ The extension also ships `configurationDefaults` for `emmet.includeLanguages` an
 
 ### What the indexer looks for
 
-```
+```text
 **/models.py          **/urls.py              **/templates/**/*.html
 **/views.py           **/migrations/*.py      **/templates/**/*.txt
 **/views/**/*.py      **/helpers.py

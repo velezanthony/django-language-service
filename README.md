@@ -6,7 +6,7 @@
 
 [![VS Code](https://img.shields.io/badge/VS%20Code-1.85%2B-0078d4?logo=visualstudiocode&logoColor=white)](https://code.visualstudio.com/)
 [![Django](https://img.shields.io/badge/Django-6.0-0C4B33?logo=django&logoColor=white)](https://www.djangoproject.com/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/velezanthony/django-language-service/blob/main/LICENSE)
 
 ![Hover on a template variable showing its inferred type and the model's fields](https://raw.githubusercontent.com/velezanthony/django-language-service/main/docs/media/intellisense.png)
 
@@ -302,8 +302,8 @@ Press <kbd>F5</kbd> to launch an Extension Development Host against the bundled 
 
 Every image in this README is captured, never mocked up:
 
-- The editor shots come from [`scripts/vscode-cdp-harness/`](scripts/vscode-cdp-harness/README.md), which drives a real Extension Development Host over the Chrome DevTools Protocol — real VS Code, real theme tokens, real completion and diagnostic widgets.
-- [`scripts/diagram-harness/`](scripts/diagram-harness/README.md) does the same for the model diagram: it runs the shipped webview bundle in a plain browser against a payload parsed from the bundled test project.
+- The editor shots come from [`scripts/vscode-cdp-harness/`](https://github.com/velezanthony/django-language-service/blob/main/scripts/vscode-cdp-harness/README.md), which drives a real Extension Development Host over the Chrome DevTools Protocol — real VS Code, real theme tokens, real completion and diagnostic widgets.
+- [`scripts/diagram-harness/`](https://github.com/velezanthony/django-language-service/blob/main/scripts/diagram-harness/README.md) does the same for the model diagram: it runs the shipped webview bundle in a plain browser against a payload parsed from the bundled test project.
 
 Both recipes are committed, so the media can be regenerated after a UI change.
 
@@ -311,4 +311,4 @@ Both recipes are committed, so the media can be regenerated after a UI change.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/velezanthony/django-language-service/blob/main/LICENSE)

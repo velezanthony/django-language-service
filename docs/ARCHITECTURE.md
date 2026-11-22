@@ -16,7 +16,7 @@ Everything runs in two worlds:
 
 ## 1. Layer map and the dependency rule
 
-```
+```text
                           ┌──────────────────────────────────────────┐
                           │  src/extension.ts  (composition root)    │
                           └───────────────────┬──────────────────────┘
@@ -257,7 +257,7 @@ provider.
 
 ### Activation — `src/extension.ts`
 
-```
+```text
 activate(ctx)
   ├─ ctx.subscriptions.push(getOutputChannel())
   ├─ excludeSegments = resolveExcludeSegments(config 'djangoLanguageService.excludePaths')

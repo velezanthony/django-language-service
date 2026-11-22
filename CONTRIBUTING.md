@@ -397,7 +397,7 @@ and does not need to.
 
 `.github/workflows/ci.yml` runs on pushes to `main` and on every pull request:
 
-```
+```text
 npm ci → check-types → check-svelte → lint → format:check → npm test
        → xvfb-run npm run test:integration → vsce package
 ```
@@ -601,7 +601,7 @@ _previous_ repo. It requires `jq` and `rg`. It is not part of the normal workflo
 
 ### Conventional Commits
 
-```
+```text
 <type>(<optional scope>): <imperative description>
 
 [optional body]
@@ -625,7 +625,7 @@ Rules:
 
 Examples:
 
-```
+```text
 refactor(lexer): extract tokenizer to separate module
 feat(parser): support block tags with arguments
 fix(completion): handle empty template path
