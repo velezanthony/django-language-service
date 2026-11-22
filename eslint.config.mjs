@@ -25,6 +25,9 @@ export default tseslint.config(
       'out-webview/**',
       '.vscode-test/**',
       'node_modules/**',
+      // The documentation site's build output and Astro's generated types.
+      'docs-site/dist/**',
+      'docs-site/.astro/**',
       // The Django fixture is a fixture: its Python and its templates are the
       // input to the tests, not source we maintain.
       'src/test-django-project/**',

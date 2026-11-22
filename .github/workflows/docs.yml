@@ -1,18 +1,14 @@
 # Publishes https://velezanthony.github.io/django-language-service/
 #
-# The site is built HERE and nowhere else. This repository is TypeScript;
-# MkDocs is Python, and there is no Node build of it — so rather than ask every
-# contributor for a second toolchain, or carry a requirements file and a set of
-# npm scripts that only work with Python installed, the whole pipeline lives in
-# this file. Nothing in package.json references it and nothing in the tree is
-# installed to run it.
+# The site is the Astro project in docs-site/, built with @velezanthony/design.
+# It has its own package.json and lockfile, so nothing here touches the
+# extension's dependencies, build or packaging.
 #
-# The versions are pinned right here for the same reason: this is the only
-# place that needs them, so this is where they belong.
-#
-# The paths filter is wide because the site is built from the repository ROOT —
-# README.md, CHANGELOG.md and CONTRIBUTING.md have to stay where GitHub and the
-# Marketplace expect them, so any of them can change the published site.
+# The paths filter is wide because the pages are the documents themselves:
+# README.md, CHANGELOG.md, CONTRIBUTING.md and SECURITY.md have to stay where
+# GitHub and the Marketplace expect them, so any of them can change the
+# published site. src/docs-workflow.test.ts keeps this list in step with
+# docs-site/docs.config.mjs.
 name: Docs
 
 on:
@@ -24,7 +20,7 @@ on:
       - 'CHANGELOG.md'
       - 'CONTRIBUTING.md'
       - 'SECURITY.md'
-      - 'mkdocs.yml'
+      - 'docs-site/**'
       - '.github/workflows/docs.yml'
   workflow_dispatch:
 
@@ -41,40 +37,33 @@ jobs:
   build:
     name: Build site
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs-site
     steps:
-      - uses: actions/checkout@v5
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
+      # Full history: the sitemap's <lastmod> is each document's last commit,
+      # and a shallow clone has none.
+      - uses: actions/checkout@v7
         with:
-          enable-cache: true
+          fetch-depth: 0
 
-      - name: Set up Python
-        run: uv venv --python 3.12
-
-      # mkdocs-same-dir is what makes `docs_dir: .` legal: MkDocs refuses a
-      # docs_dir holding its own config file, and every document this site
-      # publishes sits at the repository root or in docs/.
-      - name: Install the docs toolchain
-        run: >-
-          uv pip install
-          'mkdocs>=1.6,<2'
-          'mkdocs-material>=9.5,<10'
-          'pymdown-extensions>=10,<11'
-          'mkdocs-same-dir>=0.1.3,<0.2'
-
-      # --strict turns a broken internal link into a failed build, so the
-      # deploy job below never runs and nothing broken is published. That is
-      # what makes a CI-only pipeline safe without a local preview.
-      - name: Build site
-        run: uv run --no-sync mkdocs build --strict
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/setup-node@v7
         with:
-          path: site/
+          node-version: 24
+          cache: npm
+          cache-dependency-path: docs-site/package-lock.json
+
+      - uses: actions/configure-pages@v6
+
+      - run: npm ci
+
+      # The build fails on a broken internal link or anchor, so the deploy job
+      # below never runs and nothing broken is published.
+      - run: npm run build
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: docs-site/dist
 
   deploy:
     name: Deploy to GitHub Pages
@@ -85,4 +74,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

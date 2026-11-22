@@ -397,7 +397,7 @@ and does not need to.
 
 `.github/workflows/ci.yml` runs on pushes to `main` and on every pull request:
 
-```
+```text
 npm ci → check-types → check-svelte → lint → format:check → npm test
        → xvfb-run npm run test:integration → vsce package
 ```
@@ -416,30 +416,31 @@ by `.github/workflows/docs.yml`, on a push to `main` that touches any of them.
 Enabling it needs one thing done by hand, once: **Settings → Pages → Source →
 GitHub Actions**.
 
-**There is no local command, deliberately.** MkDocs is Python and this
-repository is TypeScript, so the pipeline lives entirely in the workflow —
-nothing in `package.json` references it, nothing in the tree is installed to
-run it, and the versions are pinned in the workflow because that is the only
-place that needs them. `--strict` is what makes that safe: a broken internal
-link fails the build, so the deploy job never runs and nothing broken is
-published.
+The site is the Astro project in `docs-site/`, built with
+[`@velezanthony/design`](https://github.com/velezanthony/design). It has its own
+`package.json` and lockfile, so it never touches the extension's dependencies,
+build, tests or `.vsix` (`.vscodeignore` excludes the folder). To preview it:
 
-Three things in `mkdocs.yml` are load-bearing and easy to undo by accident:
+```bash
+cd docs-site
+npm install
+npm run dev      # live preview; search needs `npm run build && npm run preview`
+```
 
-- **`site_url`.** MkDocs derives `sitemap.xml` from it. Remove it and the
-  sitemap is still written, with relative URLs, inert and indistinguishable
-  from a working one.
-- **`docs_dir: .` with the `same-dir` plugin.** README, CHANGELOG and
-  CONTRIBUTING have to stay at the repository root — GitHub renders README
-  there, offers CONTRIBUTING when a PR is opened, and the Marketplace reads
-  README from the root of the package. MkDocs will not otherwise accept a
-  `docs_dir` that holds its own config file.
-- **The GitHub slug algorithm in `markdown_extensions.toc`.** These documents
-  render in both places and their cross-links are written for GitHub.
-  `## \`{% include %}\` refactoring`anchors as`#-include--refactoring`there
-and as`#include-refactoring` under Python-Markdown's default, so the
-  README's own table of contents breaks on whichever target it was not written
-  for.
+`npm run build` fails on a broken internal link or anchor, so the deploy job
+never runs and nothing broken is published.
+
+Two things in `docs-site/` are load-bearing and easy to undo by accident:
+
+- **`site` and `base` in `astro.config.mjs`.** The sitemap, canonical URLs and
+  every internal link are derived from them.
+- **Every page is a `content.external` entry in `docs.config.mjs`.** README,
+  CHANGELOG and CONTRIBUTING have to stay at the repository root — GitHub
+  renders README there, offers CONTRIBUTING when a PR is opened, and the
+  Marketplace reads README from the root of the package — and the slugs keep
+  the URLs the site has always had (`/CHANGELOG/`, `/docs/REFERENCE/`). A new
+  document under `docs/` needs an entry there; `src/docs-workflow.test.ts`
+  fails until it has one.
 
 ### CDP harness — driving a real VS Code
 
@@ -601,7 +602,7 @@ _previous_ repo. It requires `jq` and `rg`. It is not part of the normal workflo
 
 ### Conventional Commits
 
-```
+```text
 <type>(<optional scope>): <imperative description>
 
 [optional body]
@@ -625,7 +626,7 @@ Rules:
 
 Examples:
 
-```
+```text
 refactor(lexer): extract tokenizer to separate module
 feat(parser): support block tags with arguments
 fix(completion): handle empty template path
