@@ -69,6 +69,4 @@ assets/**
 
 # The documentation site. Built by .github/workflows/docs.yml, published to
 # GitHub Pages, and no part of the extension a user installs.
-mkdocs.yml
-site/**
 docs-site/**

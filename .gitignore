@@ -21,6 +21,3 @@ out-webview/
 __pycache__/
 *.py[cod]
 *.sqlite3
-
-# mkdocs build output
-site/
