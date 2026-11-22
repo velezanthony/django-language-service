@@ -71,3 +71,4 @@ assets/**
 # GitHub Pages, and no part of the extension a user installs.
 mkdocs.yml
 site/**
+docs-site/**
